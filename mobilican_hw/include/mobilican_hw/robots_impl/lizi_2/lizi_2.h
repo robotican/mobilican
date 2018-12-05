@@ -86,7 +86,7 @@
 #define BATT_CELLS                 4
 
 
-class Lizi_2
+class Lizi_2 : public MobileRobot
 {
 
 private:
@@ -123,23 +123,25 @@ private:
 
 protected:
 
-    void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)  ;
-    void onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg)  ;
+    void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg);
     void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg)  ;
     void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg)  ;
     void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg)  ;
     void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) ;
     void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) ;
 
+
 public:
 
-    Lizi_2(ros::NodeHandle & nh);
+    Lizi_2(ros::NodeHandle & nh, RicClient& ric_client);
 
     void write(const ros::Time &time, const ros::Duration& duration)  {};
     void read(const ros::Time &time, const ros::Duration& duration)  {};
     void registerInterfaces() ;
 
     constexpr static uint16_t getModelHardwareId() { return 2; };
+
+
 };
 
 

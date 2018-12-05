@@ -157,9 +157,11 @@ add_executable(${PROJECT_NAME}_node
 
         include/mobilican_hw/hardware/ric_client.h
         include/mobilican_hw/utils.h
+        include/mobilican_hw/mobile_robot.h
         include/mobilican_hw/hardware/wheel/wheel.h
         include/mobilican_hw/hardware/wheel/wheels_control.h
         include/mobilican_hw/hardware/wheel/velocities_lpf.h
+        include/mobilican_hw/robot_builder.h
 
         include/mobilican_hw/robots_impl/lizi_2/lizi_2.h
         )
