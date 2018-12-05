@@ -109,8 +109,6 @@ public:
     void terminateRic();
     void writeServoCommand(uint16_t command, uint8_t id) const;
     bool isHwTestOk() { return (hw_status_ == ric::protocol::package::Status::OK); }
-
-
 };
 
 
