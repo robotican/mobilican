@@ -61,10 +61,7 @@ public:
 
     virtual void registerInterfaces() = 0;
 
-    constexpr static uint16_t getModelHardwareId() { return -1; };
     void speak(const char * msg) const;
-
-
 
 };
 

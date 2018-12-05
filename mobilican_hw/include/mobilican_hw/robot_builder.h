@@ -16,7 +16,7 @@ namespace RobotBuilder
     {
         switch (hardware_id)
         {
-            case (Lizi_2::getModelHardwareId()):
+            case (LIZI_2_HW_ID):
                 return new Lizi_2(nh, ric_client);
         }
         return nullptr;
