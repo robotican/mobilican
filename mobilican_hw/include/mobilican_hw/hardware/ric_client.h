@@ -84,6 +84,8 @@ private:
 
     MobileRobot* ric_observer_ = nullptr;
 
+    uint8_t hw_status_ = ric::protocol::package::Status::UNKNOWN;
+
     void onKeepAliveTimeout(const ros::TimerEvent &event);
 
     void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg);
@@ -106,6 +108,8 @@ public:
 
     void terminateRic();
     void writeServoCommand(uint16_t command, uint8_t id) const;
+    bool isHwTestOk() { return (hw_status_ == ric::protocol::package::Status::OK); }
+
 
 };
 

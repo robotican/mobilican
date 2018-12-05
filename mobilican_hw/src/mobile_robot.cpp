@@ -12,11 +12,21 @@ MobileRobot::MobileRobot(ros::NodeHandle &nh, RicClient ric_client)
     ric_servo_pub_ = nh.advertise<ric_interface_ros::Servo>("ric/servo/cmd", 10);
     espeak_pub_ = nh.advertise<std_msgs::String>("/espeak_node/speak_line", 10);
     diagnos_pub_ = nh.advertise<diagnostic_msgs::DiagnosticArray>("/diagnostics", 10);
+
+    if (!ric_client_->isHwTestOk())
+        ROS_INFO("Hardware test ok");
+    else
+    {
+        speak("hardware test failed");
+        ROS_ERROR("Hardware test failed. Don't operate robot. "
+                  "Check diagnostics, and contact Robotican's support");
+    }
 }
 
 void MobileRobot::onKeepAliveTimeout()
 {
     ric_client_->terminateRic();
+    speak("Rikboard disconnected, shutting down");
     Utils::terminateNode("Ricboard disconnected, shutting down");
 }
 

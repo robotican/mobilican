@@ -119,7 +119,7 @@ void RicClient::onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg
         hardware_id_ = msg->id;
         first_keepalive_ = false;
     }
-
+    hw_status_ = msg->status;
     got_keepalive_ = true;
 }
 
