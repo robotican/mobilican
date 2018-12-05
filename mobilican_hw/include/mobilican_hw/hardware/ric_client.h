@@ -50,10 +50,11 @@
 #include <ros/ros.h>
 #include <std_srvs/Trigger.h>
 #include <std_msgs/String.h>
-#include <utility>
 #include "mobilican_hw/mobile_robot.h"
 
 #define RIC_DEAD_TIMEOUT            1.5 //secs
+
+class MobileRobot;
 
 class RicClient
 {

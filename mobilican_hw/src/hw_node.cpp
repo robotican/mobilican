@@ -64,12 +64,12 @@ int main(int argc, char **argv)
         ROS_INFO_STREAM("robot hardware id: " << hw_id);
     }
 
-    MobileRobot* robot = MobileRobot::buildRobot(nh, ric_client, hw_id);
-    if (robot == nullptr)
-        Utils::terminateNode("Got invalid hardware ID");
+    //MobileRobot* robot = MobileRobot::buildRobot(nh, ric_client, hw_id);
+    //if (robot == nullptr)
+   //     Utils::terminateNode("Got invalid hardware ID");
 
-    controller_manager::ControllerManager controller_manager(robot);
-    robot->registerInterfaces();
+    //controller_manager::ControllerManager controller_manager(robot);
+    //robot->registerInterfaces();
 
     ros::AsyncSpinner asyncSpinner(THREADS_NUM);
     asyncSpinner.start();
@@ -81,9 +81,9 @@ int main(int argc, char **argv)
     {
         ros::Duration duration = ros::Time::now() - last_time;
 
-        robot->read(ros::Time::now(), duration);
-        controller_manager.update(ros::Time::now(), duration);
-        robot->write(ros::Time::now(), duration);
+        //robot->read(ros::Time::now(), duration);
+        //controller_manager.update(ros::Time::now(), duration);
+        //robot->write(ros::Time::now(), duration);
 
         last_time = ros::Time::now();
 
@@ -91,5 +91,5 @@ int main(int argc, char **argv)
         ros::Rate(100).sleep();
     }
 
-    delete robot;
+    //delete robot;
 }

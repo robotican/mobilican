@@ -61,13 +61,13 @@ void WheelsControl::init(ros::NodeHandle &nh, std::vector<wheel*> & wheels)
 
     start_time_ = ros::Time::now();
 
-    pid_data_pub_ = nh.advertise<lizi_hw::WheelsPID>("wheels_pid", 10);
+    pid_data_pub_ = nh.advertise<mobilican_msgs::WheelsPID>("wheels_pid", 10);
 }
 
 // dt duration is since pid controller start time
 void WheelsControl::update(const ros::Duration& dt)
 {
-    lizi_hw::WheelsPID pid_msg;
+    mobilican_msgs::WheelsPID pid_msg;
 
     bool trigger_protection = false;
 
@@ -93,7 +93,7 @@ void WheelsControl::update(const ros::Duration& dt)
         double pe=0, ie=0, de=0;
         pids_[i].getCurrentPIDErrors(&pe, &ie, &de);
 
-        lizi_hw::WheelPID pid_data;
+        mobilican_msgs::WheelPID pid_data;
         pid_data.joint_name = wheels_[i]->joint_name;
         pid_data.command = command;
         pid_data.error = error;

@@ -35,7 +35,7 @@
 #include "mobilican_hw/robots_impl/lizi_2/lizi_2.h"
 
 
-Lizi_2::Lizi_2(ros::NodeHandle &nh, RicClient & ric_client) : MobileRobot(nh, ric_client)
+Lizi_2::Lizi_2(ros::NodeHandle &nh)//: MobileRobot()
 {
     node_handle_ = &nh;
 
@@ -172,7 +172,7 @@ void Lizi_2::onControlLoopTimer(const ros::TimerEvent &)
 
         servo_command = boost::algorithm::clamp(servo_command, -500, 500);
 
-        ric_client_->writeServoCommand((servo_command + 1500), w->id);
+        //ric_client_->writeServoCommand((servo_command + 1500), w->id);
     }
 }
 
@@ -191,11 +191,11 @@ void Lizi_2::registerInterfaces()
         vel_joint_interface_.registerHandle(joint_handle);
     }
 
-    registerInterface(&joint_state_interface_);
-    registerInterface(&vel_joint_interface_);
+  //  registerInterface(&joint_state_interface_);
+ //   registerInterface(&vel_joint_interface_);
 }
 
-void Lizi_2::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr &msg)
+void Lizi_2::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)
 {
     diagnostic_msgs::DiagnosticStatus diag_stat;
     diag_stat.hardware_id = std::to_string(msg->id);
@@ -240,7 +240,7 @@ void Lizi_2::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr &msg)
         diag_stat.level = diagnostic_msgs::DiagnosticStatus::OK;
     }
 
-    sendDiagnosticsMsg(diag_stat);
+    //sendDiagnosticsMsg(diag_stat);
 }
 
 
@@ -299,7 +299,7 @@ void Lizi_2::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg)
         diag_stat.level = diagnostic_msgs::DiagnosticStatus::OK;
     }
 
-    sendDiagnosticsMsg(diag_stat);
+   // sendDiagnosticsMsg(diag_stat);
 }
 
 void Lizi_2::onBatteryMsg(const ric_interface_ros::Battery::ConstPtr &msg)
@@ -341,7 +341,7 @@ void Lizi_2::onBatteryMsg(const ric_interface_ros::Battery::ConstPtr &msg)
 
     battery_pub_.publish(batt_msg);
 
-    sendDiagnosticsMsg(diag_stat);
+   // sendDiagnosticsMsg(diag_stat);
 }
 
 void Lizi_2::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr &msg)
@@ -415,7 +415,7 @@ void Lizi_2::onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr &ms
         diag_stat.level = diagnostic_msgs::DiagnosticStatus::OK;
     }
 
-    sendDiagnosticsMsg(diag_stat);
+   // sendDiagnosticsMsg(diag_stat);
 }
 
 void Lizi_2::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr &msg)

@@ -33,8 +33,8 @@
 
 /* Author: Elhay Rauper*/
 
-#ifndef LIZI_HW_WHEEL_H
-#define LIZI_HW_WHEEL_H
+#ifndef MOBILICAN_HW_WHEEL_H
+#define MOBILICAN_HW_WHEEL_H
 
 #include <mutex>
 
@@ -55,4 +55,4 @@ struct wheel
     std::mutex lock;
 };
 
-#endif //LIZI_HW_WHEEL_H
+#endif //MOBILICAN_HW_WHEEL_H

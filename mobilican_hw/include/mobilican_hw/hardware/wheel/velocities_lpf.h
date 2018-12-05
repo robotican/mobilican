@@ -33,8 +33,8 @@
 
 /* Author: Elhay Rauper*/
 
-#ifndef LIZI_HW_VELOCITIES_LPF_H
-#define LIZI_HW_VELOCITIES_LPF_H
+#ifndef MOBILICAN_HW_VELOCITIES_LPF_H
+#define MOBILICAN_HW_VELOCITIES_LPF_H
 
 #include <lpf_ros/lpf_ros.h>
 #include "wheel.h"
@@ -57,4 +57,4 @@ public:
 };
 
 
-#endif //LIZI_HW_VELOCITIES_LPF_H
+#endif //MOBILICAN_HW_VELOCITIES_LPF_H

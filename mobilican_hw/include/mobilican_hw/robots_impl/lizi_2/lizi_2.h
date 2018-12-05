@@ -34,8 +34,8 @@
 /* Author: Elhay Rauper*/
 
 
-#ifndef LIZI_HW_LIZI_HW_H
-#define LIZI_HW_LIZI_HW_H
+#ifndef MOBILICAN_HW_H
+#define MOBILICAN_HW_H
 
 #include <hardware_interface/robot_hw.h>
 #include <hardware_interface/joint_command_interface.h>
@@ -56,7 +56,6 @@
 #include "mobilican_hw/hardware/wheel/wheels_control.h"
 #include "mobilican_hw/hardware/wheel/velocities_lpf.h"
 
-#define LIZI_2_ID                   2
 #define G_FORCE                     9.80665
 #define ENC_TICKS_PER_ROUND         4480 // 64 * 70
 
@@ -78,8 +77,6 @@
 #define URF_RIGHT_ID                11
 #define URF_LEFT_ID                 12
 
-#define IMU_ID                      20
-
 #define ACCEL_OFFSET_X              0.23
 #define ACCEL_OFFSET_Y              0.13
 #define ACCEL_OFFSET_Z              0.1
@@ -88,8 +85,10 @@
 #define BATT_MIN                   12.8
 #define BATT_CELLS                 4
 
-class Lizi_2 : public MobileRobot
+
+class Lizi_2
 {
+
 private:
 
     int ric_servo_bias_ = 0;
@@ -115,30 +114,33 @@ private:
             gps_pub_,
             battery_pub_;
 
-    ros::Time prev_lpf_time_,
-            vel_delta_timer_;
+    ros::Time prev_lpf_time_;
 
-    void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) override ;
-    void onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg) override ;
-    void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) override ;
-    void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) override ;
-    void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override ;
-    void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) override;
-    void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) override;
+    ros::Timer vel_delta_timer_;
 
     static void updateWheelPosition(wheel &wheel, double new_pos);
     void onControlLoopTimer(const ros::TimerEvent &);
 
+protected:
+
+    void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)  ;
+    void onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg)  ;
+    void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg)  ;
+    void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg)  ;
+    void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg)  ;
+    void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) ;
+    void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) ;
+
 public:
 
-    Lizi_2(ros::NodeHandle & nh, RicClient & ric_client);
+    Lizi_2(ros::NodeHandle & nh);
 
-    void write(const ros::Time &time, const ros::Duration& duration) override {};
-    void read(const ros::Time &time, const ros::Duration& duration) override {};
-    void registerInterfaces() override;
+    void write(const ros::Time &time, const ros::Duration& duration)  {};
+    void read(const ros::Time &time, const ros::Duration& duration)  {};
+    void registerInterfaces() ;
 
-    static uint16_t getModelHardwareId() { return LIZI_2_ID; };
+    constexpr static uint16_t getModelHardwareId() { return 2; };
 };
 
 
-#endif //LIZI_HW_LIZI_HW_H
+#endif //MOBILICAN_HW_H

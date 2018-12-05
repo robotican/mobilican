@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
         control_toolbox
         ric_interface_ros
         lpf_ros
+        mobilican_msgs
         )
 
 ## System dependencies are found with CMake's conventions
@@ -108,7 +109,11 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
         #  INCLUDE_DIRS include
         #  LIBRARIES lizi_hardware_interface
-          CATKIN_DEPENDS roscpp ric_interface_ros
+          CATKIN_DEPENDS
+                roscpp
+                ric_interface_ros
+                lpf_ros
+                mobilican_msgs
         #  DEPENDS system_lib
 )
 
@@ -141,9 +146,9 @@ add_executable(${PROJECT_NAME}_node
         # cpp files
 
         src/hw_node.cpp
+        src/mobile_robot.cpp
         src/hardware/wheel/velocities_lpf.cpp
         src/hardware/wheel/wheels_control.cpp
-        src/mobile_robot.cpp
         src/hardware/ric_client.cpp
 
         src/lizi_2/lizi_2.cpp
@@ -152,7 +157,6 @@ add_executable(${PROJECT_NAME}_node
 
         include/mobilican_hw/hardware/ric_client.h
         include/mobilican_hw/utils.h
-        include/mobilican_hw/mobile_robot.h
         include/mobilican_hw/hardware/wheel/wheel.h
         include/mobilican_hw/hardware/wheel/wheels_control.h
         include/mobilican_hw/hardware/wheel/velocities_lpf.h

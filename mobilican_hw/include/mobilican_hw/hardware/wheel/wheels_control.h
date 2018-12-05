@@ -33,12 +33,14 @@
 
 /* Author: Elhay Rauper*/
 
-#ifndef LIZI_HW_PID_CONTROL_H
-#define LIZI_HW_PID_CONTROL_H
+#ifndef MOBILICAN_HW_PID_CONTROL_H
+#define MOBILICAN_HW_PID_CONTROL_H
 
 #include <ros/ros.h>
 #include <exception>
 #include <control_toolbox/pid.h>
+#include <mobilican_msgs/WheelsPID.h>
+#include <mobilican_msgs/WheelPID.h>
 #include "wheel.h"
 
 // This class takes 4 wheels velocity commands from diff_drive_controller,
@@ -86,4 +88,4 @@ public:
 };
 
 
-#endif //LIZI_HW_PID_CONTROL_H
+#endif //MOBILICAN_HW_PID_CONTROL_H

@@ -11,7 +11,7 @@ namespace Utils
 {
     static void terminateNode(const char * msg)
     {
-        ROS_FATAL(msg);
+        ROS_FATAL("%s", msg);
         ros::shutdown();
         exit(EXIT_FAILURE);
     }
