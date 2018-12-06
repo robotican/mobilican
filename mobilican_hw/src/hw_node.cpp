@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     else {
         hw_id = ric_client.getHardwareId();
         ROS_INFO("ricboard is connected");
-        ROS_INFO_STREAM("robot hardware id: " << hw_id);
+        ROS_INFO_STREAM("detected robot hardware id: " << hw_id);
     }
 
     MobileRobot* robot = RobotBuilder::build(nh, hw_id, ric_client);
