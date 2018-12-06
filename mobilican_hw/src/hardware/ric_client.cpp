@@ -52,6 +52,7 @@ RicClient::RicClient(ros::NodeHandle &nh)
 
     terminate_ric_client_ = nh.serviceClient<std_srvs::Trigger>("terminate_ric");
 
+
     keepalive_timer_ = nh.createTimer(ros::Duration(RIC_DEAD_TIMEOUT), &RicClient::onKeepAliveTimeout, this);
 }
 
@@ -74,40 +75,47 @@ void RicClient::onKeepAliveTimeout(const ros::TimerEvent &event)
         got_keepalive_ = false;
     else
     {
-        ric_observer_->onKeepAliveTimeout();
+        if (ric_observer_ != nullptr)
+            ric_observer_->onKeepAliveTimeout();
     }
 }
 
 
 void RicClient::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg)
 {
-    ric_observer_->onLocationMsg(msg);
+    if (ric_observer_ != nullptr)
+        ric_observer_->onLocationMsg(msg);
 }
 
 void RicClient::onBatteryMsg(const ric_interface_ros::Battery::ConstPtr &msg)
 {
-    ric_observer_->onBatteryMsg(msg);
+    if (ric_observer_ != nullptr)
+        ric_observer_->onBatteryMsg(msg);
 }
 
 void RicClient::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg)
 {
-    ric_observer_->onLoggerMsg(msg);
+    if (ric_observer_ != nullptr)
+        ric_observer_->onLoggerMsg(msg);
 }
 
 
 void RicClient::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)
 {
-    ric_observer_->onEncoderMsg(msg);
+    if (ric_observer_ != nullptr)
+        ric_observer_->onEncoderMsg(msg);
 }
 
 void RicClient::onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg)
 {
-    ric_observer_->onOrientationMsg(msg);
+    if (ric_observer_ != nullptr)
+        ric_observer_->onOrientationMsg(msg);
 }
 
 void RicClient::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg)
 {
-    ric_observer_->onProximityMsg(msg);
+    if (ric_observer_ != nullptr)
+        ric_observer_->onProximityMsg(msg);
 }
 
 

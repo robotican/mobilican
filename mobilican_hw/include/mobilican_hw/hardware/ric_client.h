@@ -102,7 +102,7 @@ public:
     RicClient(ros::NodeHandle &nh);
     void subscribe(MobileRobot * ric_observer) { ric_observer_ = ric_observer; }
     void unsubscribe() { ric_observer_ = nullptr; }
-    bool isConnected() { return got_keepalive_; }
+    bool isConnected() { return !first_keepalive_; }
     void waitForConnection(ros::Duration timeout);
     uint16_t getHardwareId() { return hardware_id_; }
 

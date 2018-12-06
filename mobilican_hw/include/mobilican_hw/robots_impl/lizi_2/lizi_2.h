@@ -134,12 +134,12 @@ protected:
 
 public:
 
-    Lizi_2(ros::NodeHandle & nh, RicClient& ric_client);
+    Lizi_2(ros::NodeHandle & nh, RicClient & ric_client);
 
     void write(const ros::Time &time, const ros::Duration& duration) override {};
     void read(const ros::Time &time, const ros::Duration& duration) override {};
     void registerInterfaces() override;
-    std::string getName() override { return "lizi 2"; };
+    std::string getName() override { return "lizi_2"; };
 
 };
 

@@ -95,18 +95,18 @@
     <!--load hardware stuff-->
     <group unless="$(arg gazebo)">
         <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/lizi_2/urdf/lizi.xacro' --inorder" />
-        <include file="$(find lizi_hw)/launch/lizi_hw.launch" />
+        <include file="$(find mobilican_hw)/launch/lizi_2_hw.launch" />
                 
         <group if="$(arg depth_cam)">
-            <include file="$(find lizi_hw)/launch/d435_cam.launch" />
+            <include file="$(find mobilican_hw)/launch/d435_cam.launch" />
         </group>
     
         <group if="$(arg cam)">
-            <include file="$(find lizi_hw)/launch/microsoft_cam.launch" />
+            <include file="$(find mobilican_hw)/launch/microsoft_cam.launch" />
         </group>
                 
         <group if="$(arg lidar)">
-            <include file="$(find lizi_hw)/launch/hokuyu_lidar.launch" />
+            <include file="$(find mobilican_hw)/launch/hokuyu_lidar.launch" />
         </group>
         
     </group>

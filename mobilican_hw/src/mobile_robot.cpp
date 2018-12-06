@@ -36,7 +36,7 @@
 
 #include "mobilican_hw/mobile_robot.h"
 
-MobileRobot::MobileRobot(ros::NodeHandle &nh, RicClient ric_client)
+MobileRobot::MobileRobot(ros::NodeHandle & nh, RicClient & ric_client)
 {
     nh_ = &nh;
 
@@ -47,13 +47,13 @@ MobileRobot::MobileRobot(ros::NodeHandle &nh, RicClient ric_client)
     espeak_pub_ = nh.advertise<std_msgs::String>("/espeak_node/speak_line", 10);
     diagnos_pub_ = nh.advertise<diagnostic_msgs::DiagnosticArray>("/diagnostics", 10);
 
-    if (!ric_client_->isHwTestOk())
-        ROS_INFO("Hardware test ok");
+    if (ric_client_->isHwTestOk())
+        ROS_INFO("hardware test ok");
     else
     {
         speak("hardware test failed");
-        ROS_ERROR("Hardware test failed. Don't operate robot. "
-                  "Check diagnostics, and contact Robotican's support");
+        ROS_ERROR("hardware test failed. don't operate robot. "
+                  "check diagnostics, and contact Robotican's support");
     }
 }
 

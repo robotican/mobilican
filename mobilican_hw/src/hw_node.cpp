@@ -43,15 +43,17 @@
 #include "mobilican_hw/mobile_robot.h"
 #include "mobilican_hw/robot_builder.h"
 
-#define THREADS_NUM 2
 
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "lizi_hw_node");
     ros::NodeHandle nh;
+    ros::AsyncSpinner async_spinner(4);
+    async_spinner.start();
 
     RicClient ric_client(nh);
-    ROS_INFO("waiting for ricboard connection...");
+
+    ROS_INFO("waiting for signal from ricboard...");
     ric_client.waitForConnection(ros::Duration(5));
     uint16_t hw_id = -1;
     if (!ric_client.isConnected())
@@ -61,21 +63,17 @@ int main(int argc, char **argv)
     }
     else {
         hw_id = ric_client.getHardwareId();
-        ROS_INFO("ricboard is connected");
         ROS_INFO_STREAM("detected robot hardware id: " << hw_id);
     }
 
     MobileRobot* robot = RobotBuilder::build(nh, hw_id, ric_client);
     if (robot == nullptr)
-        Utils::terminateNode("Got invalid hardware ID");
+        Utils::terminateNode("got invalid hardware ID");
 
     controller_manager::ControllerManager controller_manager(robot);
     robot->registerInterfaces();
 
     ROS_INFO_STREAM("loaded " << robot->getName() << " firmware");
-
-    ros::AsyncSpinner asyncSpinner(THREADS_NUM);
-    asyncSpinner.start();
 
     ros::Time last_time = ros::Time::now();
 
@@ -89,7 +87,6 @@ int main(int argc, char **argv)
 
         last_time = ros::Time::now();
 
-        ros::spinOnce;
         ros::Rate(100).sleep();
     }
 

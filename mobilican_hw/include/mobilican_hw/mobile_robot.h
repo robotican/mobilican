@@ -74,7 +74,7 @@ protected:
 
 public:
 
-    MobileRobot(ros::NodeHandle & nh, RicClient ric_client);
+    MobileRobot(ros::NodeHandle & nh, RicClient & ric_client);
 
     void sendDiagnosticsMsg(const diagnostic_msgs::DiagnosticStatus &status) const;
 

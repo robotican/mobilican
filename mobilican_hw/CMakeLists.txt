@@ -1,12 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(mobilican_hw)
 
-## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
         roscpp
         message_generation
@@ -14,6 +10,8 @@ find_package(catkin REQUIRED COMPONENTS
         control_toolbox
         ric_interface_ros
         lpf_ros
+        #bms_interface
+        #roboteq_control
         mobilican_msgs
         )
 
@@ -33,6 +31,8 @@ catkin_package(
                 roscpp
                 ric_interface_ros
                 lpf_ros
+                #bms_interface
+                #roboteq_control
                 mobilican_msgs
         #  DEPENDS system_lib
 )
@@ -60,6 +60,7 @@ add_executable(${PROJECT_NAME}_node
         src/hardware/wheel/velocities_lpf.cpp
         src/hardware/wheel/wheels_control.cpp
         src/hardware/ric_client.cpp
+        src/hardware/bms.cpp
 
         src/lizi_2/lizi_2.cpp
 
@@ -72,6 +73,7 @@ add_executable(${PROJECT_NAME}_node
         include/mobilican_hw/hardware/wheel/wheels_control.h
         include/mobilican_hw/hardware/wheel/velocities_lpf.h
         include/mobilican_hw/robot_builder.h
+        include/mobilican_hw/hardware/bms.h
 
         include/mobilican_hw/robots_impl/lizi_2/lizi_2.h
         )
