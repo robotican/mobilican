@@ -28,7 +28,7 @@
     <arg name="robot_localization" default="false"/>
         
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
-    
+
     <group if="$(arg diagnos)">
         <include file="$(find mobilican_hw)/launch/diagnostics.launch" />
             <arg name="analyzers_path" value="$(find mobilican_hw)/config/lizi_2/analyzers.yaml"/>
@@ -76,7 +76,7 @@
     <!--load simulation stuff-->
     <group if="$(arg gazebo)">
         <!-- <env name="GAZEBO_MODEL_PATH" value="$(find lizi_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/>-->
-         <param name="robot_description" command="$(find xacro)/xacro '$(find lizi_description)/urdf/lizi_gazebo.xacro' --inorder 
+         <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/lizi_2/urdf/lizi_gazebo.xacro' --inorder
                 depth_cam:=$(arg depth_cam)
                 cam:=$(arg cam)
                 urf:=true
@@ -94,7 +94,7 @@
     
     <!--load hardware stuff-->
     <group unless="$(arg gazebo)">
-        <param name="robot_description" command="$(find xacro)/xacro '$(find lizi_description)/urdf/lizi.xacro' --inorder" />
+        <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/lizi_2/urdf/lizi.xacro' --inorder" />
         <include file="$(find lizi_hw)/launch/lizi_hw.launch" />
                 
         <group if="$(arg depth_cam)">
