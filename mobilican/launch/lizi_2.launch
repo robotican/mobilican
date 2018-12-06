@@ -36,20 +36,20 @@
     </group>
     
     <group if="$(arg amcl)">
-        <include file="$(find lizi_control)/launch/lizi_controllers.launch" >
+        <include file="$(find mobilican_control)/lizi_2/launch/lizi_controllers.launch" >
             <arg name="enable_mbc_odom_tf" value="false"/>
         </include>
     </group>
     
     <group if="$(arg robot_localization)">
-        <include file="$(find lizi_control)/launch/lizi_controllers.launch" >
+        <include file="$(find mobilican_control)/lizi_2/launch/lizi_controllers.launch" >
             <arg name="enable_mbc_odom_tf" value="false"/>
         </include>
     </group>
     
     <group unless="$(arg robot_localization)">
         <group unless="$(arg amcl)">
-            <include file="$(find lizi_control)/launch/lizi_controllers.launch" >
+            <include file="$(find mobilican_control)/lizi_2/launch/lizi_controllers.launch" >
                 <arg name="enable_mbc_odom_tf" value="true"/>
             </include>
         </group>
