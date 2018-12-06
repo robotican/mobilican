@@ -52,7 +52,6 @@ RicClient::RicClient(ros::NodeHandle &nh)
 
     terminate_ric_client_ = nh.serviceClient<std_srvs::Trigger>("terminate_ric");
 
-
     keepalive_timer_ = nh.createTimer(ros::Duration(RIC_DEAD_TIMEOUT), &RicClient::onKeepAliveTimeout, this);
 }
 
@@ -80,6 +79,34 @@ void RicClient::onKeepAliveTimeout(const ros::TimerEvent &event)
     }
 }
 
+
+void RicClient::onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg)
+{
+    // first keepalive indicate if hardware test failed
+    if (first_keepalive_)
+    {
+        hardware_id_ = msg->id;
+        first_keepalive_ = false;
+    }
+    hw_status_ = msg->status;
+    got_keepalive_ = true;
+}
+
+void RicClient::waitForConnection(ros::Duration timeout)
+{
+    ros::Time first_time = ros::Time::now();
+    while (!isConnected() && (ros::Time::now() - first_time < timeout))
+    {
+        ros::Duration(1).sleep();
+    }
+}
+
+void RicClient::terminateRic()
+{
+    std_srvs::Trigger kill_ric_srv;
+    if (!terminate_ric_client_.call(kill_ric_srv))
+        ROS_ERROR("calling ric_terminate service failed");
+}
 
 void RicClient::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg)
 {
@@ -116,33 +143,4 @@ void RicClient::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg
 {
     if (ric_observer_ != nullptr)
         ric_observer_->onProximityMsg(msg);
-}
-
-
-void RicClient::onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg)
-{
-    // first keepalive indicate if hardware test failed
-    if (first_keepalive_)
-    {
-        hardware_id_ = msg->id;
-        first_keepalive_ = false;
-    }
-    hw_status_ = msg->status;
-    got_keepalive_ = true;
-}
-
-void RicClient::waitForConnection(ros::Duration timeout)
-{
-    ros::Time first_time = ros::Time::now();
-    while (!isConnected() && (ros::Time::now() - first_time < timeout))
-    {
-        ros::Duration(1).sleep();
-    }
-}
-
-void RicClient::terminateRic()
-{
-    std_srvs::Trigger kill_ric_srv;
-    if (!terminate_ric_client_.call(kill_ric_srv))
-        ROS_ERROR("calling ric_terminate service failed");
 }

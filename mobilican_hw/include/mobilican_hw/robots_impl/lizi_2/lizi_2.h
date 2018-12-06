@@ -56,7 +56,7 @@
 #include "mobilican_hw/hardware/wheel/wheels_control.h"
 #include "mobilican_hw/hardware/wheel/velocities_lpf.h"
 
-#define LIZI_2_HW_ID                1
+#define LIZI_2_HW_ID                2
 #define G_FORCE                     9.80665
 #define ENC_TICKS_PER_ROUND         4480 // 64 * 70
 

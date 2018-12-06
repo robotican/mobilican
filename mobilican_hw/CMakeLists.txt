@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
         control_toolbox
         ric_interface_ros
         lpf_ros
-        #bms_interface
+        bms_interface
         #roboteq_control
         mobilican_msgs
         )
@@ -31,7 +31,7 @@ catkin_package(
                 roscpp
                 ric_interface_ros
                 lpf_ros
-                #bms_interface
+                bms_interface
                 #roboteq_control
                 mobilican_msgs
         #  DEPENDS system_lib
