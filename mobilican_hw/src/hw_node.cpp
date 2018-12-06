@@ -72,11 +72,12 @@ int main(int argc, char **argv)
     controller_manager::ControllerManager controller_manager(robot);
     robot->registerInterfaces();
 
+    ROS_INFO_STREAM("loaded " << robot->getName() << " firmware");
+
     ros::AsyncSpinner asyncSpinner(THREADS_NUM);
     asyncSpinner.start();
 
     ros::Time last_time = ros::Time::now();
-
 
     while (ros::ok())
     {

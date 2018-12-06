@@ -123,10 +123,6 @@ Lizi_2::Lizi_2(ros::NodeHandle &nh, RicClient& ric_client) : MobileRobot(nh, ric
     // this meant to prevent abrupt wheels movement
     ros::Duration(1).sleep();
     vel_delta_timer_ = nh.createTimer(ros::Duration(control_loop_interval_), &Lizi_2::onControlLoopTimer, this);
-
-    ROS_INFO("lizi hardware interface node initialization completed");
-
-    ROS_INFO("lizi_2 robot is up");
 }
 
 void Lizi_2::onControlLoopTimer(const ros::TimerEvent &)

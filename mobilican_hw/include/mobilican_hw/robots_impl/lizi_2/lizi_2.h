@@ -124,21 +124,22 @@ private:
 
 protected:
 
-    void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg);
-    void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg)  ;
-    void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg)  ;
-    void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg)  ;
-    void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) ;
-    void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) ;
+    void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) override;
+    void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) override;
+    void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) override;
+    void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override;
+    void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) override;
+    void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) override;
 
 
 public:
 
     Lizi_2(ros::NodeHandle & nh, RicClient& ric_client);
 
-    void write(const ros::Time &time, const ros::Duration& duration)  {};
-    void read(const ros::Time &time, const ros::Duration& duration)  {};
-    void registerInterfaces() ;
+    void write(const ros::Time &time, const ros::Duration& duration) override {};
+    void read(const ros::Time &time, const ros::Duration& duration) override {};
+    void registerInterfaces() override;
+    std::string getName() override { return "lizi 2"; };
 
 };
 

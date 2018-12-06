@@ -92,6 +92,7 @@ public:
     virtual void write(const ros::Time &time, const ros::Duration& duration) = 0;
 
     virtual void registerInterfaces() = 0;
+    virtual std::string getName() = 0;
 
     void speak(const char * msg) const;
 
