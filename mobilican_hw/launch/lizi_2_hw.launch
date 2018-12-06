@@ -2,7 +2,7 @@
 
 <launch>
 
-    <rosparam file="$(find lizi_hw)/config/lizi_hw.yaml" command="load"/>
+    <rosparam file="$(find mobilican_hw)/config/lizi_2/lizi_hw.yaml" command="load"/>
 
     <include file="$(find ric_interface_ros)/launch/ric_interface_ros.launch" />
 
