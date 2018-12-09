@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 
     ROS_INFO("waiting for signal from ricboard...");
     ric_client.waitForConnection(ros::Duration(5));
-    uint16_t hw_id = -1;
+    uint16_t hw_id = 0;
     if (!ric_client.isConnected())
     {
         Utils::terminateNode("Didn't get any signal from ricboard. "
