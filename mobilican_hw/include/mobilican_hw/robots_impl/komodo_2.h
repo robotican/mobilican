@@ -38,33 +38,51 @@
 
 #include "mobilican_hw/mobile_robot.h"
 #include <hardware_interface/joint_command_interface.h>
+#include <sensor_msgs/Range.h>
+#include <sensor_msgs/NavSatFix.h>
+#include <sensor_msgs/NavSatStatus.h>
+#include <sensor_msgs/Imu.h>
+#include <sensor_msgs/MagneticField.h>
+#include "mobilican_hw/hardware/bms.h"
 #include "mobilican_hw/hardware/roboteq_client.h"
 #include "mobilican_hw/hardware/wheel/wheel.h"
 
+#define KOMODO_2_HW_ID         12
 
-#define KOMODO_2_HW_ID                12
 
 class Komodo_2 : public MobileRobot
 {
 
 private:
 
+    enum UrfId
+    {
+        REAR = 10,
+        RIGHT = 11,
+        LEFT = 12
+    };
+
+    ros::Publisher urf_rear_pub_,
+            urf_right_pub_,
+            urf_left_pub_,
+            imu_pub_,
+            mag_pub_,
+            gps_pub_;
+
     hardware_interface::VelocityJointInterface vel_joint_interface_;
 
     RoboteqClient roboteq_;
+    Bms bms_;
 
     wheel virtual_wheels_[2];
     std::vector<roboteq::Motor*> * motors_ = nullptr;
 
 protected:
 
-    void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) override {};
-    void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) override {};
-    void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) override {};
-    void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override {};
-    void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) override {};
-    void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) override {};
-
+    void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) override;
+    void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) override;
+    void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override;
+    void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) override;
 
 public:
 
@@ -75,6 +93,9 @@ public:
     void registerInterfaces() override;
     std::string getName() override { return "komodo_2"; };
 };
+
+
+
 
 
 #endif //MOBILICAN_HW_KOMODO_2_H

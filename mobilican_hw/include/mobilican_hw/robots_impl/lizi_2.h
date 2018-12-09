@@ -50,13 +50,8 @@
 #include "mobilican_hw/hardware/wheel/wheels_control.h"
 #include "mobilican_hw/hardware/wheel/velocities_lpf.h"
 
-#define LIZI_2_HW_ID                2
-#define G_FORCE                     9.80665
+#define LIZI_2_HW_ID                  2
 #define ENC_TICKS_PER_ROUND         4480 // 64 * 70
-
-#define URF_MIN_RANGE               0.3
-#define URF_MAX_RANGE               3.0
-#define URF_FOV                     0.7f
 
 #define WHEEL_FRONT_LEFT_JOINT      "front_left_wheel_joint"
 #define WHEEL_FRONT_RIGHT_JOINT     "front_right_wheel_joint"
@@ -67,10 +62,6 @@
 #define WHEEL_FRONT_LEFT_ID           2
 #define WHEEL_REAR_RIGHT_ID           3
 #define WHEEL_REAR_LEFT_ID            4
-
-#define URF_REAR_ID                 10
-#define URF_RIGHT_ID                11
-#define URF_LEFT_ID                 12
 
 #define ACCEL_OFFSET_X              0.23
 #define ACCEL_OFFSET_Y              0.13
@@ -85,6 +76,13 @@ class Lizi_2 : public MobileRobot
 {
 
 private:
+
+    enum UrfId
+    {
+        REAR = 10,
+        RIGHT = 11,
+        LEFT = 12
+    };
 
     int ric_servo_bias_ = 0;
     float control_loop_interval_ = 0;
@@ -134,7 +132,6 @@ public:
     void read(const ros::Time &time, const ros::Duration& duration) override {};
     void registerInterfaces() override;
     std::string getName() override { return "lizi_2"; };
-
 };
 
 

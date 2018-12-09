@@ -38,7 +38,6 @@
 
 Lizi_2::Lizi_2(ros::NodeHandle &nh, RicClient& ric_client) : MobileRobot(nh, ric_client)
 {
-    /* ros publishers */
     urf_rear_pub_ = nh.advertise<sensor_msgs::Range>("urf/rear", 10);
     urf_right_pub_ = nh.advertise<sensor_msgs::Range>("urf/right", 10);
     urf_left_pub_ = nh.advertise<sensor_msgs::Range>("urf/left", 10);
@@ -190,6 +189,20 @@ void Lizi_2::registerInterfaces()
     registerInterface(&vel_joint_interface_);
 }
 
+
+void Lizi_2::updateWheelPosition(wheel &wheel, double new_pos)
+{
+    wheel.lock.lock();
+
+    if (wheel.reverse_feedback)
+        new_pos *= -1;
+
+    wheel.position = new_pos;
+
+    wheel.lock.unlock();
+}
+
+
 void Lizi_2::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)
 {
     diagnostic_msgs::DiagnosticStatus diag_stat;
@@ -240,17 +253,7 @@ void Lizi_2::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)
 
 
 
-void Lizi_2::updateWheelPosition(wheel &wheel, double new_pos)
-{
-    wheel.lock.lock();
 
-    if (wheel.reverse_feedback)
-        new_pos *= -1;
-
-    wheel.position = new_pos;
-
-    wheel.lock.unlock();
-}
 
 void Lizi_2::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg)
 {
@@ -394,9 +397,9 @@ void Lizi_2::onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr &ms
         imu_msg.angular_velocity.x = -1 * msg->gyro_y;
         imu_msg.angular_velocity.y = -1 * msg->gyro_x;
         imu_msg.angular_velocity.z = -1 * msg->gyro_z;
-        imu_msg.linear_acceleration.x = msg->accl_x * G_FORCE + ACCEL_OFFSET_X;
-        imu_msg.linear_acceleration.y = msg->accl_y * G_FORCE - ACCEL_OFFSET_Y;
-        imu_msg.linear_acceleration.z = msg->accl_z * G_FORCE - ACCEL_OFFSET_Z;
+        imu_msg.linear_acceleration.x = msg->accl_x * Utils::G_FORCE + 0.23;
+        imu_msg.linear_acceleration.y = msg->accl_y * Utils::G_FORCE - 0.13;
+        imu_msg.linear_acceleration.z = msg->accl_z * Utils::G_FORCE - 0.1;
         imu_pub_.publish(imu_msg);
 
         sensor_msgs::MagneticField mag_msg;
@@ -417,27 +420,27 @@ void Lizi_2::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr &msg)
 {
     sensor_msgs::Range range_msg;
     range_msg.header.stamp = ros::Time::now();
-    range_msg.min_range = URF_MIN_RANGE;
-    range_msg.max_range = URF_MAX_RANGE;
+    range_msg.min_range = 0.3;
+    range_msg.max_range = 3.0;
     range_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
     range_msg.range = msg->distance / 1000.0;
-    range_msg.field_of_view = URF_FOV;
+    range_msg.field_of_view = 0.7f;
 
     int urf_id = msg->id;
 
     switch (urf_id)
     {
-        case URF_REAR_ID:
+        case UrfId::REAR:
             range_msg.header.frame_id = "rear_urf_link";
             urf_rear_pub_.publish(range_msg);
             break;
 
-        case URF_RIGHT_ID:
+        case UrfId::RIGHT:
             range_msg.header.frame_id = "right_urf_link";
             urf_right_pub_.publish(range_msg);
             break;
 
-        case URF_LEFT_ID:
+        case UrfId::LEFT:
             range_msg.header.frame_id = "left_urf_link";
             urf_left_pub_.publish(range_msg);
             break;

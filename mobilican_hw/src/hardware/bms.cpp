@@ -39,22 +39,15 @@
 
 Bms::Bms(ros::NodeHandle &nh)
 {
-    /* get batt params */
+    nh_ = &nh;
+}
 
-    if (!ros::param::get(BATT_PORT_PARAM, batt_port_))
-    {
-        ROS_ERROR("[komodo2_hw/battery_pub]: %s param is missing on param server. make sure that this param exist in battery_config.yaml "
-                  "and that your launch includes this param file. shutting down...", BATT_PORT_PARAM);
-        ros::shutdown();
-        exit (EXIT_FAILURE);
-    }
-
-    //ros::param::get("~low_batt", low_batt);
-
+void Bms::connect(const std::string &port)
+{
     /* connect to batt FTDI */
     try
     {
-        bms_.connect(batt_port_);
+        bms_.connect(port);
     }
     catch (bms::BMSException exp)
     {
@@ -63,10 +56,8 @@ Bms::Bms(ros::NodeHandle &nh)
     ROS_INFO("opened BMS port successfully \nport name: %s \nbaudrate: 9600", batt_port_.c_str());
 
     /* batt publisher */
-    bat_pub_ = nh.advertise<sensor_msgs::BatteryState>("battery", 10);
-    bat_pub_timer_ = nh.createTimer(ros::Duration(BATT_PUB_INTERVAL), &Bms::onBattPubTimer, this);
-    ROS_INFO("[komodo2_hw/battery_pub]: battery publisher is up");
-
+    bat_pub_ = nh_->advertise<sensor_msgs::BatteryState>("battery", 10);
+    bat_pub_timer_ = nh_->createTimer(ros::Duration(BATT_PUB_INTERVAL), &Bms::onBattPubTimer, this);
 }
 
 void Bms::setLowBatt(int val)

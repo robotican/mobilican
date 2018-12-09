@@ -32,7 +32,9 @@ void RoboteqClient::connect(const std::string &port,
         if (serial_->start())
             ROS_INFO_STREAM("Roboteq serial port opened successfully");
         else
-            ROS_ERROR_STREAM("Failed to open roboteq serial port");
+        {
+            Utils::terminateNode("Failed to open roboteq serial port");
+        }
     }
     catch (serial::IOException& e)
     {

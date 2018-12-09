@@ -44,13 +44,13 @@
 #include <mobilican_hw/utils.h>
 
 #define BATT_PUB_INTERVAL 2 //secs
-#define BATT_PORT_PARAM "~batt_port"
-
 
 class Bms
 {
 
 private:
+
+    ros::NodeHandle * nh_ = nullptr;
     ros::Publisher bat_pub_;
     ros::Timer bat_pub_timer_;
     bms::BMSInterface bms_;
@@ -61,6 +61,8 @@ private:
 public:
 
     Bms(ros::NodeHandle & nh);
+
+    void connect(const std::string & port);
 
     // value 0 means warnings are off
     void setLowBatt(int val);

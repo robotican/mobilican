@@ -42,6 +42,8 @@
 
 namespace Utils
 {
+    const double G_FORCE = 9.80665;
+
     static void terminateNode(const char * msg)
     {
         ROS_FATAL("%s", msg);

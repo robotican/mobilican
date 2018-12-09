@@ -41,7 +41,7 @@
 #include "mobilican_hw/hardware/ric_client.h"
 #include "mobilican_hw/utils.h"
 #include "mobilican_hw/mobile_robot.h"
-#include "mobilican_hw/robot_builder.h"
+#include "mobilican_hw/robots_factory.h"
 
 
 int main(int argc, char **argv)

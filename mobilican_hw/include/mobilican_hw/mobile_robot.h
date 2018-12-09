@@ -87,12 +87,12 @@ public:
     void sendDiagnosticsMsg(const diagnostic_msgs::DiagnosticStatus &status) const;
 
     // ric observer methods
-    virtual void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) = 0;
-    virtual void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) = 0;
-    virtual void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) = 0;
-    virtual void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) = 0;
-    virtual void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) = 0;
-    virtual void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) = 0;
+    virtual void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) {};
+    virtual void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) {};
+    virtual void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) {};
+    virtual void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) {};
+    virtual void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) {};
+    virtual void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) {};
     virtual void onKeepAliveTimeout();
 
     // general robot methods
@@ -105,5 +105,6 @@ public:
     void speak(const char * msg) const;
 
 };
+
 
 #endif //MOBILICAN_HW_MOBILE_ROBOT_H

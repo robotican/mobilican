@@ -10,8 +10,8 @@
 #include <roboteq/roboteq.h>
 #include <roboteq/serial_controller.h>
 #include <std_msgs/String.h>
-//#include <roboteq/motor.h>
 #include <memory>
+#include <mobilican_hw/utils.h>
 
 class RoboteqClient
 {
