@@ -52,21 +52,24 @@
   <build_depend>ric_interface_ros</build_depend>
   <build_depend>lpf_ros</build_depend>
   <build_depend>bms_interface</build_depend>
+  <build_depend>roboteq_control</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>control_toolbox</build_depend>
   <build_depend>mobilican_msgs</build_depend>
 
 
-  <build_export_depend>ric_interface_ros</build_export_depend>
-  <build_export_depend>control_toolbox</build_export_depend>
-  <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>lpf_ros</build_export_depend>
-  <build_export_depend>bms_interface</build_export_depend>
-  <build_export_depend>mobilican_msgs</build_export_depend>
+  <!--<build_export_depend>ric_interface_ros</build_export_depend>-->
+  <!--<build_export_depend>control_toolbox</build_export_depend>-->
+  <!--<build_export_depend>roscpp</build_export_depend>-->
+  <!--<build_export_depend>lpf_ros</build_export_depend>-->
+  <!--<build_export_depend>bms_interface</build_export_depend>-->
+  <!--<build_export_depend>roboteq_control</build_export_depend>-->
+  <!--<build_export_depend>mobilican_msgs</build_export_depend>-->
 
   <exec_depend>ric_interface_ros</exec_depend>
   <exec_depend>lpf_ros</exec_depend>
   <exec_depend>bms_interface</exec_depend>
+  <exec_depend>roboteq_control</exec_depend>
   <exec_depend>roscpp</exec_depend>
   <exec_depend>control_toolbox</exec_depend>
   <exec_depend>mobilican_msgs</exec_depend>

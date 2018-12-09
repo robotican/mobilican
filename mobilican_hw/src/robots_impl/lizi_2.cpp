@@ -33,9 +33,7 @@
 
 /* Author: Elhay Rauper*/
 
-
-
-#include "mobilican_hw/robots_impl/lizi_2/lizi_2.h"
+#include "mobilican_hw/robots_impl/lizi_2.h"
 
 
 Lizi_2::Lizi_2(ros::NodeHandle &nh, RicClient& ric_client) : MobileRobot(nh, ric_client)

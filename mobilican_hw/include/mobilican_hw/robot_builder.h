@@ -38,9 +38,10 @@
 #define MOBILICAN_HW_ROBOTBUILDER_H
 
 #include "mobile_robot.h"
-#include "mobilican_hw/robots_impl/lizi_2/lizi_2.h"
+#include "mobilican_hw/robots_impl/lizi_2.h"
+#include "mobilican_hw/robots_impl/komodo_2.h"
 
-namespace RobotBuilder
+namespace RobotsFactory
 {
     static MobileRobot* build(ros::NodeHandle &nh,
                                    uint16_t hardware_id,
@@ -50,6 +51,8 @@ namespace RobotBuilder
         {
             case (LIZI_2_HW_ID):
                 return new Lizi_2(nh, ric_client);
+            case (KOMODO_2_HW_ID):
+                return new Komodo_2(nh, ric_client);
         }
         return nullptr;
     }

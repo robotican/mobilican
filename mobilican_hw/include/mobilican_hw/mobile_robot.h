@@ -52,6 +52,10 @@
 #include <diagnostic_msgs/DiagnosticStatus.h>
 #include <diagnostic_msgs/DiagnosticArray.h>
 #include <hardware_interface/robot_hw.h>
+#include <hardware_interface/joint_state_interface.h>
+#include <tf/tf.h>
+#include <diagnostic_msgs/DiagnosticStatus.h>
+#include <diagnostic_msgs/DiagnosticArray.h>
 #include "mobilican_hw/utils.h"
 #include "mobilican_hw/hardware/ric_client.h"
 
@@ -66,6 +70,9 @@ class MobileRobot : public hardware_interface::RobotHW
 protected:
 
     ros::NodeHandle* nh_ = nullptr;
+
+    hardware_interface::JointStateInterface joint_state_interface_;
+
     ros::Publisher ric_servo_pub_,
             espeak_pub_,
             diagnos_pub_;
@@ -75,6 +82,7 @@ protected:
 public:
 
     MobileRobot(ros::NodeHandle & nh, RicClient & ric_client);
+    virtual ~MobileRobot() {};
 
     void sendDiagnosticsMsg(const diagnostic_msgs::DiagnosticStatus &status) const;
 

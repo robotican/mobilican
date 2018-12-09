@@ -66,7 +66,7 @@ int main(int argc, char **argv)
         ROS_INFO_STREAM("detected robot hardware id: " << hw_id);
     }
 
-    MobileRobot* robot = RobotBuilder::build(nh, hw_id, ric_client);
+    MobileRobot* robot = RobotsFactory::build(nh, hw_id, ric_client);
     if (robot == nullptr)
         Utils::terminateNode("got invalid hardware ID");
 
@@ -82,12 +82,16 @@ int main(int argc, char **argv)
         ros::Duration duration = ros::Time::now() - last_time;
 
         robot->read(ros::Time::now(), duration);
+
+        ros::Duration(0.005).sleep();
+
         controller_manager.update(ros::Time::now(), duration);
+
         robot->write(ros::Time::now(), duration);
 
-        last_time = ros::Time::now();
+        ros::Rate(0.005).sleep();
 
-        ros::Rate(100).sleep();
+        last_time = ros::Time::now();
     }
 
     delete robot;

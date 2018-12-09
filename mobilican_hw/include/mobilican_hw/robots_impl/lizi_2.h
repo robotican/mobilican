@@ -34,23 +34,17 @@
 /* Author: Elhay Rauper*/
 
 
-#ifndef MOBILICAN_HW_H
-#define MOBILICAN_HW_H
+#ifndef LIZI_2_HW_H
+#define LIZI_2_HW_H
 
-#include <hardware_interface/robot_hw.h>
 #include <hardware_interface/joint_command_interface.h>
-#include <hardware_interface/joint_state_interface.h>
-#include <tf/tf.h>
 #include <sensor_msgs/Range.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/MagneticField.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/NavSatStatus.h>
 #include <sensor_msgs/BatteryState.h>
-#include <diagnostic_msgs/DiagnosticStatus.h>
-#include <diagnostic_msgs/DiagnosticArray.h>
 #include <boost/algorithm/clamp.hpp>
-
 #include "mobilican_hw/mobile_robot.h"
 #include "mobilican_hw/hardware/wheel/wheel.h"
 #include "mobilican_hw/hardware/wheel/wheels_control.h"
@@ -96,7 +90,7 @@ private:
     float control_loop_interval_ = 0;
 
     ros::NodeHandle *node_handle_;
-    hardware_interface::JointStateInterface joint_state_interface_;
+
     hardware_interface::VelocityJointInterface vel_joint_interface_;
 
     WheelsControl wheels_control_;
@@ -144,4 +138,4 @@ public:
 };
 
 
-#endif //MOBILICAN_HW_H
+#endif //LIZI_2_HW_H

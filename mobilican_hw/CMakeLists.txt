@@ -5,13 +5,12 @@ add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
         roscpp
-        message_generation
         controller_manager
         control_toolbox
         ric_interface_ros
         lpf_ros
         bms_interface
-        #roboteq_control
+        roboteq_control
         mobilican_msgs
         )
 
@@ -25,14 +24,14 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-        #  INCLUDE_DIRS include
+          INCLUDE_DIRS include
         #  LIBRARIES lizi_hardware_interface
           CATKIN_DEPENDS
                 roscpp
                 ric_interface_ros
                 lpf_ros
                 bms_interface
-                #roboteq_control
+                roboteq_control
                 mobilican_msgs
         #  DEPENDS system_lib
 )
@@ -53,29 +52,16 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node
 
-        # cpp files
-
         src/hw_node.cpp
         src/mobile_robot.cpp
         src/hardware/wheel/velocities_lpf.cpp
         src/hardware/wheel/wheels_control.cpp
         src/hardware/ric_client.cpp
         src/hardware/bms.cpp
+        src/robots_impl/lizi_2.cpp
+        src/robots_impl/komodo_2.cpp
+        src/hardware/roboteq_client.cpp
 
-        src/lizi_2/lizi_2.cpp
-
-        # header files
-
-        include/mobilican_hw/hardware/ric_client.h
-        include/mobilican_hw/utils.h
-        include/mobilican_hw/mobile_robot.h
-        include/mobilican_hw/hardware/wheel/wheel.h
-        include/mobilican_hw/hardware/wheel/wheels_control.h
-        include/mobilican_hw/hardware/wheel/velocities_lpf.h
-        include/mobilican_hw/robot_builder.h
-        include/mobilican_hw/hardware/bms.h
-
-        include/mobilican_hw/robots_impl/lizi_2/lizi_2.h
         )
 
 ## Rename C++ executable without prefix
