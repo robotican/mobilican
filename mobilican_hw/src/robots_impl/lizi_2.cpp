@@ -84,7 +84,7 @@ Lizi_2::Lizi_2(ros::NodeHandle &nh, RicClient& ric_client) : MobileRobot(nh, ric
                              "check config file. shutting down.");
     }
 
-    std::vector<wheel*> wheels;
+    std::vector<wheel*> wheels(4);
     wheels.push_back(&rear_right_wheel_);
     wheels.push_back(&rear_left_wheel_);
     wheels.push_back(&front_right_wheel_);
@@ -109,13 +109,13 @@ Lizi_2::Lizi_2(ros::NodeHandle &nh, RicClient& ric_client) : MobileRobot(nh, ric
     nh.getParam("protection_time_threshold", protect_time_thresh);
     nh.getParam("protection_output_threshold", protect_output_thresh);
 
-//    if (enable_protect)
-//        wheels_control_.enableOVProtection(protect_time_thresh,
-//                                           protect_err_thresh,
-//                                           protect_output_thresh);
-//    else
-//        ROS_WARN("Over voltage protection disabled. "
-//                 "Risk of motor malfunction in case of high voltage");
+    if (enable_protect)
+        wheels_control_.enableOVProtection(protect_time_thresh,
+                                           protect_err_thresh,
+                                           protect_output_thresh);
+    else
+        ROS_WARN("Over voltage protection disabled. "
+                 "Risk of motor malfunction in case of high voltage");
 
     // give controllers time to go up before starting control loop
     // this meant to prevent abrupt wheels movement
