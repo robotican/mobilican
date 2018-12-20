@@ -33,7 +33,7 @@ progress_view() {
 }
 
 # welcome screen
-whiptail --textbox mobilican/setup/robotican.txt_img 20 75
+whiptail --textbox robotican.txt_img 20 75
 # robot selection menu
 ROBOT_SELECTION=$(whiptail --title "Choose your robot. Press space to select" --radiolist "Choose" 20 50 15 \
 "LIZI_2" "Lizi 2 robot" ON \
