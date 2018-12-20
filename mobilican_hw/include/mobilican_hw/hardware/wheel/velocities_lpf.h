@@ -42,8 +42,7 @@
 #define ZERO_THRESH 0.00001 //below this speed, round speed to 0
 
 
-class VelocitiesLpf
-{
+class VelocitiesLpf {
 private:
 
     std::vector<wheel*> wheels_;

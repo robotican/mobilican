@@ -50,20 +50,22 @@
 #include <ros/ros.h>
 #include <std_srvs/Trigger.h>
 #include <std_msgs/String.h>
-#include "mobilican_hw/mobile_robot.h"
+#include "ric_observer.h"
+#include "mobilican_hw/hardware/hw_id.h"
 
 #define RIC_DEAD_TIMEOUT            1.5 //secs
 
-class MobileRobot;
-
-class RicClient
-{
+class RicClient {
+public:
+    typedef ric::protocol::keepalive::firmware_ver firm_ver;
 
 private:
 
     bool got_keepalive_ = false;
     bool first_keepalive_ = true;
-    uint16_t hardware_id_ = -1;
+    bool is_connected_ = false;
+    id_type hardware_id_ = -1;
+    firm_ver firm_ver_;
 
     ros::Subscriber encoder_sub_,
             keepalive_sub_,
@@ -82,7 +84,7 @@ private:
 
     ros::NodeHandle *nh_ = nullptr;
 
-    MobileRobot* ric_observer_ = nullptr;
+    RicObserver* observer_ = nullptr;
 
     uint8_t hw_status_ = ric::protocol::package::Status::UNKNOWN;
 
@@ -99,16 +101,17 @@ private:
 
 public:
 
+
     RicClient(ros::NodeHandle &nh);
-    void subscribe(MobileRobot * ric_observer) { ric_observer_ = ric_observer; }
-    void unsubscribe() { ric_observer_ = nullptr; }
-    bool isConnected() { return !first_keepalive_; }
+    void subscribe(RicObserver * observer) { observer_ = observer; }
     void waitForConnection(ros::Duration timeout);
-    uint16_t getHardwareId() { return hardware_id_; }
+    id_type getHardwareId() { return hardware_id_; }
+    firm_ver getFirmwareVersion() { return firm_ver_; }
 
     void terminateRic();
     void writeServoCommand(uint16_t command, uint8_t id) const;
     bool isHwTestOk() { return (hw_status_ == ric::protocol::package::Status::OK); }
+    bool isConnected() { return is_connected_; }
 };
 
 

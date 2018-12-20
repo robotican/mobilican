@@ -38,8 +38,7 @@
 
 #include <mutex>
 
-struct wheel
-{
+struct wheel {
     std::string joint_name;
     int id = 0;
     double position = 0; //rads

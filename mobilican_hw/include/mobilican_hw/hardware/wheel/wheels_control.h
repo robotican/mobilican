@@ -46,8 +46,7 @@
 // This class takes 4 wheels velocity commands from diff_drive_controller,
 // and output effort command for each one, so it can be sent to RicBoard
 
-struct ov_protection_settings
-{
+struct ov_protection_settings {
     ros::Time start_time;
     bool enable = false;
     float error_thresh = 0;
@@ -55,8 +54,7 @@ struct ov_protection_settings
     int output_thresh = 0;
 };
 
-class WheelsControl
-{
+class WheelsControl {
 private:
 
     std::vector<wheel*> wheels_;

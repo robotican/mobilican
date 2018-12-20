@@ -38,59 +38,51 @@
 #include <controller_manager/controller_manager.h>
 #include <memory>
 #include "mobilican_hw/mobile_robot.h"
-#include "mobilican_hw/hardware/ric_client.h"
+#include "mobilican_hw/hardware/ricboard/ric_client.h"
 #include "mobilican_hw/utils.h"
 #include "mobilican_hw/mobile_robot.h"
 #include "mobilican_hw/robots_factory.h"
 
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     ros::init(argc, argv, "lizi_hw_node");
     ros::NodeHandle nh;
     ros::AsyncSpinner async_spinner(4);
     async_spinner.start();
 
     RicClient ric_client(nh);
-
     ROS_INFO("waiting for signal from ricboard...");
     ric_client.waitForConnection(ros::Duration(5));
-    uint16_t hw_id = -1;
-    if (!ric_client.isConnected())
-    {
+    id_type hw_id = -1;
+    RicClient::firm_ver firm_ver;
+    if (!ric_client.isConnected()) {
         Utils::terminateNode("Didn't get any signal from ricboard. "
                              "Make sure ric_interface_node is running");
     }
     else {
         hw_id = ric_client.getHardwareId();
-        ROS_INFO_STREAM("detected robot hardware id: " << hw_id);
+        firm_ver = ric_client.getFirmwareVersion();
+        ROS_INFO_STREAM("detected hardware id: " << hw_id);
+        ROS_INFO_STREAM("detected firmware version: "
+               << (int)firm_ver.major << "."
+               << (int)firm_ver.minor << "."
+               << (int)firm_ver.patch);
     }
-
-    MobileRobot* robot = RobotsFactory::build(nh, hw_id, ric_client);
-    if (robot == nullptr)
-        Utils::terminateNode("got invalid hardware ID");
-
+    MobileRobot * robot = RobotsFactory::build(nh, hw_id, ric_client);
+    ROS_INFO_STREAM("loaded " << robot->getName() << " robot");
+    if (robot == nullptr) {
+        Utils::terminateNode("invalid hardware hw id");
+    }
     controller_manager::ControllerManager controller_manager(robot);
     robot->registerInterfaces();
-
-    ROS_INFO_STREAM("loaded " << robot->getName() << " firmware");
-
     ros::Time last_time = ros::Time::now();
-
-    while (ros::ok())
-    {
+    while (ros::ok()) {
         ros::Duration duration = ros::Time::now() - last_time;
-
         robot->read(ros::Time::now(), duration);
-
         ros::Duration(0.005).sleep();
-
         controller_manager.update(ros::Time::now(), duration);
-
         robot->write(ros::Time::now(), duration);
-
         ros::Rate(0.005).sleep();
-
         last_time = ros::Time::now();
     }
 

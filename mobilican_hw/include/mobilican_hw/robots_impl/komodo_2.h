@@ -47,20 +47,12 @@
 #include "mobilican_hw/hardware/roboteq_client.h"
 #include "mobilican_hw/hardware/wheel/wheel.h"
 
-#define KOMODO_2_HW_ID         12
 
-
-class Komodo_2 : public MobileRobot
-{
+class Komodo_2 : public MobileRobot {
 
 private:
 
-    enum UrfId
-    {
-        REAR = 10,
-        RIGHT = 11,
-        LEFT = 12
-    };
+    enum UrfId { REAR = 10, RIGHT = 11, LEFT = 12 };
 
     ros::Publisher urf_rear_pub_,
             urf_right_pub_,
@@ -92,6 +84,7 @@ public:
     void read(const ros::Time &time, const ros::Duration& duration) override;
     void registerInterfaces() override;
     std::string getName() override { return "komodo_2"; };
+    static id_type hwId() { return 0x68560202; }
 };
 
 

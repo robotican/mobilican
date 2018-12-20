@@ -34,7 +34,7 @@
 /* Author: Elhay Rauper*/
 
 
-#include "mobilican_hw/hardware/ric_client.h"
+#include "mobilican_hw/hardware/ricboard/ric_client.h"
 
 RicClient::RicClient(ros::NodeHandle &nh)
 {
@@ -74,8 +74,9 @@ void RicClient::onKeepAliveTimeout(const ros::TimerEvent &event)
         got_keepalive_ = false;
     else
     {
-        if (ric_observer_ != nullptr)
-            ric_observer_->onKeepAliveTimeout();
+        is_connected_ = false;
+        if (observer_ != nullptr)
+            observer_->onKeepAliveTimeout();
     }
 }
 
@@ -85,11 +86,17 @@ void RicClient::onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg
     // first keepalive indicate if hardware test failed
     if (first_keepalive_)
     {
-        hardware_id_ = msg->id;
+        hardware_id_ = msg->hw_id;
+        firm_ver_.major = msg->soft_major;
+        firm_ver_.minor = msg->soft_minor;
+        firm_ver_.patch = msg->soft_patch;
         first_keepalive_ = false;
     }
     hw_status_ = msg->status;
     got_keepalive_ = true;
+    is_connected_ = true;
+    if (observer_ != nullptr)
+        observer_->onKeepAliveMsg(msg);
 }
 
 void RicClient::waitForConnection(ros::Duration timeout)
@@ -110,37 +117,37 @@ void RicClient::terminateRic()
 
 void RicClient::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg)
 {
-    if (ric_observer_ != nullptr)
-        ric_observer_->onLocationMsg(msg);
+    if (observer_ != nullptr)
+        observer_->onLocationMsg(msg);
 }
 
 void RicClient::onBatteryMsg(const ric_interface_ros::Battery::ConstPtr &msg)
 {
-    if (ric_observer_ != nullptr)
-        ric_observer_->onBatteryMsg(msg);
+    if (observer_ != nullptr)
+        observer_->onBatteryMsg(msg);
 }
 
 void RicClient::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg)
 {
-    if (ric_observer_ != nullptr)
-        ric_observer_->onLoggerMsg(msg);
+    if (observer_ != nullptr)
+        observer_->onLoggerMsg(msg);
 }
 
 
 void RicClient::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)
 {
-    if (ric_observer_ != nullptr)
-        ric_observer_->onEncoderMsg(msg);
+    if (observer_ != nullptr)
+        observer_->onEncoderMsg(msg);
 }
 
 void RicClient::onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg)
 {
-    if (ric_observer_ != nullptr)
-        ric_observer_->onOrientationMsg(msg);
+    if (observer_ != nullptr)
+        observer_->onOrientationMsg(msg);
 }
 
 void RicClient::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg)
 {
-    if (ric_observer_ != nullptr)
-        ric_observer_->onProximityMsg(msg);
+    if (observer_ != nullptr)
+        observer_->onProximityMsg(msg);
 }

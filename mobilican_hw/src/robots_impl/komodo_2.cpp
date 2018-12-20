@@ -122,12 +122,12 @@ void Komodo_2::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg)
     gps_msg.altitude = msg->alt;
     gps_msg.status.service = sensor_msgs::NavSatStatus::SERVICE_GPS;
 
-    if (msg->status == ric::protocol::package::Status::READ_FAIL)
+    if (msg->status == ric::protocol::package::Status::CRITICAL)
     {
         diag_stat.level = diagnostic_msgs::DiagnosticStatus::ERROR;
         diag_stat.message = "failed to read GPS";
     }
-    else if (msg->status == ric::protocol::package::Status::READ_WARN)
+    else if (msg->status == ric::protocol::package::Status::WARN)
     {
         gps_msg.status.status = sensor_msgs::NavSatStatus::STATUS_NO_FIX;
         gps_pub_.publish(gps_msg);
@@ -176,7 +176,7 @@ void Komodo_2::onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr &
     diag_stat.name = "imu";
     diag_stat.hardware_id = std::to_string(msg->id);
 
-    if (msg->status == ric::protocol::package::Status::INIT_FAIL)
+    if (msg->status == ric::protocol::package::Status::WARN)
     {
         diag_stat.level = diagnostic_msgs::DiagnosticStatus::ERROR;
         diag_stat.message = "failed to initialize and read from IMU";

@@ -57,15 +57,11 @@
 #include <diagnostic_msgs/DiagnosticStatus.h>
 #include <diagnostic_msgs/DiagnosticArray.h>
 #include "mobilican_hw/utils.h"
-#include "mobilican_hw/hardware/ric_client.h"
+#include "mobilican_hw/hardware/ricboard/ric_client.h"
+#include "mobilican_hw/hardware/ricboard/ric_observer.h"
+#include "mobilican_hw/hardware/hw_id.h"
 
-
-#define RIC_DEAD_TIMEOUT            1.5 //secs
-
-class RicClient;
-
-class MobileRobot : public hardware_interface::RobotHW
-{
+class MobileRobot : public hardware_interface::RobotHW, public RicObserver {
 
 protected:
 
@@ -87,13 +83,14 @@ public:
     void sendDiagnosticsMsg(const diagnostic_msgs::DiagnosticStatus &status) const;
 
     // ric observer methods
-    virtual void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) {};
-    virtual void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) {};
-    virtual void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) {};
-    virtual void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) {};
-    virtual void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) {};
-    virtual void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) {};
-    virtual void onKeepAliveTimeout();
+    virtual void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) override {};
+    virtual void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) override {};
+    virtual void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) override {};
+    virtual void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override {};
+    virtual void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) override {};
+    virtual void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) override {};
+    virtual void onKeepAliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg) override {};
+    virtual void onKeepAliveTimeout() override;
 
     // general robot methods
     virtual void read(const ros::Time &time, const ros::Duration& duration) = 0;

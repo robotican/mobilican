@@ -13,8 +13,7 @@
 #include <memory>
 #include <mobilican_hw/utils.h>
 
-class RoboteqClient
-{
+class RoboteqClient {
 private:
 
     ros::NodeHandle * nh_;

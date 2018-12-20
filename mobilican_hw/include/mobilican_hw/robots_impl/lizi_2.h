@@ -50,62 +50,35 @@
 #include "mobilican_hw/hardware/wheel/wheels_control.h"
 #include "mobilican_hw/hardware/wheel/velocities_lpf.h"
 
-#define LIZI_2_HW_ID                  2
-#define ENC_TICKS_PER_ROUND         4480 // 64 * 70
-
-#define WHEEL_FRONT_LEFT_JOINT      "front_left_wheel_joint"
-#define WHEEL_FRONT_RIGHT_JOINT     "front_right_wheel_joint"
-#define WHEEL_REAR_LEFT_JOINT       "rear_left_wheel_joint"
-#define WHEEL_REAR_RIGHT_JOINT      "rear_right_wheel_joint"
-
-#define WHEEL_FRONT_RIGHT_ID          1
-#define WHEEL_FRONT_LEFT_ID           2
-#define WHEEL_REAR_RIGHT_ID           3
-#define WHEEL_REAR_LEFT_ID            4
-
-#define ACCEL_OFFSET_X              0.23
-#define ACCEL_OFFSET_Y              0.13
-#define ACCEL_OFFSET_Z              0.1
-
-#define BATT_MAX                   16.7
-#define BATT_MIN                   12.8
-#define BATT_CELLS                 4
-
-
-class Lizi_2 : public MobileRobot
-{
+class Lizi_2 : public MobileRobot {
 
 private:
 
-    enum UrfId
-    {
-        REAR = 10,
-        RIGHT = 11,
-        LEFT = 12
-    };
+    enum UrfId { REAR = 10, RIGHT = 11, LEFT = 12 };
+
+    static constexpr float BATT_MAX = 16.7;
+    static constexpr float BATT_MIN = 12.8;
+    static constexpr float BATT_CELLS = 4;
+    static constexpr uint16_t ENC_TICKS_PER_ROUND = 4480; //64 * 70
 
     int ric_servo_bias_ = 0;
     float control_loop_interval_ = 0;
 
     ros::NodeHandle *node_handle_;
-
     hardware_interface::VelocityJointInterface vel_joint_interface_;
-
     WheelsControl wheels_control_;
     VelocitiesLpf vels_lpf_;
-
-    wheel front_right_wheel_,
-            front_left_wheel_,
-            rear_right_wheel_,
-            rear_left_wheel_;
-
-    ros::Publisher urf_rear_pub_,
-            urf_right_pub_,
-            urf_left_pub_,
-            imu_pub_,
-            mag_pub_,
-            gps_pub_,
-            battery_pub_;
+    wheel front_right_wheel_;
+    wheel front_left_wheel_;
+    wheel rear_right_wheel_;
+    wheel rear_left_wheel_;
+    ros::Publisher urf_rear_pub_;
+    ros::Publisher urf_right_pub_;
+    ros::Publisher urf_left_pub_;
+    ros::Publisher imu_pub_;
+    ros::Publisher mag_pub_;
+    ros::Publisher gps_pub_;
+    ros::Publisher battery_pub_;
 
     ros::Time prev_lpf_time_;
 
@@ -132,6 +105,7 @@ public:
     void read(const ros::Time &time, const ros::Duration& duration) override {};
     void registerInterfaces() override;
     std::string getName() override { return "lizi_2"; };
+    static id_type hwId() { return 0x68560102; }
 };
 
 

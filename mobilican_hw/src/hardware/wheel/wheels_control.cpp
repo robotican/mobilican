@@ -36,20 +36,15 @@
 
 #include "mobilican_hw/hardware/wheel/wheels_control.h"
 
-void WheelsControl::init(ros::NodeHandle &nh, std::vector<wheel*> & wheels)
-{
+void WheelsControl::init(ros::NodeHandle &nh, std::vector<wheel*> & wheels) {
     wheels_ = wheels;
 
     // initiate pid controls with pid from param server
-    for(auto & wheel : wheels)
-    {
+    for(auto & wheel : wheels) {
         pids_.push_back(control_toolbox::Pid());
     }
-
-    for (int i=0; i < pids_.size(); i++)
-    {
-        if (!pids_[i].init(ros::NodeHandle(nh, wheels_[i]->joint_name), false))
-        {
+    for (int i=0; i < pids_.size(); i++) {
+        if (!pids_[i].init(ros::NodeHandle(nh, wheels_[i]->joint_name), false)) {
             ROS_ERROR("[lizi_hw/wheels_control]: pid params of %s is missing. "
                       "check config file. shutting down.", wheels_[i]->joint_name.c_str());
             ros::shutdown();
@@ -58,21 +53,16 @@ void WheelsControl::init(ros::NodeHandle &nh, std::vector<wheel*> & wheels)
         pids_[i].updateDynamicReconfig( pids_[i].getGains());
         pids_[i].reset();
     }
-
     start_time_ = ros::Time::now();
-
     pid_data_pub_ = nh.advertise<mobilican_msgs::WheelsPID>("wheels_pid", 10);
 }
 
 // dt duration is since pid controller start time
-void WheelsControl::update(const ros::Duration& dt)
-{
+void WheelsControl::update(const ros::Duration& dt) {
     mobilican_msgs::WheelsPID pid_msg;
-
     bool trigger_protection = false;
 
-    for (int i=0; i < pids_.size(); i++)
-    {
+    for (int i=0; i < pids_.size(); i++) {
         double command = wheels_[i]->command_velocity;
         double velocity = wheels_[i]->velocity;
         double error = command - velocity;
@@ -104,10 +94,9 @@ void WheelsControl::update(const ros::Duration& dt)
         pid_msg.pids.push_back(pid_data);
     }
 
-    if (!trigger_protection)
+    if (!trigger_protection) {
         protect.start_time = ros::Time::now();
-    else
-    {
+    } else {
         if ( (ros::Time::now() - protect.start_time) >
              ros::Duration(protect.time_thresh))
         {
@@ -115,7 +104,6 @@ void WheelsControl::update(const ros::Duration& dt)
                 throw std::runtime_error("motor protection signal");
         }
     }
-
     pid_data_pub_.publish(pid_msg);
 }
 
@@ -123,10 +111,12 @@ void WheelsControl::enableOVProtection(float time_thresh,
                                        float error_thresh,
                                        int output_thresh)
 {
-    if (error_thresh < 0 || error_thresh > 1)
+    if (error_thresh < 0 || error_thresh > 1) {
         throw std::invalid_argument("error_thresh param must be between 0 and 1");
-    if (output_thresh < 0 || output_thresh > 500)
+    }
+    if (output_thresh < 0 || output_thresh > 500) {
         throw std::invalid_argument("output_thresh param must be between 0 and 500");
+    }
     protect.enable = true;
     protect.time_thresh = time_thresh;
     protect.error_thresh = error_thresh;

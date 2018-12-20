@@ -42,18 +42,16 @@
 #include "mobilican_hw/robots_impl/komodo_2.h"
 
 
-namespace RobotsFactory
-{
+namespace RobotsFactory {
+
     static MobileRobot* build(ros::NodeHandle &nh,
-                                   uint16_t hardware_id,
-                                    RicClient ric_client)
+                                   id_type hardware_id,
+                                   RicClient ric_client)
     {
-        switch (hardware_id)
-        {
-            case (LIZI_2_HW_ID):
-                return new Lizi_2(nh, ric_client);
-            case (KOMODO_2_HW_ID):
-                return new Komodo_2(nh, ric_client);
+        if (hardware_id == Lizi_2::hwId()) {
+            return new Lizi_2(nh, ric_client);
+        } else if (hardware_id == Komodo_2::hwId()) {
+            return new Komodo_2(nh, ric_client);
         }
         return nullptr;
     }

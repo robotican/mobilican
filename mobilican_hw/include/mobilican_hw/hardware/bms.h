@@ -45,8 +45,7 @@
 
 #define BATT_PUB_INTERVAL 2 //secs
 
-class Bms
-{
+class Bms {
 
 private:
 
