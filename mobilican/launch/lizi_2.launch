@@ -28,12 +28,12 @@
     <arg name="robot_localization" default="false"/>
         
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
-
+<!-- 
     <group if="$(arg diagnos)">
         <include file="$(find mobilican_hw)/launch/diagnostics.launch" />
             <arg name="analyzers_path" value="$(find mobilican_hw)/config/lizi_2/analyzers.yaml"/>
         </include>
-    </group>
+    </group> -->
     
     <group if="$(arg amcl)">
         <include file="$(find mobilican_control)/lizi_2/launch/lizi_controllers.launch" >
