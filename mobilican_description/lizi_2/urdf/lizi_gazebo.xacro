@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lizi" description="Lizi robot">
     
-    <xacro:include filename="$(find lizi_description)/urdf/lizi.xacro" />
+    <xacro:include filename="$(find mobilican_description)/lizi_2/urdf/lizi.xacro" />
     <xacro:include filename="$(find mobilican_macros)/macros/depth_cam.xacro" />
     <xacro:include filename="$(find mobilican_macros)/macros/cam.xacro" />
     <xacro:include filename="$(find mobilican_macros)/macros/urf.xacro" />

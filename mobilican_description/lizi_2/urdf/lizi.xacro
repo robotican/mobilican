@@ -28,7 +28,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/base.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/base.STL" />
       </geometry>
       <material
         name="">
@@ -42,7 +42,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/base.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/base.STL" />
       </geometry>
     </collision>
   </link>
@@ -83,7 +83,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/lidar.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/lidar.STL" />
       </geometry>
       <material
         name="">
@@ -97,7 +97,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/lidar.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/lidar.STL" />
       </geometry>
     </collision>
   </link>
@@ -136,7 +136,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/depth_cam.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/depth_cam.STL" />
       </geometry>
       <material
         name="">
@@ -150,7 +150,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/depth_cam.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/depth_cam.STL" />
       </geometry>
     </collision>
   </link>
@@ -234,7 +234,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/wheel.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/wheel.STL" />
       </geometry>
       <material
         name="">
@@ -286,7 +286,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/wheel.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/wheel.STL" />
       </geometry>
       <material
         name="">
@@ -338,7 +338,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/wheel.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/wheel.STL" />
       </geometry>
       <material
         name="">
@@ -390,7 +390,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://lizi_description/meshes/wheel.STL" />
+          filename="package://mobilican_description/lizi_2/meshes/wheel.STL" />
       </geometry>
       <material
         name="">
