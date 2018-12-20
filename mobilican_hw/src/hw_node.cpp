@@ -58,8 +58,7 @@ int main(int argc, char **argv) {
     if (!ric_client.isConnected()) {
         Utils::terminateNode("Didn't get any signal from ricboard. "
                              "Make sure ric_interface_node is running");
-    }
-    else {
+    } else {
         hw_id = ric_client.getHardwareId();
         firm_ver = ric_client.getFirmwareVersion();
         ROS_INFO_STREAM("detected hardware id: " << hw_id);
