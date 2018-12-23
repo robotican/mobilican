@@ -1,5 +1,6 @@
-# ROS Packages For RoboTiCan's Mobile Robots
-These are packages for using Robotican's mobile robots
+<p>
+  <img src="/mobilican/docs/mobilican.png" width="700">
+</p>
 
 ## Supported 
 1. Lizi 2 - Hardware ID: 1750466818
