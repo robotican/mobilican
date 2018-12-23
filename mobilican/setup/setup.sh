@@ -104,37 +104,37 @@ update_progress() {
     tar -xvzf V"$RIC_INTERFACE_ROS_V".tar.gz
     rm V"$RIC_INTERFACE_ROS_V".tar.gz
 
-    update_progress 50 "Installing 3rd party packages: mobilican_macros"
+    update_progress 54 "Installing 3rd party packages: mobilican_macros"
     MOBILICAN_MACROS_V="1.0.0"
     wget https://github.com/robotican/mobilican_macros/archive/V"$MOBILICAN_MACROS_V".tar.gz
     tar -xvzf V"$MOBILICAN_MACROS_V".tar.gz
     rm V"$MOBILICAN_MACROS_V".tar.gz
 
-    update_progress 50 "Installing 3rd party packages: lpf_ros"
+    update_progress 59 "Installing 3rd party packages: lpf_ros"
     LPF_ROS_V="1.0.1"
     wget https://github.com/elhayra/lpf_ros/archive/V"$LPF_ROS_V".tar.gz
     tar -xvzf V"$LPF_ROS_V".tar.gz
     rm V"$LPF_ROS_V".tar.gz
 
-    update_progress 50 "Installing 3rd party packages: espeak_ros"
+    update_progress 63 "Installing 3rd party packages: espeak_ros"
     ESPEAK_ROS_V="1.0.2"
     wget https://github.com/robotican/espeak_ros/archive/V"$ESPEAK_ROS_V".tar.gz
     tar -xvzf V"$ESPEAK_ROS_V".tar.gz
     rm V"$ESPEAK_ROS_V".tar.gz
 
-    update_progress 50 "Installing 3rd party packages: mobilican_rules"
+    update_progress 67 "Installing 3rd party packages: mobilican_rules"
     MOBILICAN_RULES_V="1.0.1"
     wget https://github.com/robotican/mobilican_rules/archive/V"$MOBILICAN_RULES_V".tar.gz
     tar -xvzf V"$MOBILICAN_RULES_V".tar.gz
     rm V"$MOBILICAN_RULES_V".tar.gz
 
     #install ric_interface deb
-    update_progress 50 "Installing 3rd party packages: ric_interface"
+    update_progress 71 "Installing 3rd party packages: ric_interface"
     cd $CATKIN_WS_SRC/ric_interface_ros-$RIC_INTERFACE_ROS_V/ric_interface_deb/
     sudo -S <<< $psw dpkg -i ric-interface.deb
 
     # realsense depth camera 
-    update_progress 50 "Installing 3rd party packages: realsense"
+    update_progress 73 "Installing 3rd party packages: realsense"
     cd $CATKIN_WS_SRC/
     wget https://github.com/intel-ros/realsense/archive/2.0.3.tar.gz
     tar -xvzf 2.0.3.tar.gz
@@ -147,23 +147,22 @@ update_progress() {
     mkdir build && cd build               
     cmake ../  
     sudo -S <<< $psw make uninstall && make clean && make -j8 && sudo make install
-    
-    update_progress 50 "Installing 3rd party packages... Done."
+    update_progress 82 "Installing 3rd party packages... Done."
     sleep 0.5
 
     # installing usb rules
-    update_progress 25 "Installing USB rules..."
+    update_progress 82 "Installing USB rules..."
     sudo -S <<< $psw apt -y install setserial #for setting port latency
     sudo -S <<< $psw cp $CATKIN_WS_SRC/mobilican_rules-$MOBILICAN_RULES_V/rules/* /etc/udev/rules.d
     ssudo -S <<< $psw udevadm control --reload-rules && udevadm trigger
-    update_progress 50 "Installing USB rules... Done."
+    update_progress 88 "Installing USB rules... Done."
     sleep 0.5
     
     # compiling everything
-    update_progress 25 "Compiling..."
+    update_progress 88 "Compiling..."
     cd $CATKIN_WS_SRC/..
     catkin build -DCMAKE_BUILD_TYPE="Release"
-    update_progress 50 "Compiling... Done."
+    update_progress 100 "Compiling... Done."
     sleep 0.5
 
     # finished message
