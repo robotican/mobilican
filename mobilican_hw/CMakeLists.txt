@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
         lpf_ros
         bms_interface
         roboteq_control
+        dxl_interface
         mobilican_msgs
         )
 
@@ -32,6 +33,7 @@ catkin_package(
                 lpf_ros
                 bms_interface
                 roboteq_control
+                dxl_interface
                 mobilican_msgs
         #  DEPENDS system_lib
 )
@@ -60,7 +62,11 @@ add_executable(${PROJECT_NAME}_node
         src/hardware/bms.cpp
         src/robots_impl/lizi_2.cpp
         src/robots_impl/komodo_2.cpp
+        src/robots_impl/armadillo_1.cpp
+        src/robots_impl/robot_group_a.cpp
         src/hardware/roboteq_client.cpp
+        src/hardware/dxl_motors_builder.cpp
+        src/hardware/effort_pos_control.cpp
 
         )
 

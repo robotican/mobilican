@@ -33,67 +33,47 @@
 
 /* Author: Elhay Rauper*/
 
+#ifndef MOBILICAN_HW_ARMADILLO_1_H
+#define MOBILICAN_HW_ARMADILLO_1_H
 
-#include "mobilican_hw/mobile_robot.h"
+#include "mobilican_hw/robots_impl/robot_group_a.h"
+#include <hardware_interface/joint_command_interface.h>
+#include <sensor_msgs/Range.h>
+#include <sensor_msgs/NavSatFix.h>
+#include <sensor_msgs/NavSatStatus.h>
+#include <sensor_msgs/Imu.h>
+#include <sensor_msgs/MagneticField.h>
+#include "mobilican_hw/hardware/bms.h"
+#include "mobilican_hw/hardware/roboteq_client.h"
+#include "mobilican_hw/hardware/dynamixel/dxl_motors_builder.h"
 
-MobileRobot::MobileRobot(ros::NodeHandle & nh, RicClient & ric_client)
-{
-    nh_ = &nh;
+class Armadillo_1 : public MobileRobot {
 
-    ric_client_ = &ric_client;
-    ric_client_->subscribe(this);
+private:
 
-    ric_servo_pub_ = nh.advertise<ric_interface_ros::Servo>("ric/servo/cmd", 10);
-    espeak_pub_ = nh.advertise<std_msgs::String>("/espeak_node/speak_line", 10);
-    diagnos_pub_ = nh.advertise<diagnostic_msgs::DiagnosticArray>("/diagnostics", 10);
+    hardware_interface::PositionJointInterface position_interface_;
+    hardware_interface::PosVelJointInterface posvel_interface_;
+    hardware_interface::VelocityJointInterface velocity_interface_;
+    hardware_interface::EffortJointInterface effort_interface_;
 
-    if (ric_client_->isHwTestOk())
-        ROS_INFO("hardware test ok");
-    else
-    {
-        speak("hardware test failed");
-        ROS_ERROR("hardware test failed. don't operate robot. "
-                  "check diagnostics, and contact Robotican's support");
-    }
-}
+    RoboteqClient roboteq_;
+    Bms bms_;
+    DxlMotorsBuilder dxl_motors_;
 
-void MobileRobot::onKeepAliveTimeout()
-{
-    ric_client_->terminateRic();
-    speak("Rikboard disconnected, shutting down");
-    Utils::terminateNode("Ricboard disconnected, shutting down");
-}
+    std::vector<roboteq::Motor*> * motors_ = nullptr;
+    std::vector<std::string> wheels_;
 
-void MobileRobot::speak(const char *msg) const
-{
-    std_msgs::String str_msg;
-    str_msg.data = msg;
-    espeak_pub_.publish(str_msg);
-}
+public:
 
-void MobileRobot::sendDiagnosticsMsg(const diagnostic_msgs::DiagnosticStatus &status) const
-{
-    diagnostic_msgs::DiagnosticArray diag_msg;
-    diag_msg.header.frame_id="base_link";
-    diag_msg.header.stamp=ros::Time::now();
+    Armadillo_1(ros::NodeHandle & nh, RicClient & ric_client);
 
-    diag_msg.status.push_back(status);
+    void write(const ros::Time &time, const ros::Duration& duration) override;
+    void read(const ros::Time &time, const ros::Duration& duration) override;
+    void registerInterfaces() override;
+    std::string getName() override { return "armadillo_1"; };
+    static id_type hwId() { return 0x68560301; }
 
-    diagnos_pub_.publish(diag_msg);
-}
+};
 
-void MobileRobot::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr &msg) {
-    switch(msg->sevirity)
-    {
-        case ric_interface_ros::Logger::INFO:
-            ROS_INFO("ricboard says: %s", msg->message.c_str());
-            break;
-        case ric_interface_ros::Logger::WARN:
-            ROS_WARN("ricboard says: %s", msg->message.c_str());
-            break;
-        case ric_interface_ros::Logger::CRITICAL:
-            ROS_ERROR("ricboard says: %s", msg->message.c_str());
-            break;
-    }
-}
 
+#endif //MOBILICAN_HW_ARMADILLO_1_H

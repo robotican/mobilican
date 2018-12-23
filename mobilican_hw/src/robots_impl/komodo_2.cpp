@@ -44,20 +44,13 @@
 Komodo_2::Komodo_2(ros::NodeHandle & nh, RicClient & ric_client) :
                         MobileRobot(nh, ric_client) , roboteq_(nh), bms_(nh)
 {
-    urf_rear_pub_ = nh.advertise<sensor_msgs::Range>("urf/rear", 10);
-    urf_right_pub_ = nh.advertise<sensor_msgs::Range>("urf/right", 10);
-    urf_left_pub_ = nh.advertise<sensor_msgs::Range>("urf/left", 10);
-    imu_pub_ = nh.advertise<sensor_msgs::Imu>("imu/data", 10);
-    mag_pub_ = nh.advertise<sensor_msgs::MagneticField>("imu/magnetic", 10);
-    gps_pub_ = nh.advertise<sensor_msgs::NavSatFix>("gps", 10);
-
     bms_.connect("/dev/mobilican/BMS");
 
     // try connect to roboteq, and send real wheels to it
-    std::vector<std::string> real_wheels(2);
-    real_wheels.emplace_back("right_rear_wheel_joint");
-    real_wheels.emplace_back("left_rear_wheel_joint");
-    roboteq_.connect("/dev/mobilican/ROBOTEQ", 115200, real_wheels);
+    real_wheels_.reserve(2);
+    real_wheels_[0] = "right_rear_wheel_joint";
+    real_wheels_[1] = "left_rear_wheel_joint";
+    roboteq_.connect("/dev/mobilican/ROBOTEQ", 115200, real_wheels_);
     roboteq_.getMotors(motors_);
 
     virtual_wheels_[0].joint_name = "right_front_wheel_joint";
@@ -90,172 +83,18 @@ void Komodo_2::registerInterfaces()
     registerInterface(&vel_joint_interface_);
 }
 
-void Komodo_2::write(const ros::Time &time, const ros::Duration &duration)
-{
+void Komodo_2::write(const ros::Time &time, const ros::Duration &duration) {
     roboteq_.write(time, duration);
 }
 
-void Komodo_2::read(const ros::Time &time, const ros::Duration &duration)
-{
+void Komodo_2::read(const ros::Time &time, const ros::Duration &duration) {
     roboteq_.read(time, duration);
 
     // simulate front virtual wheels be matching
     // their values to real rear wheels values
-    for (int i=0; i<2; i++)
-    {
+    for (int i=0; i<2; i++) {
         virtual_wheels_[i].position = (*motors_)[i]->position;
         virtual_wheels_[i].velocity = (*motors_)[i]->velocity;
         virtual_wheels_[i].effort = (*motors_)[i]->effort;
-    }
-}
-
-void Komodo_2::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg)
-{
-    diagnostic_msgs::DiagnosticStatus diag_stat;
-    diag_stat.name = "gps";
-    diag_stat.hardware_id = std::to_string(msg->id);
-
-    sensor_msgs::NavSatFix gps_msg;
-    gps_msg.header.frame_id = "base_link";
-    gps_msg.latitude = msg->lat;
-    gps_msg.longitude = msg->lon;
-    gps_msg.altitude = msg->alt;
-    gps_msg.status.service = sensor_msgs::NavSatStatus::SERVICE_GPS;
-
-    if (msg->status == ric::protocol::package::Status::CRITICAL)
-    {
-        diag_stat.level = diagnostic_msgs::DiagnosticStatus::ERROR;
-        diag_stat.message = "failed to read GPS";
-    }
-    else if (msg->status == ric::protocol::package::Status::WARN)
-    {
-        gps_msg.status.status = sensor_msgs::NavSatStatus::STATUS_NO_FIX;
-        gps_pub_.publish(gps_msg);
-
-        diag_stat.level = diagnostic_msgs::DiagnosticStatus::WARN;
-        diag_stat.message = "no fix";
-    }
-    else if (msg->status == ric::protocol::package::Status::OK)
-    {
-        sensor_msgs::NavSatFix gps_msg;
-        gps_msg.header.frame_id = "base_link";
-        gps_msg.latitude = msg->lat;
-        gps_msg.longitude = msg->lon;
-        gps_msg.altitude = msg->alt;
-        gps_msg.status.service = sensor_msgs::NavSatStatus::SERVICE_GPS;
-        // if valid(OK) message arrived from ric, it must have valid fix
-        gps_msg.status.status = sensor_msgs::NavSatStatus::STATUS_FIX;
-
-        gps_pub_.publish(gps_msg);
-
-        diag_stat.level = diagnostic_msgs::DiagnosticStatus::OK;
-    }
-
-    sendDiagnosticsMsg(diag_stat);
-}
-
-void Komodo_2::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr &msg)
-{
-    switch(msg->sevirity)
-    {
-        case ric_interface_ros::Logger::INFO:
-            ROS_INFO("ricboard says: %s", msg->message.c_str());
-            break;
-        case ric_interface_ros::Logger::WARN:
-            ROS_WARN("ricboard says: %s", msg->message.c_str());
-            break;
-        case ric_interface_ros::Logger::CRITICAL:
-            ROS_ERROR("ricboard says: %s", msg->message.c_str());
-            break;
-    }
-}
-
-void Komodo_2::onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr &msg)
-{
-    diagnostic_msgs::DiagnosticStatus diag_stat;
-    diag_stat.name = "imu";
-    diag_stat.hardware_id = std::to_string(msg->id);
-
-    if (msg->status == ric::protocol::package::Status::WARN)
-    {
-        diag_stat.level = diagnostic_msgs::DiagnosticStatus::ERROR;
-        diag_stat.message = "failed to initialize and read from IMU";
-    }
-    else if (msg->status == ric::protocol::package::Status::OK)
-    {
-        /* publish imu */
-        sensor_msgs::Imu imu_msg;
-        imu_msg.header.stamp = ros::Time::now();
-        imu_msg.header.frame_id = "base_footprint";
-
-        double roll, pitch, yaw;
-        pitch = -msg->roll;
-        roll = -msg->pitch;
-        yaw = msg->yaw - M_PI / 2;
-
-        //wrap to PI
-        if (yaw > M_PI )
-            yaw -= 2 * M_PI;
-        else if (yaw < -M_PI)
-            yaw += 2 * M_PI;
-
-        tf::Quaternion orientation_q =
-                tf::createQuaternionFromRPY(roll, pitch, yaw);
-
-        imu_msg.orientation.x = orientation_q.x();
-        imu_msg.orientation.y = orientation_q.y();
-        imu_msg.orientation.z = orientation_q.z();
-        imu_msg.orientation.w = orientation_q.w();
-        imu_msg.angular_velocity.x = -1 * msg->gyro_y;
-        imu_msg.angular_velocity.y = -1 * msg->gyro_x;
-        imu_msg.angular_velocity.z = -1 * msg->gyro_z;
-        imu_msg.linear_acceleration.x = msg->accl_x * Utils::G_FORCE + 0.23;
-        imu_msg.linear_acceleration.y = msg->accl_y * Utils::G_FORCE - 0.13;
-        imu_msg.linear_acceleration.z = msg->accl_z * Utils::G_FORCE - 0.1;
-        imu_pub_.publish(imu_msg);
-
-        sensor_msgs::MagneticField mag_msg;
-        mag_msg.header.stamp = ros::Time::now();
-        mag_msg.header.frame_id = "base_link";
-        mag_msg.magnetic_field.x = msg->mag_x;
-        mag_msg.magnetic_field.y = msg->mag_y;
-        mag_msg.magnetic_field.z = msg->mag_z;
-        mag_pub_.publish(mag_msg);
-
-        diag_stat.level = diagnostic_msgs::DiagnosticStatus::OK;
-    }
-
-    sendDiagnosticsMsg(diag_stat);
-}
-
-void Komodo_2::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr &msg)
-{
-    sensor_msgs::Range range_msg;
-    range_msg.header.stamp = ros::Time::now();
-    range_msg.header.stamp = ros::Time::now();
-    range_msg.min_range = 0.3;
-    range_msg.max_range = 3.0;
-    range_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
-    range_msg.range = msg->distance / 1000.0;
-    range_msg.field_of_view = 0.7f;
-
-    int urf_id = msg->id;
-
-    switch (urf_id)
-    {
-        case UrfId::REAR:
-            range_msg.header.frame_id = "rear_urf_link";
-            urf_rear_pub_.publish(range_msg);
-            break;
-
-        case UrfId::RIGHT:
-            range_msg.header.frame_id = "right_urf_link";
-            urf_right_pub_.publish(range_msg);
-            break;
-
-        case UrfId::LEFT:
-            range_msg.header.frame_id = "left_urf_link";
-            urf_left_pub_.publish(range_msg);
-            break;
     }
 }

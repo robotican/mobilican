@@ -38,23 +38,16 @@
 #define LIZI_2_HW_H
 
 #include <hardware_interface/joint_command_interface.h>
-#include <sensor_msgs/Range.h>
-#include <sensor_msgs/Imu.h>
-#include <sensor_msgs/MagneticField.h>
-#include <sensor_msgs/NavSatFix.h>
-#include <sensor_msgs/NavSatStatus.h>
 #include <sensor_msgs/BatteryState.h>
 #include <boost/algorithm/clamp.hpp>
-#include "mobilican_hw/mobile_robot.h"
+#include "mobilican_hw/robots_impl/robot_group_a.h"
 #include "mobilican_hw/hardware/wheel/wheel.h"
 #include "mobilican_hw/hardware/wheel/wheels_control.h"
 #include "mobilican_hw/hardware/wheel/velocities_lpf.h"
 
-class Lizi_2 : public MobileRobot {
+class Lizi_2 : public RobotGroupA {
 
 private:
-
-    enum UrfId { REAR = 10, RIGHT = 11, LEFT = 12 };
 
     static constexpr float BATT_MAX = 16.7;
     static constexpr float BATT_MIN = 12.8;
@@ -72,12 +65,6 @@ private:
     wheel front_left_wheel_;
     wheel rear_right_wheel_;
     wheel rear_left_wheel_;
-    ros::Publisher urf_rear_pub_;
-    ros::Publisher urf_right_pub_;
-    ros::Publisher urf_left_pub_;
-    ros::Publisher imu_pub_;
-    ros::Publisher mag_pub_;
-    ros::Publisher gps_pub_;
     ros::Publisher battery_pub_;
 
     ros::Time prev_lpf_time_;
@@ -90,10 +77,6 @@ private:
 protected:
 
     void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) override;
-    void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) override;
-    void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) override;
-    void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override;
-    void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) override;
     void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) override;
 
 

@@ -36,7 +36,7 @@
 #ifndef MOBILICAN_HW_KOMODO_2_H
 #define MOBILICAN_HW_KOMODO_2_H
 
-#include "mobilican_hw/mobile_robot.h"
+#include "mobilican_hw/robots_impl/robot_group_a.h"
 #include <hardware_interface/joint_command_interface.h>
 #include <sensor_msgs/Range.h>
 #include <sensor_msgs/NavSatFix.h>
@@ -48,18 +48,9 @@
 #include "mobilican_hw/hardware/wheel/wheel.h"
 
 
-class Komodo_2 : public MobileRobot {
+class Komodo_2 : public RobotGroupA {
 
 private:
-
-    enum UrfId { REAR = 10, RIGHT = 11, LEFT = 12 };
-
-    ros::Publisher urf_rear_pub_,
-            urf_right_pub_,
-            urf_left_pub_,
-            imu_pub_,
-            mag_pub_,
-            gps_pub_;
 
     hardware_interface::VelocityJointInterface vel_joint_interface_;
 
@@ -68,13 +59,8 @@ private:
 
     wheel virtual_wheels_[2];
     std::vector<roboteq::Motor*> * motors_ = nullptr;
+    std::vector<std::string> real_wheels_;
 
-protected:
-
-    void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) override;
-    void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) override;
-    void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override;
-    void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) override;
 
 public:
 

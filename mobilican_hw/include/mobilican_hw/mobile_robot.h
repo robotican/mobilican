@@ -86,7 +86,7 @@ public:
     virtual void onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) override {};
     virtual void onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) override {};
     virtual void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) override {};
-    virtual void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override {};
+    virtual void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override;
     virtual void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) override {};
     virtual void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) override {};
     virtual void onKeepAliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg) override {};

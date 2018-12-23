@@ -38,6 +38,7 @@
 
 #include <lpf_ros/lpf_ros.h>
 #include "wheel.h"
+#include "mobilican_hw/utils.h"
 
 #define ZERO_THRESH 0.00001 //below this speed, round speed to 0
 

@@ -33,67 +33,41 @@
 
 /* Author: Elhay Rauper*/
 
+#ifndef MOBILICAN_HW_SERVO_LIFT_H
+#define MOBILICAN_HW_SERVO_LIFT_H
 
-#include "mobilican_hw/mobile_robot.h"
+#include <hardware_interface/joint_command_interface.h>
+#include <lpf_ros/lpf_ros.h>
+#include "mobilican_hw/utils.h"
 
-MobileRobot::MobileRobot(ros::NodeHandle & nh, RicClient & ric_client)
-{
-    nh_ = &nh;
+class EffortPositionControl {
 
-    ric_client_ = &ric_client;
-    ric_client_->subscribe(this);
+private:
+    std::string joint_name_;
+    double position_ = 0;
+    double prev_position_ = 0;
+    double velocity_ = 0;
+    double effort_ = 0;
+    double command_effort_ = 0;
+    float pos_filter_alpha_ = 0;
+    bool use_position_filter_ = false;
+    bool first_read_ = true;
 
-    ric_servo_pub_ = nh.advertise<ric_interface_ros::Servo>("ric/servo/cmd", 10);
-    espeak_pub_ = nh.advertise<std_msgs::String>("/espeak_node/speak_line", 10);
-    diagnos_pub_ = nh.advertise<diagnostic_msgs::DiagnosticArray>("/diagnostics", 10);
+    lpf::Lpf pos_filter_;
+    ros::NodeHandle * nh_ = nullptr;
+    std::vector<hardware_interface::JointStateHandle> joint_state_handles_;
+    std::vector<hardware_interface::JointHandle> pos_handles_;
 
-    if (ric_client_->isHwTestOk())
-        ROS_INFO("hardware test ok");
-    else
-    {
-        speak("hardware test failed");
-        ROS_ERROR("hardware test failed. don't operate robot. "
-                  "check diagnostics, and contact Robotican's support");
-    }
-}
+    void initPositionFilter(double init_position);
 
-void MobileRobot::onKeepAliveTimeout()
-{
-    ric_client_->terminateRic();
-    speak("Rikboard disconnected, shutting down");
-    Utils::terminateNode("Ricboard disconnected, shutting down");
-}
+public:
+    EffortPositionControl(ros::NodeHandle & nh, std::string joint_name);
+    void registerHandles(hardware_interface::JointStateInterface &joint_state_interface,
+                            hardware_interface::EffortJointInterface &effort_interface);
+    double write();
+    void read(double position, const ros::Duration elapsed);
+    void usePositionFilter(float alpha);
+};
 
-void MobileRobot::speak(const char *msg) const
-{
-    std_msgs::String str_msg;
-    str_msg.data = msg;
-    espeak_pub_.publish(str_msg);
-}
 
-void MobileRobot::sendDiagnosticsMsg(const diagnostic_msgs::DiagnosticStatus &status) const
-{
-    diagnostic_msgs::DiagnosticArray diag_msg;
-    diag_msg.header.frame_id="base_link";
-    diag_msg.header.stamp=ros::Time::now();
-
-    diag_msg.status.push_back(status);
-
-    diagnos_pub_.publish(diag_msg);
-}
-
-void MobileRobot::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr &msg) {
-    switch(msg->sevirity)
-    {
-        case ric_interface_ros::Logger::INFO:
-            ROS_INFO("ricboard says: %s", msg->message.c_str());
-            break;
-        case ric_interface_ros::Logger::WARN:
-            ROS_WARN("ricboard says: %s", msg->message.c_str());
-            break;
-        case ric_interface_ros::Logger::CRITICAL:
-            ROS_ERROR("ricboard says: %s", msg->message.c_str());
-            break;
-    }
-}
-
+#endif //MOBILICAN_HW_SERVO_LIFT_H

@@ -34,66 +34,48 @@
 /* Author: Elhay Rauper*/
 
 
-#include "mobilican_hw/mobile_robot.h"
+#include "mobilican_hw/robots_impl/armadillo_1.h"
 
-MobileRobot::MobileRobot(ros::NodeHandle & nh, RicClient & ric_client)
-{
-    nh_ = &nh;
+Armadillo_1::Armadillo_1(ros::NodeHandle &nh, RicClient &ric_client) :
+        MobileRobot(nh, ric_client) , roboteq_(nh), bms_(nh), dxl_motors_(nh) {
 
-    ric_client_ = &ric_client;
-    ric_client_->subscribe(this);
+    bms_.connect("/dev/mobilican/BMS");
+    wheels_.reserve(2);
+    wheels_[0] = "right_wheel_joint";
+    wheels_[1] = "left_wheel_joint";
+    roboteq_.connect("/dev/mobilican/ROBOTEQ", 115200, wheels_);
+    roboteq_.getMotors(motors_);
+}
 
-    ric_servo_pub_ = nh.advertise<ric_interface_ros::Servo>("ric/servo/cmd", 10);
-    espeak_pub_ = nh.advertise<std_msgs::String>("/espeak_node/speak_line", 10);
-    diagnos_pub_ = nh.advertise<diagnostic_msgs::DiagnosticArray>("/diagnostics", 10);
+void Armadillo_1::registerInterfaces() {
 
-    if (ric_client_->isHwTestOk())
-        ROS_INFO("hardware test ok");
-    else
-    {
-        speak("hardware test failed");
-        ROS_ERROR("hardware test failed. don't operate robot. "
-                  "check diagnostics, and contact Robotican's support");
+    // register arm motors
+    dxl_motors_.registerHandles(joint_state_interface_,
+                                position_interface_,
+                                posvel_interface_);
+
+    //TODO: build torso class that close loop and register joint_state_interface and effort_interface
+
+    // register wheels
+    for (roboteq::Motor * m : *motors_) {
+        joint_state_interface_.registerHandle(m->joint_state_handle);
+        velocity_interface_.registerHandle(m->joint_handle);
     }
+
+    registerInterface(&joint_state_interface_);
+    registerInterface(&velocity_interface_);
+    registerInterface(&posvel_interface_);
+    registerInterface(&position_interface_);
+    registerInterface(&velocity_interface_);
+    registerInterface(&effort_interface_);
 }
 
-void MobileRobot::onKeepAliveTimeout()
-{
-    ric_client_->terminateRic();
-    speak("Rikboard disconnected, shutting down");
-    Utils::terminateNode("Ricboard disconnected, shutting down");
+void Armadillo_1::write(const ros::Time &time, const ros::Duration &duration) {
+    roboteq_.write(time, duration);
+    dxl_motors_.write();
 }
 
-void MobileRobot::speak(const char *msg) const
-{
-    std_msgs::String str_msg;
-    str_msg.data = msg;
-    espeak_pub_.publish(str_msg);
+void Armadillo_1::read(const ros::Time &time, const ros::Duration &duration) {
+    roboteq_.read(time, duration);
+    dxl_motors_.read()
 }
-
-void MobileRobot::sendDiagnosticsMsg(const diagnostic_msgs::DiagnosticStatus &status) const
-{
-    diagnostic_msgs::DiagnosticArray diag_msg;
-    diag_msg.header.frame_id="base_link";
-    diag_msg.header.stamp=ros::Time::now();
-
-    diag_msg.status.push_back(status);
-
-    diagnos_pub_.publish(diag_msg);
-}
-
-void MobileRobot::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr &msg) {
-    switch(msg->sevirity)
-    {
-        case ric_interface_ros::Logger::INFO:
-            ROS_INFO("ricboard says: %s", msg->message.c_str());
-            break;
-        case ric_interface_ros::Logger::WARN:
-            ROS_WARN("ricboard says: %s", msg->message.c_str());
-            break;
-        case ric_interface_ros::Logger::CRITICAL:
-            ROS_ERROR("ricboard says: %s", msg->message.c_str());
-            break;
-    }
-}
-
