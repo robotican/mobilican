@@ -5,10 +5,9 @@
 #   ____ | \   |   |  |__|_  |   |   |    |  |     |___|  | \ | ____
 #    ___ |  \  |___|  |____| |___|   |    |  |___  |   |  |  \| ___
 
-GREEN_TXT='\e[0;32m'
-WHITE_TXT='\e[1;37m'
-RED_TXT='\e[31m'
-NO_COLOR='\033[0m'
+# from this point on, exit and notify immediately 
+# if a command exits with a non-zero status
+set -eb
 
 # welcome screen
 whiptail --textbox robotican.txt_img 20 75
@@ -49,26 +48,26 @@ update_progress() {
         exit 1
     fi
     sleep 0.5
-    update_progress 25 "Validating ROS version... Done."
+    update_progress 2 "Validating ROS version... Done."
     sleep 0.5
 
     #navigating to workspace
-    update_progress 25 "Navigating to workspace..."
+    update_progress 2 "Navigating to workspace..."
     CATKIN_WS_SRC=$( cd "$(dirname "$0")" && cd ../.. && pwd )
     cd $CATKIN_WS_SRC
-    update_progress 50 "Navigating to workspace... Done."
+    update_progress 3 "Navigating to workspace... Done."
     sleep 0.5
 
     # update packages
-    update_progress 25 "Updating packages..."
+    update_progress 3 "Updating packages..."
     sudo -S <<< $psw apt-get -y update /
             dist-upgrade /
             upgrade
-    update_progress 50 "Updating packages... Done."
+    update_progress 19 "Updating packages... Done."
     sleep 0.5
 
-    #installing ros packages
-    update_progress 25 "Installing ROS packages..."
+    # installing ros packages
+    update_progress 19 "Installing ROS packages..."
     sudo -S <<< $psw apt-get -y install ros-kinetic-controller-manager \
             ros-kinetic-control-toolbox \
             ros-kinetic-transmission-interface \
@@ -89,46 +88,53 @@ update_progress() {
             ros-kinetic-rqt-robot-monitor \
             ros-kinetic-hector-gazebo-plugins \
             espeak espeak-data libespeak-dev
-    update_progress 50 "Installing ROS packages... Done."
+    update_progress 47 "Installing ROS packages... Done."
     sleep 0.5
 
     #installing 3rd party packages
-    update_progress 25 "Installing 3rd party packages..."
+    update_progress 47 "Installing 3rd party packages: diff_slip_controller"
     DIFF_SLIP_CONTROLLER_V="1.0.0"
     wget https://github.com/robotican/diff_drive_slip_controller/archive/V"$DIFF_SLIP_CONTROLLER_V".tar.gz
     tar -xvzf V"$DIFF_SLIP_CONTROLLER_V".tar.gz
     rm V"$DIFF_SLIP_CONTROLLER_V".tar.gz
 
+    update_progress 50 "Installing 3rd party packages: ric_interface_ros"
     RIC_INTERFACE_ROS_V="1.0.6"
     wget https://github.com/robotican/ric_interface_ros/archive/V"$RIC_INTERFACE_ROS_V".tar.gz
     tar -xvzf V"$RIC_INTERFACE_ROS_V".tar.gz
     rm V"$RIC_INTERFACE_ROS_V".tar.gz
 
+    update_progress 50 "Installing 3rd party packages: mobilican_macros"
     MOBILICAN_MACROS_V="1.0.0"
     wget https://github.com/robotican/mobilican_macros/archive/V"$MOBILICAN_MACROS_V".tar.gz
     tar -xvzf V"$MOBILICAN_MACROS_V".tar.gz
     rm V"$MOBILICAN_MACROS_V".tar.gz
 
+    update_progress 50 "Installing 3rd party packages: lpf_ros"
     LPF_ROS_V="1.0.1"
     wget https://github.com/elhayra/lpf_ros/archive/V"$LPF_ROS_V".tar.gz
     tar -xvzf V"$LPF_ROS_V".tar.gz
     rm V"$LPF_ROS_V".tar.gz
 
+    update_progress 50 "Installing 3rd party packages: espeak_ros"
     ESPEAK_ROS_V="1.0.2"
     wget https://github.com/robotican/espeak_ros/archive/V"$ESPEAK_ROS_V".tar.gz
     tar -xvzf V"$ESPEAK_ROS_V".tar.gz
     rm V"$ESPEAK_ROS_V".tar.gz
 
+    update_progress 50 "Installing 3rd party packages: mobilican_rules"
     MOBILICAN_RULES_V="1.0.1"
     wget https://github.com/robotican/mobilican_rules/archive/V"$MOBILICAN_RULES_V".tar.gz
     tar -xvzf V"$MOBILICAN_RULES_V".tar.gz
     rm V"$MOBILICAN_RULES_V".tar.gz
 
     #install ric_interface deb
+    update_progress 50 "Installing 3rd party packages: ric_interface"
     cd $CATKIN_WS_SRC/ric_interface_ros-$RIC_INTERFACE_ROS_V/ric_interface_deb/
     sudo -S <<< $psw dpkg -i ric-interface.deb
 
     # realsense depth camera 
+    update_progress 50 "Installing 3rd party packages: realsense"
     cd $CATKIN_WS_SRC/
     wget https://github.com/intel-ros/realsense/archive/2.0.3.tar.gz
     tar -xvzf 2.0.3.tar.gz
@@ -141,7 +147,7 @@ update_progress() {
     mkdir build && cd build               
     cmake ../  
     sudo -S <<< $psw make uninstall && make clean && make -j8 && sudo make install
-
+    
     update_progress 50 "Installing 3rd party packages... Done."
     sleep 0.5
 
