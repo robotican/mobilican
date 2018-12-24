@@ -97,6 +97,7 @@ private:
     void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg);
     void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg);
     void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg);
+    void onServoMsg(const ric_interface_ros::Servo::ConstPtr& msg);
 
 
 public:

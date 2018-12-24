@@ -43,13 +43,21 @@
 #include <sensor_msgs/NavSatStatus.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/MagneticField.h>
+#include <algorithm>
 #include "mobilican_hw/hardware/bms.h"
 #include "mobilican_hw/hardware/roboteq_client.h"
 #include "mobilican_hw/hardware/dynamixel/dxl_motors_builder.h"
+#include "mobilican_hw/hardware/effort_pos_control.h"
 
-class Armadillo_1 : public MobileRobot {
+
+class Armadillo_1 : public RobotGroupA {
 
 private:
+
+    static const uint8_t TORSO_ID = 20;
+
+    double current_torso_pos_ = 0;
+    bool got_torso_pos_ = false;
 
     hardware_interface::PositionJointInterface position_interface_;
     hardware_interface::PosVelJointInterface posvel_interface_;
@@ -59,9 +67,15 @@ private:
     RoboteqClient roboteq_;
     Bms bms_;
     DxlMotorsBuilder dxl_motors_;
+    EffortPositionControl torso_control_;
+
 
     std::vector<roboteq::Motor*> * motors_ = nullptr;
     std::vector<std::string> wheels_;
+
+    void onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) override;
+    void torsoRead(const ros::Duration &duration);
+    void torsoWrite();
 
 public:
 

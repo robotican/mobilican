@@ -36,8 +36,7 @@
 
 #include "mobilican_hw/hardware/ricboard/ric_client.h"
 
-RicClient::RicClient(ros::NodeHandle &nh)
-{
+RicClient::RicClient(ros::NodeHandle &nh) {
     nh_ = &nh;
 
     /* ric_interface_ros subscribers */
@@ -55,11 +54,10 @@ RicClient::RicClient(ros::NodeHandle &nh)
     keepalive_timer_ = nh.createTimer(ros::Duration(RIC_DEAD_TIMEOUT), &RicClient::onKeepAliveTimeout, this);
 }
 
-void RicClient::writeServoCommand(uint16_t command, uint8_t id) const
-{
-    if (command < 1000 || command > 2000)
+void RicClient::writeServoCommand(uint16_t command, uint8_t id) const {
+    if (command < 1000 || command > 2000) {
         throw std::invalid_argument("command must be between 1000 and 2000");
-
+    }
     // send servo commands to ricboard
     ric_interface_ros::Servo servo_msg;
 
@@ -68,12 +66,10 @@ void RicClient::writeServoCommand(uint16_t command, uint8_t id) const
     ric_servo_pub_.publish(servo_msg);
 }
 
-void RicClient::onKeepAliveTimeout(const ros::TimerEvent &event)
-{
+void RicClient::onKeepAliveTimeout(const ros::TimerEvent &event) {
     if (got_keepalive_)
         got_keepalive_ = false;
-    else
-    {
+    else {
         is_connected_ = false;
         if (observer_ != nullptr)
             observer_->onKeepAliveTimeout();
@@ -81,11 +77,9 @@ void RicClient::onKeepAliveTimeout(const ros::TimerEvent &event)
 }
 
 
-void RicClient::onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg)
-{
+void RicClient::onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg) {
     // first keepalive indicate if hardware test failed
-    if (first_keepalive_)
-    {
+    if (first_keepalive_) {
         hardware_id_ = msg->hw_id;
         firm_ver_.major = msg->soft_major;
         firm_ver_.minor = msg->soft_minor;
@@ -99,49 +93,41 @@ void RicClient::onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg
         observer_->onKeepAliveMsg(msg);
 }
 
-void RicClient::waitForConnection(ros::Duration timeout)
-{
+void RicClient::waitForConnection(ros::Duration timeout) {
     ros::Time first_time = ros::Time::now();
-    while (!isConnected() && (ros::Time::now() - first_time < timeout))
-    {
+    while (!isConnected() && (ros::Time::now() - first_time < timeout)) {
         ros::Duration(1).sleep();
     }
 }
 
-void RicClient::terminateRic()
-{
+void RicClient::terminateRic() {
     std_srvs::Trigger kill_ric_srv;
     if (!terminate_ric_client_.call(kill_ric_srv))
         ROS_ERROR("calling ric_terminate service failed");
 }
 
-void RicClient::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg)
-{
+void RicClient::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg) {
     if (observer_ != nullptr)
         observer_->onLocationMsg(msg);
 }
 
-void RicClient::onBatteryMsg(const ric_interface_ros::Battery::ConstPtr &msg)
-{
+void RicClient::onBatteryMsg(const ric_interface_ros::Battery::ConstPtr &msg) {
     if (observer_ != nullptr)
         observer_->onBatteryMsg(msg);
 }
 
-void RicClient::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg)
-{
+void RicClient::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) {
     if (observer_ != nullptr)
         observer_->onLoggerMsg(msg);
 }
 
 
-void RicClient::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)
-{
+void RicClient::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) {
     if (observer_ != nullptr)
         observer_->onEncoderMsg(msg);
 }
 
-void RicClient::onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg)
-{
+void RicClient::onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) {
     if (observer_ != nullptr)
         observer_->onOrientationMsg(msg);
 }
@@ -150,4 +136,9 @@ void RicClient::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg
 {
     if (observer_ != nullptr)
         observer_->onProximityMsg(msg);
+}
+
+void RicClient::onServoMsg(const ric_interface_ros::Servo::ConstPtr &msg) {
+    if (observer_ != nullptr)
+        observer_->onServoMsg(msg);
 }

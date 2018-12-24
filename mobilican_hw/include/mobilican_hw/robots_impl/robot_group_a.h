@@ -47,7 +47,7 @@
 
 class RobotGroupA : public MobileRobot {
 
-private:
+protected:
 
     enum UrfId { REAR = 10, RIGHT = 11, LEFT = 12 };
 

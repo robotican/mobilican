@@ -37,14 +37,16 @@
 #include "mobilican_hw/robots_impl/armadillo_1.h"
 
 Armadillo_1::Armadillo_1(ros::NodeHandle &nh, RicClient &ric_client) :
-        MobileRobot(nh, ric_client) , roboteq_(nh), bms_(nh), dxl_motors_(nh) {
-
+        RobotGroupA(nh, ric_client) , roboteq_(nh), bms_(nh), dxl_motors_(nh),
+        torso_control_(nh, "torso_joint")
+{
     bms_.connect("/dev/mobilican/BMS");
     wheels_.reserve(2);
     wheels_[0] = "right_wheel_joint";
     wheels_[1] = "left_wheel_joint";
     roboteq_.connect("/dev/mobilican/ROBOTEQ", 115200, wheels_);
     roboteq_.getMotors(motors_);
+    torso_control_.usePositionFilter(0.01);
 }
 
 void Armadillo_1::registerInterfaces() {
@@ -53,20 +55,19 @@ void Armadillo_1::registerInterfaces() {
     dxl_motors_.registerHandles(joint_state_interface_,
                                 position_interface_,
                                 posvel_interface_);
-
-    //TODO: build torso class that close loop and register joint_state_interface and effort_interface
-
     // register wheels
     for (roboteq::Motor * m : *motors_) {
         joint_state_interface_.registerHandle(m->joint_state_handle);
         velocity_interface_.registerHandle(m->joint_handle);
     }
 
+    // register torso
+    torso_control_.registerHandles(joint_state_interface_, effort_interface_);
+
     registerInterface(&joint_state_interface_);
     registerInterface(&velocity_interface_);
     registerInterface(&posvel_interface_);
     registerInterface(&position_interface_);
-    registerInterface(&velocity_interface_);
     registerInterface(&effort_interface_);
 }
 
@@ -77,5 +78,59 @@ void Armadillo_1::write(const ros::Time &time, const ros::Duration &duration) {
 
 void Armadillo_1::read(const ros::Time &time, const ros::Duration &duration) {
     roboteq_.read(time, duration);
-    dxl_motors_.read()
+    dxl_motors_.read();
+    torsoRead(duration);
+}
+
+void Armadillo_1::torsoRead(const ros::Duration &duration) {
+    if (got_torso_pos_) {
+        torso_control_.update(current_torso_pos_, duration);
+    }
+}
+
+void Armadillo_1::torsoWrite() {
+    // add 1500 offset because torso limits in
+    // armadillo2 xacro are b/w -500 - 500,
+    // and ric servo get value b/w 1000-2000
+    int command = torso_control_.output();
+    command = Utils::clamp(command, -500, 500);
+    ric_interface_ros::Servo servo_msg;
+    servo_msg.value = command + 1500;
+    servo_msg.id = TORSO_ID;
+    ric_servo_pub_.publish(servo_msg);
+}
+
+void Armadillo_1::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr &msg) {
+    sensor_msgs::Range range_msg;
+    range_msg.header.stamp = ros::Time::now();
+    range_msg.min_range = 0.3;
+    range_msg.max_range = 3.0;
+    range_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
+    range_msg.range = msg->distance / 1000.0;
+    range_msg.field_of_view = 0.7f;
+
+    int urf_id = msg->id;
+
+    switch (urf_id) {
+        case UrfId::REAR:
+            range_msg.header.frame_id = "rear_urf_link";
+            urf_rear_pub_.publish(range_msg);
+            break;
+        case UrfId::RIGHT:
+            range_msg.header.frame_id = "right_urf_link";
+            urf_right_pub_.publish(range_msg);
+            break;
+        case UrfId::LEFT:
+            range_msg.header.frame_id = "left_urf_link";
+            urf_left_pub_.publish(range_msg);
+            break;
+        case TORSO_ID:
+            double position = msg->distance / 1000.0; //convert to mm
+            current_torso_pos_ = position;
+            if (!got_torso_pos_) {
+                torso_control_.initPositionFilter(current_torso_pos_);
+                got_torso_pos_ = true;
+            }
+            break;
+    }
 }

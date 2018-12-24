@@ -58,15 +58,14 @@ private:
     std::vector<hardware_interface::JointStateHandle> joint_state_handles_;
     std::vector<hardware_interface::JointHandle> pos_handles_;
 
-    void initPositionFilter(double init_position);
-
 public:
     EffortPositionControl(ros::NodeHandle & nh, std::string joint_name);
     void registerHandles(hardware_interface::JointStateInterface &joint_state_interface,
                             hardware_interface::EffortJointInterface &effort_interface);
-    double write();
-    void read(double position, const ros::Duration elapsed);
+    double output() { return command_effort_; };
+    void update(double position, const ros::Duration elapsed);
     void usePositionFilter(float alpha);
+    void initPositionFilter(double init_position);
 };
 
 

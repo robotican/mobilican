@@ -46,6 +46,7 @@ public:
     virtual void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) = 0;
     virtual void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) = 0;
     virtual void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) = 0;
+    virtual void onServoMsg(const ric_interface_ros::Servo::ConstPtr& msg) = 0;
     virtual void onKeepAliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg) = 0;
     virtual void onKeepAliveTimeout() = 0;
 };

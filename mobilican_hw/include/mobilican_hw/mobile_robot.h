@@ -89,7 +89,9 @@ public:
     virtual void onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) override;
     virtual void onLocationMsg(const ric_interface_ros::Location::ConstPtr& msg) override {};
     virtual void onBatteryMsg(const ric_interface_ros::Battery::ConstPtr& msg) override {};
+    virtual void onServoMsg(const ric_interface_ros::Servo::ConstPtr& msg) {};
     virtual void onKeepAliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg) override {};
+
     virtual void onKeepAliveTimeout() override;
 
     // general robot methods

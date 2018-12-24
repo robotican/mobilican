@@ -75,19 +75,16 @@ void EffortPositionControl::initPositionFilter(double init_position) {
     }
 }
 
-void EffortPositionControl::read(double position, const ros::Duration elapsed) {
-    position_ = position / 1000.0; //in mm
-    if (first_read_ && use_position_filter_) {
-        initPositionFilter(position_);
-    }
+void EffortPositionControl::update(double position, const ros::Duration elapsed) {
+    position_ = position;
     if (use_position_filter_) {
+        if (first_read_) {
+            initPositionFilter(position_);
+            first_read_ = false;
+        }
         position_ = pos_filter_.filter(position_, 0);
     }
     velocity_ = (position_ - prev_position_) / elapsed.sec;
     effort_ = command_effort_;
     prev_position_ = position;
-}
-
-double EffortPositionControl::write() {
-    return command_effort_;
 }

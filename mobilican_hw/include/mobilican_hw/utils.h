@@ -44,16 +44,18 @@ namespace Utils
 {
     const double G_FORCE = 9.80665;
 
-    static void terminateNode(const char * msg)
-    {
+    static void terminateNode(const char * msg) {
         ROS_FATAL("%s", msg);
         ros::shutdown();
         exit(EXIT_FAILURE);
     }
 
-    static double ticksToRads(int ticks, uint ticks_per_round)
-    {
+    static double ticksToRads(int ticks, uint ticks_per_round) {
         return ((double)ticks / (double)ticks_per_round) * 2.0 * M_PI;
+    }
+
+    static double clamp(double n, double lower, double upper) {
+        return std::max(lower, std::min(n, upper));
     }
 }
 

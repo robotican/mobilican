@@ -42,7 +42,7 @@
  */
 
 Komodo_2::Komodo_2(ros::NodeHandle & nh, RicClient & ric_client) :
-                        MobileRobot(nh, ric_client) , roboteq_(nh), bms_(nh)
+                        RobotGroupA(nh, ric_client) , roboteq_(nh), bms_(nh)
 {
     bms_.connect("/dev/mobilican/BMS");
 
