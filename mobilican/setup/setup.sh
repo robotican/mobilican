@@ -13,21 +13,25 @@ set -eb
 whiptail --textbox robotican.txt_img 20 75
 
 # robot selection menu
-ROBOT_SELECTION=$(whiptail --title "Choose your robot. Press space to select" --radiolist "Choose" 20 50 15 \
-"LIZI_2" "Lizi 2 robot" ON \
-"KOMODO_2" "Komodo 2 robot" OFF \
-3>&1 1>&2 2>&3)
+#lizi_2="Lizi_2"
+#armadillo_1="armadillo_1"
+#komodo_2="komodo_2"
+#armadillo_2="armadillo_2"
+#ROBOT_SELECTION=$(whiptail --title "Choose your robot. Press space to select" --radiolist "Choose" 20 50 15 \
+#"$lizi_2" "Lizi 2 robot" ON \
+#"$komodo_2" "Komodo 2 robot" OFF \
+#"$armadillo_1" "Armadillo 1 robot" OFF \
+#"$armadillo_2" "Armadillo 2 robot" OFF \
+#3>&1 1>&2 2>&3)
 
 # get user password for sudo use
 psw=$(whiptail --title "Password Box" --passwordbox "Enter your password and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
 # check user password 
 sudo -S <<< $psw -l
 if ! [ "$?" == "0" ]; then
-    whiptail --title "Incorrect Password" --msgbox "The password you entered is incorrect. Please try again..." 8 78
-    
+    whiptail --title "Incorrect Password" --msgbox "The password you entered is incorrect. Please try again..." 8 78 
     exit 1
 fi
-
 
 update_progress() {
     percentage=$1
@@ -157,7 +161,7 @@ update_progress() {
     ssudo -S <<< $psw udevadm control --reload-rules && udevadm trigger
     update_progress 88 "Installing USB rules... Done."
     sleep 0.5
-    
+
     # compiling everything
     update_progress 88 "Compiling..."
     cd $CATKIN_WS_SRC/..
@@ -169,7 +173,9 @@ update_progress() {
     update_progress 100 "Setup finished!"
     sleep 1
 
-} |whiptail --title "Installing $ROBOT_SELECTION" --gauge "Installing..." 6 60 0
+   
+    
+} | whiptail --title "Installing Mobilican" --gauge "Preparing..." 6 60 0
 # end of whiptail progressbar command
 
 # finish box

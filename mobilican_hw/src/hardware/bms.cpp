@@ -37,27 +37,23 @@
 #include "mobilican_hw/hardware/bms.h"
 
 
-Bms::Bms(ros::NodeHandle &nh)
-{
+Bms::Bms(ros::NodeHandle &nh) {
     nh_ = &nh;
 }
 
 void Bms::connect(const std::string &port)
 {
     /* connect to batt FTDI */
-    try
-    {
+    try {
         bms_.connect(port);
-    }
-    catch (bms::BMSException exp)
-    {
+    } catch (bms::BMSException exp) {
         Utils::terminateNode(exp.what());
     }
     ROS_INFO("opened BMS port successfully \nport name: %s \nbaudrate: 9600", batt_port_.c_str());
 
     /* batt publisher */
     bat_pub_ = nh_->advertise<sensor_msgs::BatteryState>("battery", 10);
-    bat_pub_timer_ = nh_->createTimer(ros::Duration(BATT_PUB_INTERVAL), &Bms::onBattPubTimer, this);
+    bat_pub_timer_ = nh_->createTimer(ros::Duration(2), &Bms::onBattPubTimer, this);
 }
 
 void Bms::setLowBatt(int val)
@@ -67,20 +63,15 @@ void Bms::setLowBatt(int val)
     low_batt_ = val;
 }
 
-
+// BMS only support reading every 2 seconds
 void Bms::onBattPubTimer(const ros::TimerEvent &event)
 {
     bms::data bms_data;
-    try
-    {
+    try {
         bms_data = bms_.read();
-    }
-    catch(bms::BMSErrorException exp)
-    {
+    } catch(bms::BMSErrorException exp) {
         Utils::terminateNode(exp.what());
-    }
-    catch(bms::BMSWarnException exp)
-    {
+    } catch(bms::BMSWarnException exp) {
         ROS_WARN("%s", exp.what());
     }
 
@@ -99,6 +90,7 @@ void Bms::onBattPubTimer(const ros::TimerEvent &event)
     bat_pub_.publish(msg);
 
     /* if battery low and not in charging print warning */
-    if ((low_batt_ >=0 && msg.percentage <= low_batt_) && !bms_data.is_chrg)
+    if ((low_batt_ >=0 && msg.percentage <= low_batt_) && !bms_data.is_chrg) {
         ROS_WARN("[komodo2_hw/battery_pub]: LOW BATTERY, please connect komodo2 to charger");
+    }
 }

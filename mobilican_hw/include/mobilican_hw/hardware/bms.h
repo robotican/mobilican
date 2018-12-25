@@ -43,8 +43,6 @@
 #include <sensor_msgs/BatteryState.h>
 #include <mobilican_hw/utils.h>
 
-#define BATT_PUB_INTERVAL 2 //secs
-
 class Bms {
 
 private:

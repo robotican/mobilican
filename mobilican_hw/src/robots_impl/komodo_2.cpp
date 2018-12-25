@@ -60,15 +60,13 @@ Komodo_2::Komodo_2(ros::NodeHandle & nh, RicClient & ric_client) :
 void Komodo_2::registerInterfaces()
 {
     // register real motors and encoders (represented as rear wheels)
-    for (roboteq::Motor * m : *motors_)
-    {
+    for (roboteq::Motor * m : *motors_) {
         joint_state_interface_.registerHandle(m->joint_state_handle);
         vel_joint_interface_.registerHandle(m->joint_handle);
     }
 
     // register virtual wheels (represented as front wheels)
-    for (int i=0; i<2; i++)
-    {
+    for (int i=0; i<2; i++) {
         hardware_interface::JointStateHandle state_handle(virtual_wheels_[i].joint_name,
                                                           &virtual_wheels_[i].position,
                                                           &virtual_wheels_[i].velocity,
