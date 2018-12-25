@@ -1,1 +1,0 @@
-SUBSYSTEM=="video4linux", SUBSYSTEMS=="usb", ATTRS{manufacturer}=="Microsoft", ATTRS{idProduct}=="0810", ATTRS{speed}=="480", ATTRS{bDeviceClass}=="ef", SYMLINK+="mobilican/WEBCAM", MODE="0666"
