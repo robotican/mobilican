@@ -86,7 +86,7 @@ void DxlMotorsBuilder::read() {
     if (!dxl_interface_.readMotorsPos(motors_)) {
         //ROS_ERROR("[dxl_motors_builder]: reading motors position failed");
         comm_errs_.read_err_pos = true;
-        comm_errs_.failed_reads_++;
+        ++comm_errs_.failed_reads_;
     } else {
         comm_errs_.read_err_pos = false;
     }
@@ -94,7 +94,7 @@ void DxlMotorsBuilder::read() {
     if (!dxl_interface_.readMotorsVel(motors_)) {
         //ROS_ERROR("[dxl_motors_builder]: reading motors velocity failed");
         comm_errs_.read_err_vel = true;
-        comm_errs_.failed_reads_++;
+        ++comm_errs_.failed_reads_;
     } else {
         comm_errs_.read_err_vel = false;
     }
@@ -102,7 +102,7 @@ void DxlMotorsBuilder::read() {
     if (!dxl_interface_.readMotorsLoad(motors_)) {
         //ROS_ERROR("[dxl_motors_builder]: reading motors load failed");
         comm_errs_.read_err_load = true;
-        comm_errs_.failed_reads_++;
+        ++comm_errs_.failed_reads_;
     } else {
         comm_errs_.read_err_load = false;
     }
@@ -110,7 +110,7 @@ void DxlMotorsBuilder::read() {
     if (!dxl_interface_.readMotorsError(motors_)) {
         //ROS_ERROR("[dxl_motors_builder]: reading motors errors failed");
         comm_errs_.read_err_report = true;
-        comm_errs_.failed_reads_++;
+        ++comm_errs_.failed_reads_;
     } else {
         comm_errs_.read_err_report = false;
     }
@@ -139,7 +139,7 @@ void DxlMotorsBuilder::write(std::vector<dxl::Motor> &motors) {
     if (!dxl_interface_.bulkWriteVelocity(motors)) {
         //ROS_ERROR("[dxl_motors_builder]: writing velocity failed");
         comm_errs_.write_err_vel = true;
-        comm_errs_.failed_writes_++;
+        ++comm_errs_.failed_writes_;
     } else {
         comm_errs_.write_err_vel = false;
     }
@@ -147,7 +147,7 @@ void DxlMotorsBuilder::write(std::vector<dxl::Motor> &motors) {
     if (!dxl_interface_.bulkWritePosition(motors)) {
         //ROS_ERROR("[dxl_motors_builder]: writing postision failed");
         comm_errs_.write_err_pos = true;
-        comm_errs_.failed_writes_++;
+        ++comm_errs_.failed_writes_;
     } else {
         comm_errs_.write_err_pos = false;
     }
@@ -166,7 +166,7 @@ void DxlMotorsBuilder::pingMotors() {
     for (dxl::Motor &motor : motors_) {
         int error_counter = 0;
         while (!dxl_interface_.ping(motor)) {
-            error_counter++;
+            ++error_counter;
             ROS_WARN("[dxl_motors_builder]: pinging motor id: %d failed", motor.id);
             if (error_counter > MAX_PING_ERRORS) {
                 ROS_ERROR("[dxl_motors_builder]: too many ping errors, motor %d is not responding. \n"
@@ -183,7 +183,7 @@ void DxlMotorsBuilder::pingMotors() {
 void DxlMotorsBuilder::loadSpecs() {
 
     /* build motors */
-    for(int i = 0; i < dxl_spec_config_.size(); i++) {
+    for(int i = 0; i < dxl_spec_config_.size(); ++i) {
         /* feed motor with user defined settings */
         if(dxl_spec_config_[i].getType() != XmlRpc::XmlRpcValue::TypeStruct) {
             ROS_ERROR("[dxl_motors_builder]: motor spec at index %d param data type is invalid or missing. "
@@ -476,7 +476,7 @@ void DxlMotorsBuilder::fetchParams() {
 
 void DxlMotorsBuilder::buildMotors() {
 
-    for(int i = 0; i < dxl_joints_config_.size(); i++) {
+    for(int i = 0; i < dxl_joints_config_.size(); ++i) {
         // feed motor with user defined settings
         if(dxl_joints_config_[i].getType() != XmlRpc::XmlRpcValue::TypeStruct) {
             ROS_ERROR("[dxl_motors_builder]: dxl motor id at index %d param data type is invalid or missing. "
@@ -486,7 +486,7 @@ void DxlMotorsBuilder::buildMotors() {
 
         struct dxl::Motor new_motor;
 
-        // defaults to prevent bad movement on startup
+        // defaults to prevent abrupt movement on startup
         new_motor.command_position = 0.0;
         new_motor.command_velocity = 0.5;
         new_motor.min_vel = 0.1;
