@@ -146,10 +146,10 @@ add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling"
 
         # Handle command result
         if [ $? == 0 ]; then
-            echo "success ${cmd_arr[$i]}"
+            echo "command: ${cmd_arr[$i]} finished successfully" >> log.txt
         else
-           echo "failed to execute: ${cmd_arr[$i]}, error code: $?" >> log.txt
-           exit 1
+            echo "failed to execute: ${cmd_arr[$i]}, error code: $?" >> log.txt
+            exit 1
         fi
 
         # print done after each command
