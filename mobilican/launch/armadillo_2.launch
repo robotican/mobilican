@@ -38,7 +38,9 @@
     </node>
     
     <include file="$(find espeak_ros)/launch/espeak_ros.launch" /> -->
-    
+
+    <include file="$(find mobilican_control)/armadillo_2/launch/armadillo2_gazebo_controllers.launch" />
+
     <group if="$(arg teleop)" >
         <include file="$(find armadillo2_teleop)/launch/armadillo2_teleop.launch">
             <arg name="joy_dev" value="$(arg joy_dev)"/>
@@ -76,7 +78,6 @@
                 lidar:=true
                 softkinetic:=$(arg softkinetic)" />
         
-        <include file="$(find mobilican_control)/armadillo_2/launch/armadillo2_gazebo_controllers.launch" />
 
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
               <arg name="world_name" value="$(arg world_name)"/>
@@ -90,9 +91,7 @@
     <group unless="$(arg gazebo)">
         <param name="robot_description" command="$(find xacro)/xacro '$(find armadillo2_description)/urdf/armadillo2.xacro' --inorder" />
         <include file="$(find armadillo2_hw)/launch/armadillo2_hw.launch" />
-        
-        <include file="$(find armadillo2_control)/launch/armadillo2_hw_controllers.launch" />
-        
+                
         <group if="$(arg softkinetic)">
             <include file="$(find softkinetic_camera)/launch/softkinetic_camera_ds325.launch" />
         </group>
@@ -132,7 +131,7 @@
     </group>
     
     <group if="$(arg moveit)">
-        <include file="$(find armadillo2_moveit_config)/launch/move_group.launch" />
+        <include file="$(find armadillo_moveit_config)/launch/move_group.launch" />
     </group>
     
     
