@@ -17,7 +17,7 @@ psw=$(whiptail --title "Password Box" --passwordbox "Enter your password and cho
 # check user password 
 sudo -S <<< $psw -l
 if ! [ "$?" == "0" ]; then
-    whiptail --title "Incorrect Password" --msgbox "The password you entered is incorrect. Please try again..." 8 78 
+    whiptail --title "Incorrect Password" --msgbox "The password you entered is incorrect. Please try again" 8 78 
     exit 1
 fi
 
@@ -35,41 +35,46 @@ add_command() {
     txt_arr+=("$txt")
 }
 
+
+sudo -S <<< $psw -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
+wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+
 # updating system
-add_command "sudo -S <<< $psw apt-get -y update" "Updating... updating packages..." 
-add_command "sudo -S <<< $psw apt-get -y dist-upgrade" "Updating packages... upgrading dist..." 
-add_command "sudo -S <<< $psw apt-get -y upgrade" "Updating packages... upgrading packages..." 
+add_command "sudo -S <<< $psw apt-get -y update" "Updating... updating packages" 
+add_command "sudo -S <<< $psw apt-get -y dist-upgrade" "Updating packages... upgrading dist" 
+add_command "sudo -S <<< $psw apt-get -y upgrade" "Updating packages... upgrading packages" 
 
 # installing packages
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-controller-manager" "Installing packages... installing controller-manager..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-control-toolbox" "Installing packages... installing control-toolbox..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-transmission-interface" "Installing packages... installing transmission-interface..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-joint-limits-interface" "Installing packages... installing joint-limits-interface..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-ros-controllers" "Installing packages... installing controllers..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-ros-control" "Installing packages... installing control..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-move-base" "Installing packages... installing move-base..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-navigation" "Installing packages... installing navigation..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-hector-slam" "Installing packages... installing hector-slam..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-gmapping" "Installing packages... installing gmapping..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-pid" "Installing packages... installing pid..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-ar-track-alvar" "Installing packages... installing ar-track-alvar..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-serial" "Installing packages... installing serial..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-robot-localization" "Installing packages... installing robot-localization..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-trac-ik" "Installing packages... installing trac-ik..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-moveit-kinematics" "Installing packages... installing moveit-kinematics..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-urg-node" "Installing packages... installing urg-node..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-usb-cam" "Installing packages... installing usb-cam..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-rqt-robot-monitor" "Installing packages... installing rqt-robot-monitor..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-gazebo-ros-control" "Installing packages... installing gazebo-ros-control..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-moveit" "Installing packages... installing kinetic-moveit..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-moveit-ros-planning" "Installing packages... installing moveit-ros-planning..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-moveit-ros-planning-interface" "Installing packages... installing moveit-ros-planning-interface..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-twist-mux" "Installing packages... installing twist-mux..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-joy" "Installing packages... installing joy..."
-add_command "sudo -S <<< $psw apt-get -y install joystick" "Installing packages... installing joystick..."
-add_command "sudo -S <<< $psw apt-get -y install jstest-gtk" "Installing packages... installing jstest-gtk..."
-add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-hector-gazebo-plugins" "Installing packages... installing hector-gazebo-plugins..."
-add_command "sudo -S <<< $psw apt-get -y install espeak espeak-data libespeak-dev" "Installing packages... installing espeak..."
+add_command "sudo -S <<< $psw apt-get install python-catkin-tools" "Installing packages... catkin tools"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-controller-manager" "Installing packages... controller-manager"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-control-toolbox" "Installing packages... control-toolbox"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-transmission-interface" "Installing packages... transmission-interface"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-joint-limits-interface" "Installing packages... joint-limits-interface"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-ros-controllers" "Installing packages... controllers"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-ros-control" "Installing packages... control"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-move-base" "Installing packages... move-base"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-navigation" "Installing packages... navigation"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-hector-slam" "Installing packages... hector-slam"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-gmapping" "Installing packages... gmapping"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-pid" "Installing packages... pid"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-ar-track-alvar" "Installing packages... ar-track-alvar"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-serial" "Installing packages... serial"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-robot-localization" "Installing packages... robot-localization"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-trac-ik" "Installing packages... trac-ik"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-moveit-kinematics" "Installing packages... moveit-kinematics"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-urg-node" "Installing packages... urg-node"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-usb-cam" "Installing packages... usb-cam"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-rqt-robot-monitor" "Installing packages... rqt-robot-monitor"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-gazebo-ros-control" "Installing packages... gazebo-ros-control"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-moveit" "Installing packages... kinetic-moveit"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-moveit-ros-planning" "Installing packages... moveit-ros-planning"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-moveit-ros-planning-interface" "Installing packages... moveit-ros-planning-interface"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-twist-mux" "Installing packages... twist-mux"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-joy" "Installing packages... joy"
+add_command "sudo -S <<< $psw apt-get -y install joystick" "Installing packages... joystick"
+add_command "sudo -S <<< $psw apt-get -y install jstest-gtk" "Installing packages... jstest-gtk"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-hector-gazebo-plugins" "Installing packages... hector-gazebo-plugins"
+add_command "sudo -S <<< $psw apt-get -y install espeak espeak-data libespeak-dev" "Installing packages... espeak"
 
 RIC_INTERFACE_ROS_V="1.1.0"
 add_command "wget https://github.com/robotican/ric_interface_ros/archive/V$RIC_INTERFACE_ROS_V.tar.gz" "Installing packages: ric_interface_ros...  downloading"
@@ -82,7 +87,7 @@ LPF_ROS_V="1.0.2"
 add_command "wget https://github.com/elhayra/lpf_ros/archive/V$LPF_ROS_V.tar.gz" "Installing packages: lpf_ros...  downloading"
 add_command "tar -xvzf V$LPF_ROS_V.tar.gz" "Installing packages: lpf_ros... untar"
 add_command "rm V$LPF_ROS_V.tar.gz" "Installing packages: lpf_ros... removing tar file"
-add_command "" "Installing packages: lpf_ros..."
+add_command "" "Installing packages: lpf_ros"
 
 ESPEAK_ROS_V="1.0.2"
 add_command "wget https://github.com/robotican/espeak_ros/archive/V$ESPEAK_ROS_V.tar.gz" "Installing packages: espeak_ros...  downloading"
@@ -94,26 +99,26 @@ add_command "https://github.com/robotican/roboteq_control/archive/V$ROBOTEQ_CONT
 add_command "tar -xvzf V$ROBOTEQ_CONTROL_V.tar.gz" "Installing packages: roboteq_control... untar"
 add_command "rm V$ROBOTEQ_CONTROL_V.tar.gz" "Installing packages: roboteq_control... removing tar file"
 
-add_command "cd $CATKIN_WS_SRC/" "Installing packages: realsense..."
+add_command "cd $CATKIN_WS_SRC/" "Installing packages: realsense"
 add_command "wget https://github.com/intel-ros/realsense/archive/2.0.3.tar.gz" "Installing packages: realsense... downloading ros package"
 add_command "tar -xvzf 2.0.3.tar.gz" "Installing packages: realsense... untar"
 add_command "rm 2.0.3.tar.gz" "Installing packages: realsense... remove tar file"
 add_command "wget https://github.com/IntelRealSense/librealsense/archive/v2.10.3.tar.gz" "Installing packages: realsense... downloading librealsense"
 add_command "tar -xvzf v2.10.3.tar.gz" "Installing packages: realsense... untar"
 add_command "rm v2.10.3.tar.gz" "Installing packages: realsense... remove tar file"
-add_command "sudo apt-get -y install libusb-1.0-0-dev pkg-config libgtk-3-dev libglfw3-dev" "Installing packages: realsense... installing depends"
+add_command "sudo apt-get -y install libusb-1.0-0-dev pkg-config libgtk-3-dev libglfw3-dev" "Installing packages: realsense... depends"
 add_command "cd librealsense-2.10.3 && mkdir build && cd build" "Installing packages: realsense... building"
 add_command "cmake ../ && sudo -S <<< $psw make uninstall && make clean && make -j8 && sudo make install" "Installing packages: realsense... installing"
 
-add_command "sudo -S <<< $psw apt -y install setserial" "Installing USB rules... setserial to low latency..." 
+add_command "sudo -S <<< $psw apt -y install setserial" "Installing USB rules... setserial to low latency" 
 add_command "sudo -S <<< $psw cp $CATKIN_WS_SRC/mobilican/setup/rules/* /etc/udev/rules.d" "Installing USB rules... copying rules" 
 add_command "sudo -S <<< $psw udevadm control --reload-rules && udevadm trigger" "Installing USB rules... applying rules" 
 
-add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling..." 
+add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling" 
 
 {
     # validate ros version
-    update_progress 0 "Validating ROS version..."
+    update_progress 0 "Validating ROS version"
     version=`rosversion -d`
     if [ "$version" == "kinetic" ]; then
         printf "${GREEN_TXT}ROS version OK${NO_COLOR}\n"
@@ -124,7 +129,7 @@ add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling..."
     update_progress 0 "Validating ROS version... Done."
 
     #navigating to workspace
-    update_progress 0 "Navigating to workspace..."
+    update_progress 0 "Navigating to workspace"
     CATKIN_WS_SRC=$( cd "$(dirname "$0")" && cd ../.. && pwd )
     cd $CATKIN_WS_SRC
     update_progress 0 "Navigating to workspace... Done."
