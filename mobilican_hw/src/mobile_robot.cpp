@@ -75,9 +75,7 @@ void MobileRobot::sendDiagnosticsMsg(const diagnostic_msgs::DiagnosticStatus &st
     diagnostic_msgs::DiagnosticArray diag_msg;
     diag_msg.header.frame_id="base_link";
     diag_msg.header.stamp=ros::Time::now();
-
     diag_msg.status.push_back(status);
-
     diagnos_pub_.publish(diag_msg);
 }
 

@@ -194,7 +194,7 @@ void Lizi_2::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)
         diag_stat.name = "rear_right_motor";
         updateWheelPosition(rear_right_wheel_, new_pos);
     }
-    
+
     // throttle encoder diagnostics
     bool send_front_left = (ros::Time::now() - enc_fl_stat_time_ > ros::Duration(1));
     bool send_front_right = (ros::Time::now() - enc_fr_stat_time_ > ros::Duration(1));

@@ -47,7 +47,7 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "lizi_hw_node");
     ros::NodeHandle nh;
-    ros::AsyncSpinner async_spinner(4);
+    ros::AsyncSpinner async_spinner(2);
     async_spinner.start();
 
     RicClient ric_client(nh);
@@ -72,9 +72,9 @@ int main(int argc, char **argv) {
     if (robot == nullptr) {
         Utils::terminateNode("invalid hardware hw id");
     }
-    controller_manager::ControllerManager controller_manager(robot);
     robot->registerInterfaces();
     ric_client.subscribe(*robot);
+    controller_manager::ControllerManager controller_manager(robot);
     ros::Time last_time = ros::Time::now();
     while (ros::ok()) {
         ros::Duration duration = ros::Time::now() - last_time;
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
         ros::Duration(0.005).sleep();
         controller_manager.update(ros::Time::now(), duration);
         robot->write(ros::Time::now(), duration);
-        ros::Rate(0.005).sleep();
+        ros::Duration(0.005).sleep();
         last_time = ros::Time::now();
     }
 
