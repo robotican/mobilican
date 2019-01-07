@@ -2,7 +2,7 @@
 
 <launch>
 
-    <rosparam file="$(find mobilican_hw)/config/lizi_2/lizi_hw.yaml" command="load"/>
+    
 
     <node name="mobilican_hw_node" pkg="mobilican_hw" type="mobilican_hw_node" respawn="false" output="screen" />
     

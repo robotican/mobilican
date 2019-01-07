@@ -135,7 +135,10 @@ void RobotGroupA::onOrientationMsg(const ric_interface_ros::Orientation::ConstPt
 
         diag_stat.level = diagnostic_msgs::DiagnosticStatus::OK;
     }
-    sendDiagnosticsMsg(diag_stat);
+    if (ros::Time::now() - orientation_stat_time_ > ros::Duration(1)) {
+        sendDiagnosticsMsg(diag_stat);
+        orientation_stat_time_ = ros::Time::now();
+    }
 }
 
 void RobotGroupA::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr &msg) {

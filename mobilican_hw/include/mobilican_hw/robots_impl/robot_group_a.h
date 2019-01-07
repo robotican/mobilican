@@ -47,6 +47,11 @@
 
 class RobotGroupA : public MobileRobot {
 
+private:
+
+    ros::Time orientation_stat_time_;
+    ros::Time prox_stat_time_;
+
 protected:
 
     enum UrfId { REAR = 10, RIGHT = 11, LEFT = 12 };

@@ -41,7 +41,6 @@ MobileRobot::MobileRobot(ros::NodeHandle & nh, RicClient & ric_client)
     nh_ = &nh;
 
     ric_client_ = &ric_client;
-    ric_client_->subscribe(this);
 
     ric_servo_pub_ = nh.advertise<ric_interface_ros::Servo>("ric/servo/cmd", 10);
     espeak_pub_ = nh.advertise<std_msgs::String>("/espeak_node/speak_line", 10);
@@ -96,4 +95,3 @@ void MobileRobot::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr &msg) {
             break;
     }
 }
-

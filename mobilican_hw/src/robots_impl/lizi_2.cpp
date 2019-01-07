@@ -111,6 +111,10 @@ Lizi_2::Lizi_2(ros::NodeHandle &nh, RicClient& ric_client) : RobotGroupA(nh, ric
                  "Risk of motor malfunction in case of high voltage");
     }
     vel_delta_timer_ = nh.createTimer(ros::Duration(control_loop_interval_), &Lizi_2::onControlLoopTimer, this);
+    enc_fl_stat_time_ = ros::Time::now();
+    enc_fr_stat_time_ = ros::Time::now();
+    enc_rl_stat_time_ = ros::Time::now();
+    enc_rr_stat_time_ = ros::Time::now();
 }
 
 void Lizi_2::onControlLoopTimer(const ros::TimerEvent &) {
@@ -190,17 +194,38 @@ void Lizi_2::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg)
         diag_stat.name = "rear_right_motor";
         updateWheelPosition(rear_right_wheel_, new_pos);
     }
-    diagnostic_msgs::KeyValue key_val;
-    key_val.key = "ticks";
-    key_val.value = std::to_string(msg->ticks);
-    diag_stat.values.push_back(key_val);
-    if (msg->status == ric::protocol::package::Status::CRITICAL) {
-        diag_stat.message = "failed to read encoder";
-        diag_stat.level = diagnostic_msgs::DiagnosticStatus::ERROR;
-    } else if (msg->status == ric::protocol::package::Status::OK) {
-        diag_stat.level = diagnostic_msgs::DiagnosticStatus::OK;
+    
+    // throttle encoder diagnostics
+    bool send_front_left = (ros::Time::now() - enc_fl_stat_time_ > ros::Duration(1));
+    bool send_front_right = (ros::Time::now() - enc_fr_stat_time_ > ros::Duration(1));
+    bool send_rear_left = (ros::Time::now() - enc_rl_stat_time_ > ros::Duration(1));
+    bool send_rear_right = (ros::Time::now() - enc_rr_stat_time_ > ros::Duration(1));
+    if (send_front_left ||
+        send_front_right ||
+        send_rear_left ||
+        send_rear_right)
+    {
+        diagnostic_msgs::KeyValue key_val;
+        key_val.key = "ticks";
+        key_val.value = std::to_string(msg->ticks);
+        diag_stat.values.push_back(key_val);
+        if (msg->status == ric::protocol::package::Status::CRITICAL) {
+            diag_stat.message = "failed to read encoder";
+            diag_stat.level = diagnostic_msgs::DiagnosticStatus::ERROR;
+        } else if (msg->status == ric::protocol::package::Status::OK) {
+            diag_stat.level = diagnostic_msgs::DiagnosticStatus::OK;
+        }
+        sendDiagnosticsMsg(diag_stat);
+        if (send_front_left) {
+            enc_fl_stat_time_ = ros::Time::now();
+        } else if (send_front_right) {
+            enc_fr_stat_time_ = ros::Time::now();
+        } else if (send_rear_left) {
+            enc_rl_stat_time_ = ros::Time::now();
+        } else if (send_rear_right) {
+            enc_rr_stat_time_ = ros::Time::now();
+        }
     }
-    sendDiagnosticsMsg(diag_stat);
 }
 
 void Lizi_2::onBatteryMsg(const ric_interface_ros::Battery::ConstPtr &msg) {

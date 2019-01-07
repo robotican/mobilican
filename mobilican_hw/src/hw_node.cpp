@@ -74,6 +74,7 @@ int main(int argc, char **argv) {
     }
     controller_manager::ControllerManager controller_manager(robot);
     robot->registerInterfaces();
+    ric_client.subscribe(*robot);
     ros::Time last_time = ros::Time::now();
     while (ros::ok()) {
         ros::Duration duration = ros::Time::now() - last_time;

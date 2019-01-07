@@ -104,7 +104,7 @@ public:
 
 
     RicClient(ros::NodeHandle &nh);
-    void subscribe(RicObserver * observer) { observer_ = observer; }
+    void subscribe(RicObserver & observer) { observer_ = &observer; }
     void waitForConnection(ros::Duration timeout);
     id_type getHardwareId() { return hardware_id_; }
     firm_ver getFirmwareVersion() { return firm_ver_; }

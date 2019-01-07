@@ -71,8 +71,9 @@ void RicClient::onKeepAliveTimeout(const ros::TimerEvent &event) {
         got_keepalive_ = false;
     else {
         is_connected_ = false;
-        if (observer_ != nullptr)
+        if (observer_ != nullptr) {
             observer_->onKeepAliveTimeout();
+        }
     }
 }
 
@@ -89,8 +90,9 @@ void RicClient::onKeepaliveMsg(const ric_interface_ros::Keepalive::ConstPtr& msg
     hw_status_ = msg->status;
     got_keepalive_ = true;
     is_connected_ = true;
-    if (observer_ != nullptr)
+    if (observer_ != nullptr) {
         observer_->onKeepAliveMsg(msg);
+    }
 }
 
 void RicClient::waitForConnection(ros::Duration timeout) {
@@ -102,43 +104,50 @@ void RicClient::waitForConnection(ros::Duration timeout) {
 
 void RicClient::terminateRic() {
     std_srvs::Trigger kill_ric_srv;
-    if (!terminate_ric_client_.call(kill_ric_srv))
+    if (!terminate_ric_client_.call(kill_ric_srv)) {
         ROS_ERROR("calling ric_terminate service failed");
+    }
 }
 
 void RicClient::onLocationMsg(const ric_interface_ros::Location::ConstPtr &msg) {
-    if (observer_ != nullptr)
+    if (observer_ != nullptr) {
         observer_->onLocationMsg(msg);
+    }
 }
 
 void RicClient::onBatteryMsg(const ric_interface_ros::Battery::ConstPtr &msg) {
-    if (observer_ != nullptr)
+    if (observer_ != nullptr) {
         observer_->onBatteryMsg(msg);
+    }
 }
 
 void RicClient::onLoggerMsg(const ric_interface_ros::Logger::ConstPtr& msg) {
-    if (observer_ != nullptr)
+    if (observer_ != nullptr) {
         observer_->onLoggerMsg(msg);
+    }
 }
 
 
 void RicClient::onEncoderMsg(const ric_interface_ros::Encoder::ConstPtr& msg) {
-    if (observer_ != nullptr)
+    if (observer_ != nullptr) {
         observer_->onEncoderMsg(msg);
+    }
 }
 
 void RicClient::onOrientationMsg(const ric_interface_ros::Orientation::ConstPtr& msg) {
-    if (observer_ != nullptr)
+    if (observer_ != nullptr) {
         observer_->onOrientationMsg(msg);
+    }
 }
 
-void RicClient::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg)
-{
-    if (observer_ != nullptr)
+void RicClient::onProximityMsg(const ric_interface_ros::Proximity::ConstPtr& msg) {
+    if (observer_ != nullptr) {
         observer_->onProximityMsg(msg);
+    }
 }
 
 void RicClient::onServoMsg(const ric_interface_ros::Servo::ConstPtr &msg) {
-    if (observer_ != nullptr)
+    if (observer_ != nullptr) {
         observer_->onServoMsg(msg);
+    }
 }

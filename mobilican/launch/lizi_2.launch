@@ -25,37 +25,19 @@
     <arg name="have_map" default="false" doc="set to true to use pre-saved map"/>
     <arg name="map" default="map.yaml" doc="pre-saved map path"/>
     <arg name="move_base" default="false"/>
-    <arg name="robot_localization" default="false"/>
         
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+
+    <include file="$(find mobilican_control)/lizi_2/launch/lizi_controllers.launch" >
+        <arg name="enable_mbc_odom_tf" value="true"/>
+    </include>
 
     <group if="$(arg diagnos)">
         <include file="$(find mobilican_hw)/launch/diagnostics.launch" >
             <arg name="analyzers_path" value="$(find mobilican_hw)/config/lizi_2/analyzers.yaml"/>
         </include>
     </group> 
-    
-    <group if="$(arg amcl)">
-        <include file="$(find mobilican_control)/lizi_2/launch/lizi_controllers.launch" >
-            <arg name="enable_mbc_odom_tf" value="true"/>
-        </include>
-    </group>
-    
-    <group if="$(arg robot_localization)">
-        <include file="$(find mobilican_control)/lizi_2/launch/lizi_controllers.launch" >
-            <arg name="enable_mbc_odom_tf" value="false"/>
-        </include>
-    </group>
-    
-    <group unless="$(arg robot_localization)">
-        <group unless="$(arg amcl)">
-            <include file="$(find mobilican_control)/lizi_2/launch/lizi_controllers.launch" >
-                <arg name="enable_mbc_odom_tf" value="true"/>
-            </include>
-        </group>
-    </group>
         
-    
     <include file="$(find espeak_ros)/launch/espeak_ros.launch" />
     
     <group if="$(arg have_map)">
@@ -66,11 +48,9 @@
     <group unless="$(arg gmapping)">
         <group unless="$(arg hector_slam)">
             <group unless="$(arg amcl)">           
-          	  <group unless="$(arg robot_localization)">  
-                     <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 20" /> 
-		</group>   
+                <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 20" /> 
             </group>   
-        </group>    
+        </group>       
     </group>
     
     <!--load simulation stuff-->
@@ -95,7 +75,8 @@
     <!--load hardware stuff-->
     <group unless="$(arg gazebo)">
         <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/lizi_2/urdf/lizi.xacro' --inorder" />
-        <include file="$(find mobilican_hw)/launch/lizi_2_hw.launch" />
+        <rosparam file="$(find mobilican_hw)/config/lizi_2/lizi_hw.yaml" command="load"/>
+        <include file="$(find mobilican_hw)/launch/mobilican_hw.launch" />
                 
         <group if="$(arg depth_cam)">
             <include file="$(find mobilican_hw)/launch/d435_cam.launch" />
@@ -107,7 +88,7 @@
                 
         <group if="$(arg lidar)">
             <include file="$(find mobilican_hw)/launch/hokuyu_lidar.launch" />
-        </group>
+        </group> 
         
     </group>
     
@@ -120,18 +101,13 @@
         <include file="$(find lizi_navigation)/launch/hector_slam.launch" />
     </group>
 
-    <group if="$(arg robot_localization)">
-        <include file="$(find lizi_navigation)/launch/robot_localization.launch" />
-    </group>
-
     <group if="$(arg amcl)">
         <include file="$(find lizi_navigation)/launch/amcl.launch" >
             <arg name="initial_pose_x" value="$(arg x)"/>
             <arg name="initial_pose_y" value="$(arg y)"/>
             <arg name="initial_pose_a" value="$(arg Y)"/>
-	</include>
+	    </include>
     </group>
-    
     
     <group if="$(arg move_base)">
         <include file="$(find lizi_navigation)/launch/move_base.launch" />

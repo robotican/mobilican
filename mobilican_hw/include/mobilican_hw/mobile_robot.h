@@ -75,6 +75,7 @@ protected:
 
     RicClient* ric_client_ = nullptr;
 
+
 public:
 
     MobileRobot(ros::NodeHandle & nh, RicClient & ric_client);

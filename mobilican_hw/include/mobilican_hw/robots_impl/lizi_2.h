@@ -69,7 +69,15 @@ private:
 
     ros::Time prev_lpf_time_;
 
+    ros::Time enc_fl_stat_time_;
+    ros::Time enc_fr_stat_time_;
+    ros::Time enc_rl_stat_time_;
+    ros::Time enc_rr_stat_time_;
+
     ros::Timer vel_delta_timer_;
+
+
+
 
     static void updateWheelPosition(wheel &wheel, double new_pos);
     void onControlLoopTimer(const ros::TimerEvent &);
