@@ -347,8 +347,6 @@ namespace diff_drive_slip_controller{
     const double vel_left  = (curr_cmd.lin - curr_cmd.ang * ws / 2.0)/wr;
     const double vel_right = (curr_cmd.lin + curr_cmd.ang * ws / 2.0)/wr;
 
-    //ROS_INFO_STREAM("COMMAND: " << vel_left << " " << vel_right);
-    //ROS_INFO_STREAM("LINEAR: " << curr_cmd.lin);
     // Set wheels velocities:
     for (size_t i = 0; i < wheel_joints_size_; ++i)
     {
