@@ -78,12 +78,12 @@ int main(int argc, char **argv) {
     ros::Time last_time = ros::Time::now();
     while (ros::ok()) {
         ros::Duration duration = ros::Time::now() - last_time;
+        last_time = ros::Time::now();
         robot->read(ros::Time::now(), duration);
         ros::Duration(0.005).sleep();
         controller_manager.update(ros::Time::now(), duration);
         robot->write(ros::Time::now(), duration);
         ros::Duration(0.005).sleep();
-        last_time = ros::Time::now();
     }
 
     delete robot;
