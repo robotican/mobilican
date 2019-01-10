@@ -45,7 +45,7 @@
 
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "lizi_hw_node");
+    ros::init(argc, argv, "hw_node");
     ros::NodeHandle nh;
     ros::AsyncSpinner async_spinner(2);
     async_spinner.start();

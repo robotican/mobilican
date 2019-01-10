@@ -130,7 +130,7 @@ add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling"
 
     #navigating to workspace
     update_progress 0 "Navigating to workspace"
-    CATKIN_WS_SRC=$( cd "$(dirname "$0")" && cd ../.. && pwd )
+    CATKIN_WS_SRC=`roscd && cd ../src && pwd`
     cd $CATKIN_WS_SRC
     update_progress 0 "Navigating to workspace... Done."
 
