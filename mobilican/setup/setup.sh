@@ -7,10 +7,13 @@
 
 # from this point on, exit and notify immediately 
 # if a command exits with a non-zero status
-# set -eb
+set -eb
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+CATKIN_WS_SRC=`cd $SCRIPT_DIR/../../.. && pwd`
 
 # welcome screen
-whiptail --textbox robotican.txt_img 20 75
+whiptail --textbox $SCRIPT_DIR/robotican.txt_img 20 75
 
 # get user password for sudo use
 psw=$(whiptail --title "Password Box" --passwordbox "Enter your password and choose Ok to continue." 10 60 3>&1 1>&2 2>&3)
@@ -34,10 +37,6 @@ add_command() {
     cmd_arr+=("$cmd")
     txt_arr+=("$txt")
 }
-
-
-sudo -S <<< $psw -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
-wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 
 # updating system
 add_command "sudo -S <<< $psw apt-get -y update" "Updating... updating packages" 
@@ -77,41 +76,43 @@ add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-hector-gazebo-plugi
 add_command "sudo -S <<< $psw apt-get -y install espeak espeak-data libespeak-dev" "Installing packages... espeak"
 
 RIC_INTERFACE_ROS_V="1.1.0"
-add_command "wget https://github.com/robotican/ric_interface_ros/archive/V$RIC_INTERFACE_ROS_V.tar.gz" "Installing packages: ric_interface_ros...  downloading"
+add_command "wget -q https://github.com/robotican/ric_interface_ros/archive/V$RIC_INTERFACE_ROS_V.tar.gz" "Installing packages: ric_interface_ros...  downloading"
 add_command "tar -xvzf V$RIC_INTERFACE_ROS_V.tar.gz" "Installing packages: ric_interface_ros... untar"
 add_command "rm V$RIC_INTERFACE_ROS_V.tar.gz" "Installing packages: ric_interface_ros... removing tar file"
 add_command "cd $CATKIN_WS_SRC/ric_interface_ros-$RIC_INTERFACE_ROS_V/ric_interface_deb/" "Installing packages: ric_interface... finding intallation file"
 add_command "sudo -S <<< $psw dpkg -i ric-interface.deb" "Installing packages: ric_interface... installing"
 
 LPF_ROS_V="1.0.2"
-add_command "wget https://github.com/elhayra/lpf_ros/archive/V$LPF_ROS_V.tar.gz" "Installing packages: lpf_ros...  downloading"
+add_command "cd $CATKIN_WS_SRC" "Installing packages: lpf_ros...  cd to src folder"
+add_command "wget -q https://github.com/elhayra/lpf_ros/archive/V$LPF_ROS_V.tar.gz" "Installing packages: lpf_ros...  downloading"
 add_command "tar -xvzf V$LPF_ROS_V.tar.gz" "Installing packages: lpf_ros... untar"
 add_command "rm V$LPF_ROS_V.tar.gz" "Installing packages: lpf_ros... removing tar file"
 add_command "" "Installing packages: lpf_ros"
 
 ESPEAK_ROS_V="1.0.2"
-add_command "wget https://github.com/robotican/espeak_ros/archive/V$ESPEAK_ROS_V.tar.gz" "Installing packages: espeak_ros...  downloading"
+add_command "wget -q https://github.com/robotican/espeak_ros/archive/V$ESPEAK_ROS_V.tar.gz" "Installing packages: espeak_ros...  downloading"
 add_command "tar -xvzf V$ESPEAK_ROS_V.tar.gz" "Installing packages: espeak_ros... untar"
 add_command "rm V$ESPEAK_ROS_V.tar.gz" "Installing packages: espeak_ros... removing tar file"
 
 ROBOTEQ_CONTROL_V="0.1.0"
-add_command "https://github.com/robotican/roboteq_control/archive/V$ROBOTEQ_CONTROL_V.zip" "Installing packages: roboteq_control... downloading"
+add_command "wget -q https://github.com/robotican/roboteq_control/archive/V$ROBOTEQ_CONTROL_V.tar.gz" "Installing packages: roboteq_control... downloading"
 add_command "tar -xvzf V$ROBOTEQ_CONTROL_V.tar.gz" "Installing packages: roboteq_control... untar"
 add_command "rm V$ROBOTEQ_CONTROL_V.tar.gz" "Installing packages: roboteq_control... removing tar file"
 
 add_command "cd $CATKIN_WS_SRC/" "Installing packages: realsense"
-add_command "wget https://github.com/intel-ros/realsense/archive/2.0.3.tar.gz" "Installing packages: realsense... downloading ros package"
+add_command "wget -q https://github.com/intel-ros/realsense/archive/2.0.3.tar.gz" "Installing packages: realsense... downloading ros package"
 add_command "tar -xvzf 2.0.3.tar.gz" "Installing packages: realsense... untar"
 add_command "rm 2.0.3.tar.gz" "Installing packages: realsense... remove tar file"
-add_command "wget https://github.com/IntelRealSense/librealsense/archive/v2.10.3.tar.gz" "Installing packages: realsense... downloading librealsense"
+add_command "wget -q https://github.com/IntelRealSense/librealsense/archive/v2.10.3.tar.gz" "Installing packages: realsense... downloading librealsense"
 add_command "tar -xvzf v2.10.3.tar.gz" "Installing packages: realsense... untar"
 add_command "rm v2.10.3.tar.gz" "Installing packages: realsense... remove tar file"
 add_command "sudo apt-get -y install libusb-1.0-0-dev pkg-config libgtk-3-dev libglfw3-dev" "Installing packages: realsense... depends"
 add_command "cd librealsense-2.10.3 && mkdir build && cd build" "Installing packages: realsense... building"
-add_command "cmake ../ && sudo -S <<< $psw make uninstall && make clean && make -j8 && sudo make install" "Installing packages: realsense... installing"
+add_command "cmake ../ && sudo -S <<< $psw make uninstall && make clean" "Installing packages: realsense... cleaning"
+add_command "make -j8 > build_output.txt 2>&1 && sudo -S <<< $psw make install" "Installing packages: realsense... installing"
 
 add_command "sudo -S <<< $psw apt -y install setserial" "Installing USB rules... setserial to low latency" 
-add_command "sudo -S <<< $psw cp $CATKIN_WS_SRC/mobilican/setup/rules/* /etc/udev/rules.d" "Installing USB rules... copying rules" 
+add_command "sudo -S <<< $psw cp $CATKIN_WS_SRC/mobilican/mobilican/setup/rules/* /etc/udev/rules.d" "Installing USB rules... copying rules" 
 add_command "sudo -S <<< $psw udevadm control --reload-rules && udevadm trigger" "Installing USB rules... applying rules" 
 
 add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling" 
@@ -130,26 +131,26 @@ add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling"
 
     #navigating to workspace
     update_progress 0 "Navigating to workspace"
-    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-    CATKIN_WS_SRC=`cd $SCRIPT_DIR/../../.. && pwd`
     cd $CATKIN_WS_SRC
     update_progress 0 "Navigating to workspace... Done."
 
+    LOG_FILE=$CATKIN_WS_SRC/mobilican/log.txt
+
     # prepare log file
-    echo "installation started at `date`" > log.txt
+    echo "installation started at `date`" > $LOG_FILE
 
     for (( i = 0; i < ${#cmd_arr[@]} ; i++ )); do
         percentage=$(( $i*100/${#cmd_arr[@]} ))
         update_progress $percentage "${txt_arr[$i]}"
 
         # Run each command in array 
-        eval "${cmd_arr[$i]}"
+        eval "${cmd_arr[$i]} >> $LOG_FILE 2>&1"
 
         # Handle command result
         if [ $? == 0 ]; then
-            echo "command: ${cmd_arr[$i]} finished successfully" >> log.txt
+            echo "command: ${cmd_arr[$i]} finished successfully" >> $LOG_FILE
         else
-            echo "ERROR: failed to execute: ${cmd_arr[$i]}, error code: $?" >> log.txt
+            echo "ERROR: failed to execute: ${cmd_arr[$i]}, error code: $?" >> $LOG_FILE
             exit 1
         fi
 
@@ -165,9 +166,18 @@ add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling"
 } | whiptail --title "Installing Mobilican" --gauge "Preparing..." 6 60 0
 # end of whiptail progressbar command
 
+# Handle command result
+# if [ $? == 0 ]; then
+#     echo "command: ssss finished successfully" >> $LOG_FILE
+# else
+#     echo "ERROR: failed to execute: sssss, error code: $?" >> $LOG_FILE
+#     exit 1
+# fi
+
 # finish and reboot
 whiptail --title "Installation Completed" --msgbox "After hitting OK, PC will restart to complete installation." 8 78
-sudo -S <<< $psw reboot
+
+#sudo -S <<< $psw reboot
 
 
 
