@@ -130,7 +130,8 @@ add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling"
 
     #navigating to workspace
     update_progress 0 "Navigating to workspace"
-    CATKIN_WS_SRC=`roscd && cd ../src && pwd`
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+    CATKIN_WS_SRC=`cd $SCRIPT_DIR/../../.. && pwd`
     cd $CATKIN_WS_SRC
     update_progress 0 "Navigating to workspace... Done."
 
@@ -148,7 +149,7 @@ add_command "cd $CATKIN_WS_SRC/.. && catkin build" "Compiling"
         if [ $? == 0 ]; then
             echo "command: ${cmd_arr[$i]} finished successfully" >> log.txt
         else
-            echo "failed to execute: ${cmd_arr[$i]}, error code: $?" >> log.txt
+            echo "ERROR: failed to execute: ${cmd_arr[$i]}, error code: $?" >> log.txt
             exit 1
         fi
 
