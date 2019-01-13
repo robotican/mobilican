@@ -11,6 +11,30 @@
 
 ## Installation Instructions
 
+1. Navigate into your catkin workspace src folder. i.e.:
+```
+$ cd ~/catkin_ws/src
+```
+
+2. Download the latest mobilican [release](https://github.com/robotican/mobilican/releases)
+
+3. Extract the files, and cd into the setup folder:
+```
+$ cd mobilican/mobilican/setup
+```
+
+4. Run setup.sh script:
+```
+./setup.sh
+```
+
+5. You'll be required to insert your user password. Please do so as the script require root permition
+
+6. Please be patiant during installation process. It might take some time to download and compile all the packages. Installation should normally take between 10-30 minutes. The script will automatically exit in case of failure, and show a message with the error. In case of installation failure, check out the installation log file under 
+```
+mobilican/mobilican/setup/log.txt
+```
+
 ## Usage Instructions
 
 
