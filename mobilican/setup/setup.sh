@@ -276,7 +276,7 @@ else
     # finish and reboot
     whiptail --title "Installation Completed" --msgbox \
     "After hitting OK, PC will restart to complete installation." 8 78
-    #sudo -S <<< $psw reboot
+    sudo -S <<< $psw reboot
 fi
 
 
