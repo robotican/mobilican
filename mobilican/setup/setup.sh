@@ -14,7 +14,7 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CATKIN_WS_SRC=`cd $SCRIPT_DIR/../../.. && pwd`
-LOG_FILE=$CATKIN_WS_SRC/mobilican/log.txt
+LOG_FILE=$CATKIN_WS_SRC/mobilican/mobilican/setup/log.txt
 # init log file
 echo "****** installation started at `date` ******" > $LOG_FILE
 
