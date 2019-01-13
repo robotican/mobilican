@@ -99,6 +99,21 @@ add_command "wget -q https://github.com/robotican/roboteq_control/archive/V$ROBO
 add_command "tar -xvzf V$ROBOTEQ_CONTROL_V.tar.gz" "Installing packages: roboteq_control... untar"
 add_command "rm V$ROBOTEQ_CONTROL_V.tar.gz" "Installing packages: roboteq_control... removing tar file"
 
+BMS_INTERFACE_V="0.1.0"
+add_command "wget -q https://github.com/robotican/bms_interface/archive/$BMS_INTERFACE_V.tar.gz" "Installing packages: bms_interface... downloading"
+add_command "tar -xvzf $BMS_INTERFACE_V.tar.gz" "Installing packages: bms_interface... untar"
+add_command "rm $BMS_INTERFACE_V.tar.gz" "Installing packages: bms_interface... removing tar file"
+
+DXL_INTERFACE_V="1.0.0"
+add_command "wget -q https://github.com/robotican/dxl_interface/archive/V$DXL_INTERFACE_V.tar.gz" "Installing packages: dxl_interface... downloading"
+add_command "tar -xvzf V$DXL_INTERFACE_V.tar.gz" "Installing packages: dxl_interface... untar"
+add_command "rm V$DXL_INTERFACE_V.tar.gz" "Installing packages: dxl_interface... removing tar file"
+
+DYNAMIXEL_SDK_V="1.0.0"
+add_command "wget -q https://github.com/robotican/dynamixel_sdk/archive/V$DYNAMIXEL_SDK_V.tar.gz" "Installing packages: dynamixel_interface... downloading"
+add_command "tar -xvzf V$DYNAMIXEL_SDK_V.tar.gz" "Installing packages: dynamixel_interface... untar"
+add_command "rm V$DYNAMIXEL_SDK_V.tar.gz" "Installing packages: dynamixel_interface... removing tar file"
+
 add_command "cd $CATKIN_WS_SRC/" "Installing packages: realsense"
 add_command "wget -q https://github.com/intel-ros/realsense/archive/2.0.3.tar.gz" "Installing packages: realsense... downloading ros package"
 add_command "tar -xvzf 2.0.3.tar.gz" "Installing packages: realsense... untar"
