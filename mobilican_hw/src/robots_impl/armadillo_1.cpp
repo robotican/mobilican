@@ -71,6 +71,14 @@ void Armadillo_1::registerInterfaces() {
     registerInterface(&effort_interface_);
 }
 
+void Armadillo_1::stop() {
+    std::vector<roboteq::Motor*> * motors;
+    roboteq_.getMotors(motors);
+    for (roboteq::Motor * m : *motors) {
+        m->stopMotor();
+    }
+}
+
 void Armadillo_1::write(const ros::Time &time, const ros::Duration &duration) {
     roboteq_.write(time, duration);
     dxl_motors_.write();

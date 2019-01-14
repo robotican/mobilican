@@ -81,6 +81,12 @@ void Komodo_2::registerInterfaces()
     registerInterface(&vel_joint_interface_);
 }
 
+void Komodo_2::stop() {
+    for (roboteq::Motor * m : *motors_) {
+        m->stopMotor();
+    }
+}
+
 void Komodo_2::write(const ros::Time &time, const ros::Duration &duration) {
     roboteq_.write(time, duration);
 }

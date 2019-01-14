@@ -76,9 +76,6 @@ private:
 
     ros::Timer vel_delta_timer_;
 
-
-
-
     static void updateWheelPosition(wheel &wheel, double new_pos);
     void onControlLoopTimer(const ros::TimerEvent &);
 
@@ -95,6 +92,7 @@ public:
     void write(const ros::Time &time, const ros::Duration& duration) override {};
     void read(const ros::Time &time, const ros::Duration& duration) override {};
     void registerInterfaces() override;
+    void stop() override;
     std::string getName() override { return "lizi_2"; };
     static id_type hwId() { return 0x68560102; }
 };

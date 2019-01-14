@@ -98,6 +98,7 @@ public:
     // general robot methods
     virtual void read(const ros::Time &time, const ros::Duration& duration) = 0;
     virtual void write(const ros::Time &time, const ros::Duration& duration) = 0;
+    virtual void stop() = 0;
 
     virtual void registerInterfaces() = 0;
     virtual std::string getName() = 0;

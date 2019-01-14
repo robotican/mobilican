@@ -43,7 +43,6 @@
 #include "mobilican_hw/mobile_robot.h"
 #include "mobilican_hw/robots_factory.h"
 
-
 int main(int argc, char **argv) {
     ros::init(argc, argv, "hw_node");
     ros::NodeHandle nh;
@@ -85,6 +84,8 @@ int main(int argc, char **argv) {
         robot->write(ros::Time::now(), duration);
         ros::Duration(0.005).sleep();
     }
+
+    robot->stop();
 
     delete robot;
 }

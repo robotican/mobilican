@@ -84,6 +84,7 @@ public:
     void write(const ros::Time &time, const ros::Duration& duration) override;
     void read(const ros::Time &time, const ros::Duration& duration) override;
     void registerInterfaces() override;
+    void stop() override;
     std::string getName() override { return "armadillo_1"; };
     static id_type hwId() { return 0x68560301; }
 

@@ -117,6 +117,12 @@ Lizi_2::Lizi_2(ros::NodeHandle &nh, RicClient& ric_client) : RobotGroupA(nh, ric
     enc_rr_stat_time_ = ros::Time::now();
 }
 
+void Lizi_2::stop() {
+    for (wheel *w : wheels_control_.getWheels()) {
+        ric_client_->writeServoCommand(1500, w->id);
+    }
+}
+
 void Lizi_2::onControlLoopTimer(const ros::TimerEvent &) {
     double delta_t = control_loop_interval_;
     for (auto &wheel : wheels_control_.getWheels()) {
