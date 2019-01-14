@@ -202,7 +202,7 @@
         <mu2>${mu2}</mu2>
         <fdir1>1 0 0</fdir1>
         <maxVel>1.0</maxVel>
-        <minDepth>0.00</minDepth>
+        <minDepth>0.005</minDepth>
         <material>Gazebo/DarkGrey</material>
     </gazebo>
     
@@ -214,7 +214,7 @@
         <mu2>${mu2}</mu2>
         <fdir1>1 0 0</fdir1>
         <maxVel>1.0</maxVel>
-        <minDepth>0.00</minDepth>
+        <minDepth>0.005</minDepth>
         <material>Gazebo/DarkGrey</material>
     </gazebo>
     
@@ -226,7 +226,7 @@
         <mu2>0.0</mu2>
         <fdir1>1 0 0</fdir1>
         <maxVel>1.0</maxVel>
-        <minDepth>0.00</minDepth>
+        <minDepth>0.002</minDepth>
         <material>Gazebo/DarkGrey</material>
     </gazebo>
     
@@ -238,7 +238,7 @@
         <mu2>0.0</mu2>
         <fdir1>1 0 0</fdir1>
         <maxVel>1.0</maxVel>
-        <minDepth>0.00</minDepth>
+        <minDepth>0.002</minDepth>
         <material>Gazebo/DarkGrey</material>
     </gazebo>
 

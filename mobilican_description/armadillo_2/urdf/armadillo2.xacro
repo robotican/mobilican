@@ -61,6 +61,7 @@
       <child link="caster_back_left_link"/>
       <origin xyz="-0.2 0.24 ${-WHEEL_RADIUS+0.0115+0.05}" rpy="${-M_PI/2} 0 0"/>
     </joint>
+
     <link name="caster_back_left_link">
       <collision>
         <geometry>
@@ -79,6 +80,7 @@
         iyz="-1.0124E-07"
         izz="0.0069054" />
       </inertial>
+      <damping>3.0</damping>
     </link>
 
     <joint name="caster_back_right_joint" type="fixed">
@@ -86,6 +88,7 @@
       <child link="caster_back_right_link"/>
       <origin xyz="-0.2 -0.24 ${-WHEEL_RADIUS+0.0115+0.05}" rpy="${-M_PI/2} 0 0"/>
     </joint>
+
     <link name="caster_back_right_link">
       <collision>
         <geometry>
@@ -104,6 +107,7 @@
         iyz="-1.0124E-07"
         izz="0.0069054" />
       </inertial>
+      <damping>3.0</damping>
     </link>
 
 
@@ -146,6 +150,7 @@
       <cylinder  length="0.07" radius="${WHEEL_RADIUS}"/> 
       </geometry>
     </collision>
+    <damping>3.0</damping>
   </link>
 
 
@@ -204,6 +209,7 @@
       <cylinder  length="0.07" radius="${WHEEL_RADIUS}"/> 
       </geometry>
     </collision>
+    <damping>3.0</damping>
   </link>
 
   <joint
@@ -222,10 +228,6 @@
       effort="0.1"
       velocity="10.0" />
   </joint>
-
-
-
-
 
  <link
     name="caster_left_link">
