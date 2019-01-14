@@ -1,20 +1,29 @@
 #!/bin/bash
 
 ###################### Author: Elhay Rauper ##########################
-# ______  __    ___    __     ___  _____      ___   ___         ______
-#  _____ |__\  |   |  |  \   |   |   |    |  |     /   \  |\  | _____
-#   ____ | \   |   |  |__|_  |   |   |    |  |     |___|  | \ | ____
-#    ___ |  \  |___|  |____| |___|   |    |  |___  |   |  |  \| ___
-#
+                        # welcome screen #
+welcome_txt="
+  _____            _               _______   _                        
+ |  __ \          | |             |__   __| (_)                       
+ | |__) |   ___   | |__     ___      | |     _    ___    __ _   _ __  
+ |  _  /   / _ \  | '_ \   / _ \     | |    | |  / __|  / _\` | | '_ \ 
+ | | \ \  | (_) | | |_) | | (_) |    | |    | | | (__  | (_| | | | | |
+ |_|  \_\  \___/  |_.__/   \___/     |_|    |_|  \___|  \__,_| |_| |_|
+
+        Welcome to mobilican installation, press OK to start
+"
 ######################################################################
 
 # from this point on, exit and notify immediately 
 # if a command exits with a non-zero status
 # set -eb
 
+whiptail --title "Mobilican Installation" --msgbox "$welcome_txt" 30 78
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CATKIN_WS_SRC=`cd $SCRIPT_DIR/../../.. && pwd`
-LOG_FILE=$CATKIN_WS_SRC/mobilican/mobilican/setup/log.txt
+MOBILICAN_DIR=`cd $SCRIPT_DIR/../../ && pwd`
+LOG_FILE=$SCRIPT_DIR/log.txt
+echo $MOBILICAN_DIR
 # init log file
 echo "****** installation started at `date` ******" > $LOG_FILE
 
@@ -229,7 +238,7 @@ add_command "make -j8 > build_output.txt 2>&1 && sudo -S <<< $psw make install" 
 
 add_command "sudo -S <<< $psw apt -y install setserial" \
 "Installing USB rules... setserial to low latency" 
-add_command "sudo -S <<< $psw cp $CATKIN_WS_SRC/mobilican/mobilican/setup/rules/* /etc/udev/rules.d" \
+add_command "sudo -S <<< $psw cp $MOBILICAN_DIR/mobilican/setup/rules/* /etc/udev/rules.d" \
 "Installing USB rules... copying rules" 
 add_command "sudo -S <<< $psw udevadm control --reload-rules && udevadm trigger" \
 "Installing USB rules... applying rules" 
