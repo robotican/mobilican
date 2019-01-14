@@ -108,11 +108,11 @@
     
     <group if="$(arg move_base)">
         <include file="$(find mobilican_navigation)/launch/move_base.launch" />
-        <rosparam file="$(find mobilican_navigation)/config/move_base_params.yaml" command="load" ns="move_base"/>
-        <rosparam file="$(find mobilican_navigation)/config/costmap_common_params.yaml" command="load" ns="move_base/global_costmap" />
-        <rosparam file="$(find mobilican_navigation)/config/costmap_common_params.yaml" command="load" ns="move_base/local_costmap" />
-        <rosparam file="$(find mobilican_navigation)/config/local_costmap_params.yaml" command="load" ns="move_base/local_costmap" />
-        <rosparam file="$(find mobilican_navigation)/config/global_costmap_params.yaml" command="load" ns="move_base/global_costmap"/>
+        <rosparam file="$(find mobilican_navigation)/config/komodo_2/move_base_params.yaml" command="load" ns="move_base"/>
+        <rosparam file="$(find mobilican_navigation)/config/komodo_2/costmap_common_params.yaml" command="load" ns="move_base/global_costmap" />
+        <rosparam file="$(find mobilican_navigation)/config/komodo_2/costmap_common_params.yaml" command="load" ns="move_base/local_costmap" />
+        <rosparam file="$(find mobilican_navigation)/config/komodo_2/local_costmap_params.yaml" command="load" ns="move_base/local_costmap" />
+        <rosparam file="$(find mobilican_navigation)/config/komodo_2/global_costmap_params.yaml" command="load" ns="move_base/global_costmap"/>
     </group>
     
 </launch>
