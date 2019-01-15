@@ -1,0 +1,7 @@
+# settings for steelseries joystick
+axis_angular: 2 # right side stick - right-left 
+axis_linear: 3 # right side stick - up-down 
+deadman_button: 6 # button L1 
+reverse_angular: false
+reverse_linear: false
+twist_topic: mobile_base_controller/cmd_vel

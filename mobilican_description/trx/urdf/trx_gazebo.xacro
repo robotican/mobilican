@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="trx_robot" description="trx robot">
+    
+    <xacro:include filename="$(find trx_description)/urdf/trx.urdf" />
+    <xacro:include filename="$(find mobilican_gazebo)/macros/depth_cam.xacro" />
+    <xacro:include filename="$(find mobilican_gazebo)/macros/urf.xacro" />
+    <xacro:include filename="$(find mobilican_gazebo)/macros/lidar.xacro" />
+    <xacro:include filename="$(find mobilican_gazebo)/macros/imu.xacro" />
+    <xacro:include filename="$(find mobilican_gazebo)/macros/cam.xacro" />
+    <xacro:include filename="$(find trx_gazebo)/macros/VLP-16.urdf.xacro"/>
+
+
+
+    <xacro:property name="M_PI" value="3.14159265358979" />
+    <xacro:property name="URF_FOV" value="${10.0*M_PI/180}" />
+    
+    <xacro:arg name="controllers" default="true"/>
+    <xacro:arg name="urf" default="false"/>
+    <xacro:arg name="imu" default="false"/>
+    <xacro:arg name="lidar" default="false"/>
+    <xacro:arg name="depth_cam" default="false"/>
+    <xacro:arg name="cams" default="false"/>
+        
+    <xacro:if value="$(arg depth_cam)">
+        
+        <xacro:DepthCam name="camera" 
+                        link="camera_link" 
+                        optical_frame="camera_depth_optical_frame"
+                        horizontal_fov="1.592" 
+                        img_width="1280"
+                        img_height="800" 
+                        img_format="B8G8R8" 
+                        clip_near="0.1" 
+                        clip_far="200" 
+                        update_rate="30.0" 
+                        image_topic="color/image_raw" 
+                        depth_topic="depth/color/image_raw" 
+                        cloud_topic="depth/color/points" 
+                        info_topic="color/camera_info" 
+                        depth_info_topic="depth/camera_info" 
+                        pointcloud_cuttoff="0.2" /> 
+        
+    </xacro:if>
+
+     <xacro:if value="$(arg cams)">
+       
+        <xacro:Camera name="top_cam" 
+                link="top_cam" 
+                image_width="1280" 
+                image_height="720" 
+                image_format="R8G8B8" 
+                clip_near="0.02" 
+                clip_far="200"
+                image_topic="image_raw"
+                info_topic="info"
+                update_rate="30"
+                horizontal_fov="1.064" />
+        
+        <xacro:Camera name="middle_cam" 
+                link="middle_cam" 
+                image_width="1280" 
+                image_height="720" 
+                image_format="R8G8B8" 
+                clip_near="0.02" 
+                clip_far="200"
+                image_topic="image_raw"
+                info_topic="info"
+                update_rate="30"
+                horizontal_fov="1.064" />
+
+        <xacro:Camera name="bottom_cam" 
+                link="bottom_cam" 
+                image_width="1280" 
+                image_height="720" 
+                image_format="R8G8B8" 
+                clip_near="0.02" 
+                clip_far="200"
+                image_topic="image_raw"
+                info_topic="info"
+                update_rate="30"
+                horizontal_fov="1.064" />
+            
+    </xacro:if>
+       
+    <xacro:if value="$(arg urf)">
+        <xacro:urf name="left" link="urf_left" topic="urf/left" fov="${10.0*M_PI/180.0}" min="0.3" max="5.0" update_rate="10"/>
+        <xacro:urf name="right" link="urf_right" topic="urf/right" fov="${10.0*M_PI/180.0}" min="0.3" max="5.0" update_rate="10"/>
+        <xacro:urf name="rear" link="urf_rear" topic="urf/rear" fov="${10.0*M_PI/180.0}" min="0.3" max="5.0" update_rate="10"/>
+    </xacro:if>
+        
+    <xacro:if value="$(arg lidar)">
+        <VLP-16 parent="lidar" name="velodyne" topic="/velodyne_points" hz="10" samples="440" gpu="false">
+            <origin xyz="0 0 0.4" rpy="0 0 0" />
+        </VLP-16>
+    </xacro:if>
+        
+    <xacro:if value="$(arg imu)">
+        <xacro:imu link="base_link" hz="50" topic="imu" />
+    </xacro:if>
+
+    <!-- controller manager and hardware interfaces -->
+    <xacro:if value="$(arg controllers)">
+        
+        <gazebo>
+            <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+                <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+            </plugin>
+        </gazebo>
+        
+        <!-- joints -->
+        <transmission name="wheel_front_left_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="wheel_front_left_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="wheel_front_left_joint_motor">
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+        
+        <transmission name="wheel_front_right_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="wheel_front_right_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="wheel_front_right_joint_motor">
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+        
+    </xacro:if>
+    
+    <xacro:property name="mu1" value="1.0" />
+    <xacro:property name="mu2" value="1.0" />
+            
+    <gazebo reference="wheel_front_left">
+        <!-- kp and kd for rubber -->
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <mu1>${mu1}</mu1>
+        <mu2>${mu2}</mu2>
+        <fdir1>1 0 0</fdir1>
+        <maxVel>1.0</maxVel>
+        <minDepth>0.00</minDepth>
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    
+    <gazebo reference="wheel_front_right">
+        <!-- kp and kd for rubber -->
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <mu1>${mu1}</mu1>
+        <mu2>${mu2}</mu2>
+        <fdir1>1 0 0</fdir1>
+        <maxVel>1.0</maxVel>
+        <minDepth>0.00</minDepth>
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    
+    <gazebo reference="wheel_rear_left">
+        <!-- kp and kd for rubber -->
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <mu1>0.0</mu1>
+        <mu2>0.0</mu2>
+        <fdir1>1 0 0</fdir1>
+        <maxVel>1.0</maxVel>
+        <minDepth>0.00</minDepth>
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    
+    <gazebo reference="wheel_rear_right">
+    <!-- kp and kd for rubber -->
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <mu1>0.0</mu1>
+        <mu2>0.0</mu2>
+        <fdir1>1 0 0</fdir1>
+        <maxVel>1.0</maxVel>
+        <minDepth>0.00</minDepth>
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    
+    <gazebo reference="base_link">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+
+</robot>
+        
