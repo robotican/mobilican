@@ -27,19 +27,16 @@ $ cd ~/catkin_ws
 $ catkin build
 ```
 
-2. Navigate into your catkin workspace src folder. i.e.:
+2. Download mobilican package from latest release [here](https://catkin-tools.readthedocs.io/en/latest/index.html).
 ```
 $ cd ~/catkin_ws/src
 ```
 
-3. Download mobilican package:
-```
-$ git clone https://github.com/robotican/mobilican.git
-```
+3. Extract the files into your workspace source directory (e.g. ~/catkin_ws/src/)
 
 4. Navigate into the setup folder:
 ```
-$ cd mobilican/mobilican/setup
+$ cd ~/catkin_ws/src/mobilican/mobilican/setup
 ```
 
 5. Run setup.sh script:
@@ -53,6 +50,25 @@ $ cd mobilican/mobilican/setup
 ```
 mobilican/mobilican/setup/log.txt
 ```
+
+## Updating Instructions
+Updating existing mobilican package can be done automatically with the updater script.
+The script assumes you downloaded the package from latest release (as opposed to ```git clone```), because it uses the package name to compare between newest version to the existing package version.
+
+### Running Updater Script
+********************************************
+!!!WARNING!!!: IF NEWER VERSION EXIST, THE SCRIPT WILL DELETE ALL FILES IN WORKSPACE SRC FOLDER, AND STARTS UPDATE PROCESS IMMEDIATELY. BACK UP YOUR SRC FOLDER BEFORE USING THIS SCRIPT
+********************************************
+
+1. cd into mobilican folder insdie mobilican package:
+```
+$ cd mobilican/mobilican
+```
+2. execute the script:
+```
+./updater.sh
+```
+3. if newer version exist, the script will start its installation process immediately by downloading the new package, and then the Mobilican installation screen will come up, asking you to press OK to start the new version installation process.  
 
 ## Usage Instructions
 
