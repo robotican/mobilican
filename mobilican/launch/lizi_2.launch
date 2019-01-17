@@ -94,15 +94,15 @@
     
    
     <group if="$(arg gmapping)">
-        <include file="$(find lizi_navigation)/launch/gmapping.launch" />
+        <include file="$(find mobilican_navigation)/launch/gmapping.launch" />
     </group>
     
     <group if="$(arg hector_slam)">
-        <include file="$(find lizi_navigation)/launch/hector_slam.launch" />
+        <include file="$(find mobilican_navigation)/launch/hector_slam.launch" />
     </group>
 
     <group if="$(arg amcl)">
-        <include file="$(find lizi_navigation)/launch/amcl.launch" >
+        <include file="$(find mobilican_navigation)/launch/amcl.launch" >
             <arg name="initial_pose_x" value="$(arg x)"/>
             <arg name="initial_pose_y" value="$(arg y)"/>
             <arg name="initial_pose_a" value="$(arg Y)"/>
@@ -110,12 +110,12 @@
     </group>
     
     <group if="$(arg move_base)">
-        <include file="$(find lizi_navigation)/launch/move_base.launch" />
-        <rosparam file="$(find lizi_navigation)/config/lizi_2/move_base_params.yaml" command="load" ns="move_base"/>
-        <rosparam file="$(find lizi_navigation)/config/lizi_2/costmap_common_params.yaml" command="load" ns="move_base/global_costmap" />
-        <rosparam file="$(find lizi_navigation)/config/lizi_2/costmap_common_params.yaml" command="load" ns="move_base/local_costmap" />
-        <rosparam file="$(find lizi_navigation)/config/lizi_2/local_costmap_params.yaml" command="load" ns="move_base/local_costmap" />
-        <rosparam file="$(find lizi_navigation)/config/lizi_2/global_costmap_params.yaml" command="load" ns="move_base/global_costmap"/>
+        <include file="$(find mobilican_navigation)/launch/move_base.launch" />
+        <rosparam file="$(find mobilican_navigation)/config/lizi_2/move_base_params.yaml" command="load" ns="move_base"/>
+        <rosparam file="$(find mobilican_navigation)/config/lizi_2/costmap_common_params.yaml" command="load" ns="move_base/global_costmap" />
+        <rosparam file="$(find mobilican_navigation)/config/lizi_2/costmap_common_params.yaml" command="load" ns="move_base/local_costmap" />
+        <rosparam file="$(find mobilican_navigation)/config/lizi_2/local_costmap_params.yaml" command="load" ns="move_base/local_costmap" />
+        <rosparam file="$(find mobilican_navigation)/config/lizi_2/global_costmap_params.yaml" command="load" ns="move_base/global_costmap"/>
     </group>
     
 </launch>
