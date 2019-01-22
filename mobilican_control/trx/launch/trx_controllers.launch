@@ -4,7 +4,7 @@
   <arg name="enable_mbc_odom_tf" default="false" doc="enable mobile_base_controller odom tf"/>
   
   
-  <rosparam file="$(find trx_control)/config/trx_control.yaml" command="load"/>
+  <rosparam file="$(find mobilican_control)/trx/config/trx_control.yaml" command="load"/>
   <param name="mobile_base_controller/enable_odom_tf" value="$(arg enable_mbc_odom_tf)" />
   
   <!-- load the controllers -->

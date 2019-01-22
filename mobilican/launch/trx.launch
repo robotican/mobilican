@@ -30,7 +30,7 @@
 
 
     <group if="$(arg carto)">
-        <include file="$(find trx_control)/launch/trx_controllers.launch" >
+        <include file="$(find mobilican_control)/trx/launch/trx_controllers.launch" >
             <arg name="enable_mbc_odom_tf" value="false"/>
         </include>
     </group>
