@@ -150,6 +150,11 @@ add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-hector-gazebo-plugi
 "Installing packages... hector-gazebo-plugins"
 add_command "sudo -S <<< $psw apt-get -y install espeak espeak-data libespeak-dev" \
 "Installing packages... espeak"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-pointcloud-to-laserscan" \
+"Installing packages... pointcloud-to-laserscan"
+
+
+
 
 RIC_INTERFACE_ROS_V="1.1.0"
 add_command "wget -q https://github.com/robotican/ric_interface_ros/archive/V$RIC_INTERFACE_ROS_V.tar.gz" \
