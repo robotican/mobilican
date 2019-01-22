@@ -2,7 +2,7 @@ global_frame: odom
 rolling_window: true
 
 inflation:
-    inflation_radius: 0.03
+    inflation_radius: 0.05
     cost_scaling_factor: 10
 
 plugins:

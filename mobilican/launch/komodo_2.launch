@@ -3,10 +3,10 @@
 <!-- komodo2 top-level launch -->
 
 <launch>
-    
+
     <!--common settings-->
     <arg name="gazebo" default="false" doc="execute komodo2 inside gazebo sim"/>
-    <arg name="world_name" default="worlds/empty.world"/> 
+    <arg name="world_name" default="worlds/empty.world"/>
     <arg name="x" default="0.0"/>
     <arg name="y" default="0.0"/>
     <arg name="z" default="0.0"/>
@@ -25,13 +25,13 @@
     <!--uncommon settings-->
     <arg name="joy_dev" default="/dev/input/js0"/>
     <arg name="joy_profile" default="xbox"/>
-    
+
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
-        
+
     <include file="$(find mobilican_control)/komodo_2/launch/komodo2_controllers.launch" />
-    
+
     <include file="$(find espeak_ros)/launch/espeak_ros.launch" />
-    
+
     <group if="$(arg have_map)">
         <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)" />
     </group>
@@ -39,73 +39,73 @@
     <!--if no one publish map-odom tf, load static tf-->
     <group unless="$(arg gmapping)">
         <group unless="$(arg hector_slam)">
-            <group unless="$(arg amcl)">           
-          	  <group unless="$(arg robot_localization)">  
-                     <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 20" /> 
-              </group>   
-            </group>   
-        </group>    
+            <group unless="$(arg amcl)">
+          	  <group unless="$(arg robot_localization)">
+                     <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 20" />
+              </group>
+            </group>
+        </group>
     </group>
-    
+
     <!--load simulation stuff-->
     <group if="$(arg gazebo)">
          <env name="GAZEBO_MODEL_PATH" value="$(find mobilican_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/>
-         <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/komodo_2/urdf/komodo2_gazebo.xacro' --inorder 
+         <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/komodo_2/urdf/komodo2_gazebo.xacro' --inorder
                 depth_cam:=$(arg depth_cam)
                 rgb_cam:=$(arg rgb_cam)
                 urf:=true
                 imu:=true
                 gps:=true
                 lidar:=true" />
-        
-	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
+
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
               <arg name="world_name" value="$(arg world_name)"/>
-	      <arg name="gui" value="true"/>	     
+	      <arg name="gui" value="true"/>
 	</include>
 
         <node name="komodo2_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model komodo2 -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg Y)" />
     </group>
-    
+
     <!--load hardware stuff-->
     <group unless="$(arg gazebo)">
         <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/komodo_2/urdf/komodo2.xacro' --inorder" />
         <include file="$(find mobilican_hw)/launch/komodo2_hw.launch" />
-                
+
         <group if="$(arg depth_cam)">
             <include file="$(find intel_d435)/launch/d435.launch" />
         </group>
-    
+
         <group if="$(arg rgb_cam)">
             <include file="$(find usb_cams)/launch/front_cam.launch" />
         </group>
-                
+
         <group if="$(arg lidar)">
             <include file="$(find lidar_urg_node)/launch/lidar.launch" />
         </group>
-        
+
     </group>
-    
-   
+
+
     <group if="$(arg gmapping)">
-        <include file="$(find komodo2_navigation)/launch/gmapping.launch" />
+        <include file="$(find mobilican_navigation)/launch/gmapping.launch" />
     </group>
-    
+
     <group if="$(arg hector_slam)">
-        <include file="$(find komodo2_navigation)/launch/hector_slam.launch" />
+        <include file="$(find mobilican_navigation)/launch/hector_slam.launch" />
     </group>
 
         <group if="$(arg robot_localization)">
-        <include file="$(find komodo2_navigation)/launch/robot_localization.launch" />
+        <include file="$(find mobilican_navigation)/launch/robot_localization.launch" />
     </group>
 
     <group if="$(arg amcl)">
-        <include file="$(find komodo2_navigation)/launch/amcl.launch" >
-            <arg name="x" value="$(arg x)"/>
-            <arg name="y" value="$(arg y)"/>
-            <arg name="Y" value="$(arg Y)"/>
+        <include file="$(find mobilican_navigation)/launch/amcl.launch" >
+            <arg name="initial_pose_x" value="$(arg x)"/>
+            <arg name="initial_pose_y" value="$(arg y)"/>
+            <arg name="initial_pose_a" value="$(arg Y)"/>
 	</include>
     </group>
-    
+
     <group if="$(arg move_base)">
         <include file="$(find mobilican_navigation)/launch/move_base.launch" />
         <rosparam file="$(find mobilican_navigation)/config/komodo_2/move_base_params.yaml" command="load" ns="move_base"/>
@@ -114,5 +114,5 @@
         <rosparam file="$(find mobilican_navigation)/config/komodo_2/local_costmap_params.yaml" command="load" ns="move_base/local_costmap" />
         <rosparam file="$(find mobilican_navigation)/config/komodo_2/global_costmap_params.yaml" command="load" ns="move_base/global_costmap"/>
     </group>
-    
+
 </launch>
