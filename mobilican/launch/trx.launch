@@ -75,7 +75,7 @@
                 cams:=$(arg cams)
                 urf:=true
                 imu:=true
-                lidar:=true" />
+                lidar:=$(arg lidar)" />
         
         <include file="$(find gazebo_ros)/launch/empty_world.launch">	    
                 <arg name="world_name" value="$(arg world)"/>

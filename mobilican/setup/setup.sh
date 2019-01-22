@@ -152,6 +152,8 @@ add_command "sudo -S <<< $psw apt-get -y install espeak espeak-data libespeak-de
 "Installing packages... espeak"
 add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-pointcloud-to-laserscan" \
 "Installing packages... pointcloud-to-laserscan"
+add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-velodyne-*" \
+"Installing packages... velodyne"
 
 
 
