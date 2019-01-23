@@ -48,7 +48,7 @@
         </include>
     </group>
     
-    <include file="$(find espeak_ros)/launch/espeak_ros.launch" />
+    <!-- <include file="$(find espeak_ros)/launch/espeak_ros.launch" /> -->
     
     <group if="$(arg have_map)">
         <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)" />

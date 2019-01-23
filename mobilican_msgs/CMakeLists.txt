@@ -8,7 +8,10 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  std_msgs
+  std_srvs
   roscpp
+  trajectory_msgs
   message_generation
   geometry_msgs
   genmsg
@@ -43,33 +46,27 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate messages in the 'msg' folder
  add_message_files(
-   FILES
-         WheelsPID.msg
-         WheelPID.msg
+   DIRECTORY msg
  )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+ add_service_files(
+   DIRECTORY srvs
+ )
 
 ## Generate actions in the 'action' folder
-#add_action_files(
-#  DIRECTORY action
-#  FILES
-#  Move.action
-#   Action1.action
-#   Action2.action
-# )
+add_action_files(
+  DIRECTORY action
+)
 
 ## Generate added messages and services with any dependencies listed here
  generate_messages(
    DEPENDENCIES
    std_msgs  # Or other packages containing msgs
+   std_srvs
    geometry_msgs
    actionlib_msgs
+   trajectory_msgs
  )
 
 
@@ -83,12 +80,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES mobilican_msgs
 CATKIN_DEPENDS
-  #other_catkin_pkg
   actionlib_msgs
   geometry_msgs
   message_runtime
-#  DEPENDS system_lib
+  trajectory_msgs
 )

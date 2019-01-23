@@ -47,9 +47,6 @@ log() {
     echo "$title: $text" >> $LOG_FILE
 }
 
-# welcome screen
-whiptail --textbox $SCRIPT_DIR/robotican.txt_img 20 75
-
 # force entering password on next sudo command
 sudo -k
 # get user password for sudo use
@@ -154,8 +151,8 @@ add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-pointcloud-to-laser
 "Installing packages... pointcloud-to-laserscan"
 add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-velodyne-*" \
 "Installing packages... velodyne"
-
-
+add_command "sudo -S <<< $psw  apt-get -y install ros-kinetic-gazebo-ros" \
+"Installing packages... gazebo-ros"
 
 
 RIC_INTERFACE_ROS_V="1.1.0"
@@ -188,7 +185,7 @@ add_command "tar -xvzf V$ESPEAK_ROS_V.tar.gz" \
 add_command "rm V$ESPEAK_ROS_V.tar.gz" \
 "Installing packages: espeak_ros... removing tar file"
 
-ROBOTEQ_CONTROL_V="0.1.0"
+ROBOTEQ_CONTROL_V="0.1.1"
 add_command "wget -q https://github.com/robotican/roboteq_control/archive/V$ROBOTEQ_CONTROL_V.tar.gz" \
 "Installing packages: roboteq_control... downloading"
 add_command "tar -xvzf V$ROBOTEQ_CONTROL_V.tar.gz" \
