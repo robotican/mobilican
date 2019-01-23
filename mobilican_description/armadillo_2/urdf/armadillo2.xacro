@@ -79,7 +79,7 @@
         iyz="-1.0124E-07"
         izz="0.0069054" />
       </inertial>
-      <damping>1.0</damping>
+      <damping>0.5</damping>
     </link>
 
     <joint name="caster_back_right_joint" type="fixed">
@@ -106,7 +106,7 @@
         iyz="-1.0124E-07"
         izz="0.0069054" />
       </inertial>
-      <damping>1.0</damping>
+      <damping>0.5</damping>
     </link>
 
 
@@ -149,7 +149,7 @@
       <cylinder  length="0.07" radius="${WHEEL_RADIUS}"/> 
       </geometry>
     </collision>
-    <damping>1.0</damping>
+    <damping>0.5</damping>
   </link>
 
 
@@ -209,7 +209,7 @@
       <cylinder  length="0.07" radius="${WHEEL_RADIUS}"/> 
       </geometry>
     </collision>
-    <damping>1.0</damping>
+    <damping>0.5</damping>
   </link>
 
   <joint
@@ -362,7 +362,7 @@
         xyz="-0.059654 -0.000364 0.549359"
         rpy="0 0 0" />
      <mass
-        value="0.1" />
+        value="0.005" />
       <inertia
         ixx="0.09579"
         ixy="2.4285E-05"
@@ -405,6 +405,7 @@
     </collision>
     
   </link>
+
   <joint
     name="torso_joint"
       type="prismatic">
@@ -623,7 +624,7 @@
         xyz="-3.5316E-10 0.0073117 0.032399"
         rpy="0 0 0" />
       <mass
-        value="0.08" />
+        value="0.008" />
       <inertia
         ixx="0.00055596"
         ixy="0.0"
@@ -670,11 +671,12 @@
     <axis
       xyz="0 0 1" />
        <limit
-      effort="0.01"
+      effort="0.001"
       lower="-1.57"
       upper="1.57"
       velocity="2.0" /> 
   </joint>
+
   <link
     name="shoulder1_link">
     <inertial>
@@ -682,13 +684,13 @@
         xyz="0.01628 -0.03243 0.20044"
         rpy="0 0 0" />
       <mass
-        value="0.001" />
+        value="0.009" />
       <inertia
         ixx="0.0043595"
-        ixy="-3.1405E-06"
+        ixy="0.0"
         ixz="0.00053636"
         iyy="0.0041046"
-        iyz="-5.2275E-05"
+        iyz="0.0"
         izz="0.00081871" />
     </inertial>
     <visual>
@@ -715,6 +717,7 @@
       </geometry>
     </collision>
   </link>
+
   <joint
     name="shoulder1_joint"
     type="revolute">
@@ -732,8 +735,8 @@
       lower="-1.57"
       upper="1.95"
       velocity="2.0" />
-<!--<dynamics damping="0.1" friction="0"/>-->
   </joint>
+
   <link
     name="shoulder2_link">
     <inertial>
@@ -744,10 +747,10 @@
         value="0.001" />
       <inertia
         ixx="0.00093237"
-        ixy="-1.0052E-05"
+        ixy="0.0"
         ixz="0.00048929"
         iyy="0.0012859"
-        iyz="-1.3286E-05"
+        iyz="0.0"
         izz="0.00091329" />
     </inertial>
     <visual>
@@ -774,6 +777,7 @@
       </geometry>
     </collision>
   </link>
+
   <joint
     name="shoulder2_joint"
     type="revolute">
@@ -791,8 +795,8 @@
       lower="-1.48"
       upper="2.3522"
       velocity="2.0" /> 
-<!--<dynamics damping="0.1" friction="0"/>-->
   </joint>
+
   <link
     name="rotation2_link">
     <inertial>
@@ -803,10 +807,10 @@
         value="0.001" />
       <inertia
         ixx="0.00014092"
-        ixy="1.0984E-09"
-        ixz="1.6669E-08"
+        ixy="0.0"
+        ixz="0.0"
         iyy="8.0775E-05"
-        iyz="-1.7606E-06"
+        iyz="0.0"
         izz="0.00010647" />
     </inertial>
     <visual>
@@ -833,6 +837,7 @@
       </geometry>
     </collision>
   </link>
+
   <joint
     name="rotation2_joint"
     type="revolute">
@@ -850,8 +855,8 @@
       lower="-1.57"
       upper="1.57"
       velocity="2.0" /> 
-<!--<dynamics damping="0.1" friction="0"/>-->
   </joint>
+
   <link
     name="shoulder3_link">
     <inertial>
@@ -859,13 +864,13 @@
         xyz="3.9875E-11 -0.044252 0.069689"
         rpy="0 0 0" />
       <mass
-        value="0.001" />
+        value="0.00045" />
       <inertia
         ixx="0.00018198"
-        ixy="2.1351E-13"
-        ixz="-2.3815E-13"
+        ixy="0.0"
+        ixz="0.0"
         iyy="0.00015335"
-        iyz="-5.6341E-06"
+        iyz="0.0"
         izz="7.5641E-05" />
     </inertial>
     <visual>
@@ -892,6 +897,7 @@
       </geometry>
     </collision>
   </link>
+
   <joint
     name="shoulder3_joint"
     type="revolute">
@@ -909,8 +915,9 @@
       lower="-1.57"
       upper="1.57"
       velocity="2.0" /> 
-<!--<dynamics damping="0.1" friction="0"/>-->
-  </joint>
+    <dynamics damping="0.1"/>  
+    </joint>
+
   <link
     name="wrist_link">
     <inertial>
@@ -918,13 +925,13 @@
         xyz="-8.1889E-11 0.02077 -0.0027746"
         rpy="0 0 0" />
       <mass
-        value="0.001" />
+        value="0.00043" />
       <inertia
         ixx="4.4099E-05"
-        ixy="-1.2434E-13"
-        ixz="-1.4422E-13"
+        ixy="0.0"
+        ixz="0.0"
         iyy="9.4421E-05"
-        iyz="3.0209E-06"
+        iyz="0.0"
         izz="0.00010114" />
     </inertial>
     <visual>
@@ -951,6 +958,7 @@
       </geometry>
     </collision>
   </link>
+
   <joint
     name="wrist_joint"
     type="revolute">
@@ -968,10 +976,10 @@
       lower="-3.14"
       upper="3.14"
       velocity="2.0" /> 
-<!--<dynamics damping="0.5" friction="0.5"/>-->
   </joint>
 
   <link name="gripper_link"/>
+  
 
 <joint name="gripper_joint" type="fixed">
     <origin xyz="0 0.06 0" rpy="${M_PI} 0 ${M_PI/2}"/>
@@ -987,13 +995,13 @@
         xyz="5.5511E-17 0.015598 0.034754"
         rpy="0 0 0" />
       <mass
-        value="0.001" />
+        value="0.0003" />
       <inertia
         ixx="1.4683E-05"
-        ixy="-1.0482E-21"
-        ixz="1.8423E-20"
+        ixy="0.0"
+        ixz="0.0"
         iyy="1.7304E-05"
-        iyz="9.2811E-07"
+        iyz="0.0"
         izz="4.5506E-06" />
     </inertial>
     <visual>
@@ -1020,6 +1028,7 @@
       </geometry>
     </collision>
   </link>
+
   <joint
     name="left_finger_joint"
     type="revolute">
@@ -1039,6 +1048,7 @@
       velocity="0.1" /> 
     <dynamics damping="0.1" friction="0.5"/>
   </joint>
+
   <link
     name="right_finger_link">
     <inertial>
@@ -1046,13 +1056,13 @@
         xyz="-1.1102E-16 -0.015598 0.034754"
         rpy="0 0 0" />
       <mass
-        value="0.001" />
+        value="0.0003" />
       <inertia
         ixx="1.4683E-05"
-        ixy="2.0869E-20"
-        ixz="-3.5787E-20"
+        ixy="0.0"
+        ixz="0.0"
         iyy="1.7304E-05"
-        iyz="-9.2811E-07"
+        iyz="0.0"
         izz="4.5506E-06" />
     </inertial>
     <visual>
@@ -1079,6 +1089,7 @@
       </geometry>
     </collision>
   </link>
+  
   <joint
     name="right_finger_joint"
     type="revolute">
