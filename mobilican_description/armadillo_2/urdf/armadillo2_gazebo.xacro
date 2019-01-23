@@ -300,5 +300,61 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
+
+    <!-- Link1 -->
+  <gazebo reference="rotation1_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <!-- Link2 -->
+  <gazebo reference="shoulder1_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <!-- Link3 -->
+  <gazebo reference="shoulder2_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <!-- Link4 -->
+  <gazebo reference="rotation2_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <!-- Link5 -->
+  <gazebo reference="shoulder3_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <!-- Link6 -->
+  <gazebo reference="wrist_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <!-- End Link -->
+  <gazebo reference="right_finger_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <!-- End Link -->
+  <gazebo reference="left_finger_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Grey</material>
+  </gazebo>
     
 </robot>

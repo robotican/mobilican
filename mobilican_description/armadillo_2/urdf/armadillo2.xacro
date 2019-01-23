@@ -359,7 +359,7 @@
     name="torso_link">
   <inertial>
       <origin
-        xyz="-0.059733 -0.00037419 0.54938"
+        xyz="-0.059654 -0.000364 0.549359"
         rpy="0 0 0" />
      <mass
         value="0.1" />
@@ -422,7 +422,6 @@
       upper="0.40"
       effort="0.001"
       velocity="0.1" />
-<!--<dynamics damping="0.1" friction="0"/>-->
   </joint>
 
 
@@ -483,7 +482,6 @@
       lower="${-3.1415926535897/4.0}"
       effort="0.5"
       velocity="2" /> 
-<!--<dynamics damping="0.1" friction="0"/>-->
   </joint>
 
 
@@ -545,7 +543,6 @@
     lower="${-M_PI/6}"
       effort="0.5"
       velocity="2" /> 
-<!--<dynamics damping="0.1" friction="0"/>-->
   </joint>
 
 
@@ -626,13 +623,13 @@
         xyz="-3.5316E-10 0.0073117 0.032399"
         rpy="0 0 0" />
       <mass
-        value="0.001" />
+        value="0.08" />
       <inertia
         ixx="0.00055596"
-        ixy="9.2522E-12"
-        ixz="9.2226E-12"
+        ixy="0.0"
+        ixz="0.0"
         iyy="0.00016945"
-        iyz="6.1918E-06"
+        iyz="0.0"
         izz="0.00055286" />
     </inertial>
     <visual>
@@ -677,7 +674,6 @@
       lower="-1.57"
       upper="1.57"
       velocity="2.0" /> 
-<!--<dynamics damping="0.1" friction="0"/>-->
   </joint>
   <link
     name="shoulder1_link">
