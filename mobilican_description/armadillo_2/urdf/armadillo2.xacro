@@ -15,21 +15,20 @@
     <origin xyz="0.00 0.00 ${WHEEL_RADIUS-0.0115}" rpy="0.0 0.0 0.0"/>
   </joint> 
 
-  <link
-    name="base_link">
+ <link name="base_link">
     <inertial>
       <origin
-        xyz="-0.012353 0.000122 0.17716"
+        xyz=" -0.0456493 0.0002660 0.1875887"
         rpy="0 0 0" />
        <mass
-        value="100" />
+        value="42.08611" />
         <inertia
-          ixx="0.31639"
-          ixy="-9.1727E-05"
-          ixz="-0.093044"
-          iyy="0.017997"
-          iyz="5.3231E-05"
-          izz="0.16693" />
+          ixx="2.8470581"
+          ixy="-0.0025756"
+          ixz="-0.3288866"
+          iyy="2.7606341"
+          iyz="-0.0127145"
+          izz="1.0791602" />
         </inertial>
     <visual>
       <origin
@@ -80,7 +79,7 @@
         iyz="-1.0124E-07"
         izz="0.0069054" />
       </inertial>
-      <damping>3.0</damping>
+      <damping>1.0</damping>
     </link>
 
     <joint name="caster_back_right_joint" type="fixed">
@@ -107,7 +106,7 @@
         iyz="-1.0124E-07"
         izz="0.0069054" />
       </inertial>
-      <damping>3.0</damping>
+      <damping>1.0</damping>
     </link>
 
 
@@ -150,7 +149,7 @@
       <cylinder  length="0.07" radius="${WHEEL_RADIUS}"/> 
       </geometry>
     </collision>
-    <damping>3.0</damping>
+    <damping>1.0</damping>
   </link>
 
 
@@ -209,7 +208,7 @@
       <cylinder  length="0.07" radius="${WHEEL_RADIUS}"/> 
       </geometry>
     </collision>
-    <damping>3.0</damping>
+    <damping>1.0</damping>
   </link>
 
   <joint
@@ -1041,7 +1040,7 @@
       lower="-1.57"
       upper="1.57"
       velocity="0.1" /> 
-<!--<dynamics damping="0.5" friction="0.5"/>-->
+    <dynamics damping="0.1" friction="0.5"/>
   </joint>
   <link
     name="right_finger_link">
@@ -1100,7 +1099,7 @@
       lower="-1.57"
       upper="1.57"
       velocity="0.1" /> 
-<!--<dynamics damping="0.5" friction="0.5"/>-->
+      <dynamics damping="0.1" friction="0.5"/>
   </joint>
 
     <joint

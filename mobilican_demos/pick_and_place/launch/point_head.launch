@@ -3,7 +3,7 @@
 
 <!--EXAMPLE
 
-roslaunch armadillo armadillo.launch gazebo:=true world_name:="`rospack find object_detection`/worlds/objects_on_table.world"
+roslaunch armadillo armadillo.launch gazebo:=true world_name:="`rospack find pick_and_place`/worlds/objects_on_table.world"
 
 roslaunch object_detection point_head.launch 
 
@@ -12,7 +12,7 @@ roslaunch object_detection point_head.launch
 <launch>
     
     <group ns="pan_tilt_trajectory_controller">
-        <node name="point_head_action" pkg="object_detection" type="point_head_action" output="screen" >
+        <node name="point_head_action" pkg="pick_and_place" type="point_head_action" output="screen" >
             <rosparam>
                 pan_link:  head_pan_link
                 tilt_link: head_tilt_link
@@ -22,20 +22,20 @@ roslaunch object_detection point_head.launch
     </group>
     
     
-    <node name="find_object_node" pkg="object_detection" type="find_objects_node" output="screen">
+    <node name="find_object_node" pkg="pick_and_place" type="find_objects_node" output="screen">
         <param name="~object_id" value="1"/>
         <param name="~depth_topic1" value="/kinect2/qhd/points"/>
         <param name="~depth_topic2" value="/kinect2/qhd/points"/>  
-        <rosparam file="$(find object_detection)/config/red_object.yaml" command="load"/>
+        <rosparam file="$(find pick_and_place)/config/red_object.yaml" command="load"/>
     </node>
     
     
-    <node name="objects_handler" pkg="object_detection" type="objects_handler" output="screen">
+    <node name="objects_handler" pkg="pick_and_place" type="objects_handler" output="screen">
         <param name="~db_path" value=""/>
     </node> 
     
     
-    <node name="pan_tilt_object_tracking_node" pkg="object_detection" type="pan_tilt_object_tracking_node" output="screen">
+    <node name="pan_tilt_object_tracking_node" pkg="pick_and_place" type="pan_tilt_object_tracking_node" output="screen">
         <param name="~object_name" value="can"/>
     </node> 
     
