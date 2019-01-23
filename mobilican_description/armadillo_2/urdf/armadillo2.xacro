@@ -110,7 +110,7 @@
     </link>
 
 
- <link
+<link
     name="left_wheel_link">
     <inertial>
       <origin
@@ -151,6 +151,7 @@
     </collision>
     <damping>1.0</damping>
   </link>
+
 
 
   <joint
