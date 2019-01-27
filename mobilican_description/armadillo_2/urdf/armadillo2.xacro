@@ -70,7 +70,7 @@
     <parent link="base_link" />
     <child link="left_wheel_link" />
     <axis xyz="0 1 0" />
-    <limit effort="10.1" velocity="10.0" />
+    <limit effort="100" velocity="10.0" />
   </joint>
 
  <link name="right_wheel_link">
@@ -94,7 +94,6 @@
       <cylinder length="0.05" radius="0.1016"/>
       </geometry>
     </collision>
-    <!-- <damping>0.5</damping> -->
   </link>
 
   <joint name="right_wheel_joint" type="continuous">
@@ -102,7 +101,7 @@
     <parent link="base_link" />
     <child link="right_wheel_link" />
     <axis xyz="0 1 0" />
-    <limit effort="10.1" velocity="10.0" />
+    <limit effort="100" velocity="10.0" />
   </joint>
 
  <link name="caster_left_link">
@@ -256,7 +255,7 @@
     <parent link="base_link" />
     <child link="torso_link" />
     <axis xyz="0 0 1" />
-    <limit lower="0.05" upper="0.40" effort="0.001" velocity="0.1" />
+    <limit lower="0.05" upper="0.40" effort="10" velocity="0.1" />
   </joint>
 
 
@@ -297,7 +296,7 @@
     <parent link="torso_link" />
     <child link="head_pan_link" />
     <axis xyz="0 0 1" />
-    <limit upper="${3.1415926535897/4.0}" lower="${-3.1415926535897/4.0}" effort="0.5" velocity="2" /> 
+    <limit upper="${3.1415926535897/4.0}" lower="${-3.1415926535897/4.0}" effort="10" velocity="2" /> 
   </joint>
 
 
@@ -329,7 +328,7 @@
     <parent link="head_pan_link" />
     <child link="head_tilt_link" />
     <axis xyz="0 1 0" />
-    <limit upper="${50.0*M_PI/180.0}" lower="${-M_PI/6}" effort="0.5" velocity="2" /> 
+    <limit upper="${50.0*M_PI/180.0}" lower="${-M_PI/6}" effort="10" velocity="2" /> 
   </joint>
 
 
@@ -423,7 +422,7 @@
     <parent link="torso_link" />
     <child link="rotation1_link" />
     <axis xyz="0 0 1" />
-       <limit effort="0.001" lower="-1.57" upper="1.57" velocity="2.0" /> 
+       <limit effort="50" lower="-1.57" upper="1.57" velocity="2.0" /> 
   </joint>
 
   <link
@@ -472,7 +471,7 @@
     <parent link="rotation1_link" />
     <child link="shoulder1_link" />
     <axis xyz="0 1 0" />
-    <limit effort="0.01" lower="-1.57" upper="1.95" velocity="2.0" />
+    <limit effort="50" lower="-1.57" upper="1.95" velocity="2.0" />
   </joint>
 
 <link
@@ -521,7 +520,7 @@
     <parent link="shoulder1_link" />
     <child link="shoulder2_link" />
     <axis xyz="0 1 0" />
-    <limit effort="0.1" lower="-1.48" upper="2.3522" velocity="2.0" /> 
+    <limit effort="50" lower="-1.48" upper="2.3522" velocity="2.0" /> 
   </joint>
 
 <link
@@ -570,7 +569,7 @@
     <parent link="shoulder2_link" />
     <child link="rotation2_link" />
     <axis xyz="0 0 1" />
-   <limit effort="0.1" lower="-1.57" upper="1.57" velocity="2.0" /> 
+   <limit effort="40" lower="-1.57" upper="1.57" velocity="2.0" /> 
   </joint>
 
 <link
@@ -619,8 +618,8 @@
     <parent link="rotation2_link" />
     <child link="shoulder3_link" />
     <axis xyz="0 1 0" />
-    <limit effort="0.1" lower="-1.57" upper="1.57" velocity="2.0" /> 
-    <dynamics damping="0.1"/>  
+    <limit effort="40" lower="-1.57" upper="1.57" velocity="2.0" /> 
+    <!-- <dynamics damping="0.1"/>   -->
     </joint>
 
 <link
@@ -669,7 +668,7 @@
     <parent link="shoulder3_link" />
     <child link="wrist_link" />
     <axis xyz="0 1 0" />
- <limit effort="0.1" lower="-3.14" upper="3.14" velocity="2.0" /> 
+ <limit effort="30" lower="-3.14" upper="3.14" velocity="2.0" /> 
   </joint>
 
   <link name="gripper_link"/>
@@ -710,20 +709,20 @@
     <parent link="wrist_link" />
     <child link="left_finger_link" />
     <axis xyz="1 0 0" />
-    <limit effort="0.5" lower="-1.57" upper="1.57" velocity="0.1" /> 
-    <dynamics damping="0.1" friction="0.5"/>
+    <limit effort="5" lower="-1.57" upper="1.57" velocity="0.1" /> 
+    <!-- <dynamics damping="0.1" friction="0.5"/> -->
   </joint>
 
   <link name="right_finger_link">
      <inertial>
-      <origin xyz="5.5511E-17 0.015598 0.034754" rpy="0 0 0" />
+      <origin xyz="2.22044604925031E-16 -0.0155982142997538 0.0347541013107009" rpy="0 0 0" />
       <mass value="0.0172285040929193" />
       <inertia ixx="1.4683E-05" ixy="0.0" ixz="0.0" iyy="1.7304E-05" iyz="0.0" izz="4.5506E-06" />
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/left_finger_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo_2/mesh/right_finger_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.86667 0.9098 1 1" />
@@ -732,7 +731,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/left_finger_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo_2/mesh/right_finger_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -742,8 +741,8 @@
     <parent link="wrist_link" />
     <child link="right_finger_link" />
     <axis xyz="1 0 0" />
-  <limit effort="0.5" lower="-1.57" upper="1.57" velocity="0.1" /> 
-      <dynamics damping="0.1" friction="0.5"/>
+  <limit effort="5" lower="-1.57" upper="1.57" velocity="0.1" /> 
+      <!-- <dynamics damping="0.1" friction="0.5"/> -->
   </joint>
 
     <joint name="intel_d435_joint" type="fixed">
