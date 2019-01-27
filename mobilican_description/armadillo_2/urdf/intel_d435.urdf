@@ -28,7 +28,7 @@
     </collision>
   </link>
   
-  <!-- <joint name="camera_depth_joint" type="fixed">
+  <joint name="camera_depth_joint" type="fixed">
       <origin xyz="0 -0.0122 0" rpy="0 0 0"/>
       <parent link="camera_link"/>
       <child link="camera_depth_frame" />
@@ -82,5 +82,5 @@
       <parent link="camera_fisheye_frame" />
       <child link="camera_fisheye_optical_frame" />
     </joint>
-    <link name="camera_fisheye_optical_frame"/> -->
+    <link name="camera_fisheye_optical_frame"/>
 </robot>
