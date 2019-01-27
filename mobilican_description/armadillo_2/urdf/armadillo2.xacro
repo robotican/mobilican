@@ -5,17 +5,17 @@
   <xacro:property name="M_PI" value="3.1415926535897931" />
   <xacro:property name="WHEEL_RADIUS" value="0.1016" />
 
-  <!-- <xacro:include filename="$(find mobilican_description)/armadillo_2/urdf/intel_d435.urdf"/> 
+  <xacro:include filename="$(find mobilican_description)/armadillo_2/urdf/intel_d435.urdf"/> 
 
-<link name="base_footprint"/>
+ <link name="base_footprint"/>
   
- <joint name="base_footprint_joint" type="fixed">
+<joint name="base_footprint_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
     <origin xyz="0.00 0.00 ${WHEEL_RADIUS-0.0115}" rpy="0.0 0.0 0.0"/>
-  </joint>  -->
+  </joint> 
 
-  <!-- <link name="base_link"> 
+  <link name="base_link"> 
     <inertial>
       <origin xyz=" -0.0456493 0.0002660 0.1875887" rpy="0 0 0" />
       <mass value="42.0" />
@@ -36,10 +36,10 @@
         <mesh filename="package://mobilican_description/armadillo_2/mesh/base_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link> 
 
 
-  <!-- <link name="left_wheel_link">
+<link name="left_wheel_link">
     <inertial>
       <origin xyz="9.16610941069373E-06 4.59070539915452E-09 8.0609835912647E-06" rpy="0 0 0" />
       <mass value="1.5" />
@@ -60,20 +60,20 @@
         <cylinder length="0.05" radius="0.1016"/>
       </geometry>
     </collision>
-    <damping>0.5</damping>
-  </link> -->
+    <!-- <damping>0.5</damping> -->
+  </link>
 
 
 
-  <!-- <joint name="left_wheel_joint" type="continuous">
+  <joint name="left_wheel_joint" type="continuous">
     <origin xyz="0.063115 0.16085 0.0115" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="left_wheel_link" />
     <axis xyz="0 1 0" />
-    <limit effort="0.1" velocity="10.0" />
-  </joint> -->
+    <limit effort="10.1" velocity="10.0" />
+  </joint>
 
- <!-- <link name="right_wheel_link">
+ <link name="right_wheel_link">
     <inertial>
       <origin xyz="9.16610941069373E-06 -4.99540929455033E-06 8.06098359126817E-06" rpy="0 0 0" />
        <mass value="1.5" />
@@ -94,21 +94,21 @@
       <cylinder length="0.05" radius="0.1016"/>
       </geometry>
     </collision>
-    <damping>0.5</damping>
-  </link> -->
+    <!-- <damping>0.5</damping> -->
+  </link>
 
-  <!-- <joint name="right_wheel_joint" type="continuous">
+  <joint name="right_wheel_joint" type="continuous">
     <origin xyz="0.063115 -0.16085 0.0115" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="right_wheel_link" />
     <axis xyz="0 1 0" />
-    <limit effort="0.1" velocity="10.0" />
-  </joint> -->
+    <limit effort="10.1" velocity="10.0" />
+  </joint>
 
- <!-- <link name="caster_left_link">
+ <link name="caster_left_link">
      <inertial>
       <origin
-        xyz="-0.2215584 0.1690000 -0.0478000"
+        xyz="0.0 0.0 0.0"
         rpy="0 0 0" />
        <mass
         value="0.1" />
@@ -135,39 +135,48 @@
       <cylinder length="0.018" radius="0.025"/>
       </geometry>
     </collision>
-  </link> -->
+  </link>
 
 
-  <!-- <link name="laser_link" /> -->
+  <link name="laser_link" />
 
-  <!-- <joint name="laser_joint" type="fixed">
+  <joint name="laser_joint" type="fixed">
     <origin xyz="0.20337 0 0.143" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="laser_link" />
     <axis xyz="0 0 0" />
-  </joint> -->
+  </joint>
 
-  <!-- <link name="front_urf_link" /> -->
+  <link name="front_urf_link" />
 
-  <!-- <joint name="front_urf_joint" type="fixed">
+  <joint name="front_urf_joint" type="fixed">
     <origin xyz="0.24229 0.00011161 0.068509" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="front_urf_link" />
     <axis xyz="0 0 0" />
-  </joint> -->
+  </joint>
 
-  <!-- <joint name="caster_left_joint" type="fixed">
+  <joint name="caster_left_joint" type="fixed">
     <origin xyz="-0.221558374889189 0.168999999975415 -0.0596832588142329" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="caster_left_link" />
     <axis xyz="0 0 0" />
-  </joint> -->
+  </joint>
 
-  <!-- <link name="caster_right_link">
+  <link name="caster_right_link">
       <inertial>
-      <origin xyz="9.16610941069373E-06 -4.99540929455033E-06 8.06098359126817E-06" rpy="0 0 0" />
-       <mass value="20" />
-      <inertia ixx="0.0069046" ixy="-3.8717E-08" ixz="-2.0707E-07" iyy="0.01" iyz="1.0124E-07" izz="0.0069054" />
+      <origin
+        xyz="0.0 0.0 0.0"
+        rpy="0 0 0" />
+       <mass
+        value="0.1" />
+      <inertia
+        ixx="0.0000224"
+        ixy="0.0000001"
+        ixz="0.0000006"
+        iyy="0.0000356"
+        iyz="0.0000001"
+        izz="0.0000211" />
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -178,57 +187,80 @@
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
       </material>
     </visual>
-  </link> -->
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0" />
+      <geometry>
+      <cylinder length="0.018" radius="0.025"/>
+      </geometry>
+    </collision>
+  </link>
 
-  <!-- <joint name="caster_right_joint" type="fixed">
+  <joint name="caster_right_joint" type="fixed">
     <origin xyz="-0.221558374889189 -0.168999999975416 -0.0596832588142329" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="caster_right_link" />
     <axis xyz="0 0 0" />
-  </joint> -->
+  </joint>
 
-
-
-  <!-- <link name="torso_link">
+<link
+    name="torso_link">
   <inertial>
-      <origin xyz="-0.059654 -0.000364 0.549359" rpy="0 0 0" />
-     <mass value="0.005" />
-      <inertia ixx="0.09579" ixy="2.4285E-05" ixz="-0.0045097" iyy="0.0001" iyz="-7.4938E-05" izz="0.00032852" />
+      <origin
+        xyz="-0.0624070 -0.0007353 0.5681605"
+        rpy="0 0 0" />
+     <mass
+        value="12.9807194" />
+      <inertia
+        ixx="0.8307393"
+        ixy="0.0004327"
+        ixz="-0.1085574"
+        iyy="0.7817095"
+        iyz="-0.0020591"
+        izz="0.2750408" />
     </inertial> 
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/torso_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/torso_link.STL" />
       </geometry>
-      <material name="">
-        <color rgba="0.79216 0.81961 0.93333 1" />
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
       </material>
     </visual>
     <collision name="torso">
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/torso_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/torso_link.STL" />
       </geometry>
     </collision>
-    
      <collision name="safty box">
-      <origin xyz="0 -0.03 0.9" rpy="0 0 0" />
+      <origin
+        xyz="0 -0.03 0.9"
+        rpy="0 0 0" />
       <geometry>
         <box size="0.09 0.5 0.6"/>
       </geometry>
     </collision>
-  </link> -->
+  </link>
 
-  <!-- <joint name="torso_joint" type="prismatic">
+  <joint name="torso_joint" type="prismatic">
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="torso_link" />
     <axis xyz="0 0 1" />
     <limit lower="0.05" upper="0.40" effort="0.001" velocity="0.1" />
-  </joint> -->
+  </joint>
 
 
-  <!-- <link name="head_pan_link">
+  <link name="head_pan_link">
   <inertial>
       <origin
         xyz="0.0044497 -0.00020474 0.02363"
@@ -258,18 +290,18 @@
         <mesh filename="package://mobilican_description/armadillo_2/mesh/head_pan_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link>
 
-  <!-- <joint name="head_pan_joint" type="revolute">
+  <joint name="head_pan_joint" type="revolute">
     <origin xyz="-0.055768 0 0.932" rpy="0 0 0" />
     <parent link="torso_link" />
     <child link="head_pan_link" />
     <axis xyz="0 0 1" />
     <limit upper="${3.1415926535897/4.0}" lower="${-3.1415926535897/4.0}" effort="0.5" velocity="2" /> 
-  </joint> -->
+  </joint>
 
 
-  <!-- <link name="head_tilt_link">
+  <link name="head_tilt_link">
     <inertial>
       <origin xyz="-0.002725 0.0002761 0.0027" rpy="0 0 0" />
       <mass value="1.72" />
@@ -290,262 +322,370 @@
         <mesh filename="package://mobilican_description/armadillo_2/mesh/head_tilt_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link>
 
-  <!-- <joint name="head_tilt_joint" type="revolute">
+  <joint name="head_tilt_joint" type="revolute">
     <origin xyz="0 0 0.041" rpy="0 0 0" /> 
     <parent link="head_pan_link" />
     <child link="head_tilt_link" />
     <axis xyz="0 1 0" />
     <limit upper="${50.0*M_PI/180.0}" lower="${-M_PI/6}" effort="0.5" velocity="2" /> 
-  </joint> -->
+  </joint>
 
 
-  <!-- <link name="kinect2_link" /> -->
+  <link name="kinect2_link" />
 
-  <!-- <joint name="kinect2_joint" type="fixed">
+  <joint name="kinect2_joint" type="fixed">
     <origin xyz="0.053 0.0073569 0.070961" rpy="0 0 0" />
     <parent link="head_tilt_link" />
     <child link="kinect2_link" />
     <axis xyz="0 0 0" />
-  </joint> -->
+  </joint>
   
-   <!-- <joint name="kinect2_rgb_joint" type="fixed">
+   <joint name="kinect2_rgb_joint" type="fixed">
       <origin xyz="0 -0.0935 0" rpy="0 0 0"/>
       <parent link="kinect2_link"/>
       <child link="kinect2_rgb_frame" />
-    </joint> -->
+    </joint>
     
-    <!-- <link name="kinect2_rgb_frame"/> -->
+    <link name="kinect2_rgb_frame"/>
 
-      <!-- <joint name="kinect2_rgb_optical_joint" type="fixed">
+      <joint name="kinect2_rgb_optical_joint" type="fixed">
 	<origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
 	<parent link="kinect2_rgb_frame" />
 	<child link="kinect2_rgb_optical_frame" />
-      </joint> -->
+      </joint>
       
-      <!-- <link name="kinect2_rgb_optical_frame" /> -->
+      <link name="kinect2_rgb_optical_frame" />
 	
 	
-	<!-- <joint name="kinect2_depth_joint" type="fixed">
+	<joint name="kinect2_depth_joint" type="fixed">
 	  <origin xyz="0 0 0" rpy="0 0 0" />
 	  <parent link="kinect2_rgb_frame" />
 	  <child link="kinect2_depth_frame" />
-	</joint> -->
+	</joint>
 	
-	<!-- <link name="kinect2_depth_frame" /> -->
+	<link name="kinect2_depth_frame" />
 	  
-	  <!-- <joint name="kinect2_depth_optical_joint" type="fixed">
+	  <joint name="kinect2_depth_optical_joint" type="fixed">
 	    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
 	    <parent link="kinect2_depth_frame" />
 	    <child link="kinect2_depth_optical_frame" />
-	  </joint> -->
+	  </joint>
 
-	  <!-- <link name="kinect2_depth_optical_frame" /> -->
+	  <link name="kinect2_depth_optical_frame" />
  
 
   
-  <!-- <link name="rotation1_link">
+  <link 
+    name="rotation1_link">
     <inertial>
-      <origin xyz="-3.5316E-10 0.0073117 0.032399" rpy="0 0 0" />
-      <mass value="0.008" />
-      <inertia ixx="0.00055596" ixy="0.0" ixz="0.0" iyy="0.00016945" iyz="0.0" izz="0.00055286" />
+      <origin
+        xyz="-1.0226405833258E-09 0.00201234378656519 0.0312057226305194"
+        rpy="0 0 0" />
+      <mass
+        value="0.402504348648636" />
+      <inertia
+        ixx="0.000224140297179524"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.000224140297179524"
+        iyz="0.0"
+        izz="0.000201895164099562" />
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/rotation1_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/rotation1_link.STL" />
       </geometry>
-      <material name="">
-        <color rgba="0.89804 0.91765 0.92941 1" />
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/rotation1_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/rotation1_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link> 
   
-  <!-- <joint name="rotation1_joint" type="revolute">
+  <joint name="rotation1_joint" type="revolute">
     <origin xyz="0.11617 0 0.3885" rpy="0 0 0" />
     <parent link="torso_link" />
     <child link="rotation1_link" />
     <axis xyz="0 0 1" />
        <limit effort="0.001" lower="-1.57" upper="1.57" velocity="2.0" /> 
-  </joint> -->
+  </joint>
 
-  <!-- <link name="shoulder1_link">
+  <link
+    name="shoulder1_link">
     <inertial>
-      <origin xyz="0.01628 -0.03243 0.20044" rpy="0 0 0" />
-      <mass value="0.009" />
-      <inertia ixx="0.0043595" ixy="0.0" ixz="0.00053636" iyy="0.0041046" iyz="0.0" izz="0.00081871" />
+      <origin
+        xyz="0.0103824594991275 -0.0333360824774125 0.171916793222649"
+        rpy="0 0 0" />
+      <mass
+        value="0.87141732403793" />
+      <inertia
+        ixx="0.00683459016686478"
+        ixy="3.01281123659648E-05"
+        ixz="-0.000834285594638681"
+        iyy="0.00663274018298735"
+        iyz="0.000218894839266934"
+        izz="0.000558919646251437" />
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/shoulder1_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/shoulder1_link.STL" />
       </geometry>
-      <material name="">
-        <color rgba="0.89804 0.91765 0.92941 1" />
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/shoulder1_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/shoulder1_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link>
 
-  <!-- <joint name="shoulder1_joint" type="revolute">
+  <joint name="shoulder1_joint" type="revolute">
     <origin xyz="0 0.039 0.0335" rpy="0 0 0" />
     <parent link="rotation1_link" />
     <child link="shoulder1_link" />
     <axis xyz="0 1 0" />
     <limit effort="0.01" lower="-1.57" upper="1.95" velocity="2.0" />
-  </joint> -->
+  </joint>
 
-  <!-- <link name="shoulder2_link">
+<link
+    name="shoulder2_link">
     <inertial>
-      <origin xyz="0.068154 -0.020691 0.11032" rpy="0 0 0" />
-      <mass value="0.001" />
-      <inertia ixx="0.00093237" ixy="0.0" ixz="0.00048929" iyy="0.0012859" iyz="0.0" izz="0.00091329" />
+      <origin
+        xyz="0.0612771822455939 -0.0204668186377628 0.10350201842357"
+        rpy="0 0.785398 0" />
+      <mass
+        value="0.741128425598849" />
+      <inertia
+        ixx="0.00100842531752473"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.00050399512439089"
+        iyz="0.0"
+        izz="0.00098105296683113" />
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/shoulder2_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/shoulder2_link.STL" />
       </geometry>
-      <material name="">
-        <color rgba="0.79216 0.81961 0.93333 1" />
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/shoulder2_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/shoulder2_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link> 
 
-  <!-- <joint name="shoulder2_joint" type="revolute">
+  <joint name="shoulder2_joint" type="revolute">
     <origin xyz="0.029998 -0.012 0.264" rpy="0 0 0" />
     <parent link="shoulder1_link" />
     <child link="shoulder2_link" />
     <axis xyz="0 1 0" />
     <limit effort="0.1" lower="-1.48" upper="2.3522" velocity="2.0" /> 
-  </joint> -->
+  </joint>
 
-  <!-- <link name="rotation2_link">
+<link
+    name="rotation2_link">
     <inertial>
-      <origin xyz="5.0638E-06 -0.0012262 0.056857" rpy="0 0 0" />
-      <mass value="0.001" />
-      <inertia ixx="0.00014092" ixy="0.0" ixz="0.0" iyy="8.0775E-05" iyz="0.0" izz="0.00010647" />
+      <origin
+        xyz="1.01726394516888E-05 -0.0031796069059865 0.0505249736160738"
+        rpy="0 0 0" />
+      <mass
+        value="0.219740442871837" />
+      <inertia
+        ixx="0.000110084389992033"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.000110084389992033"
+        iyz="0.0"
+        izz="3.10356354677758E-05" />
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/rotation2_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/rotation2_link.STL" />
       </geometry>
-      <material name="">
-        <color rgba="0.89804 0.91765 0.92941 1" />
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/rotation2_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/rotation2_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link>
 
-  <!-- <joint name="rotation2_joint" type="revolute">
+  <joint name="rotation2_joint" type="revolute">
     <origin xyz="0.11667 -0.021 0.1591" rpy="1.3528E-11 0.7854 1.9131E-11" />
     <parent link="shoulder2_link" />
     <child link="rotation2_link" />
     <axis xyz="0 0 1" />
    <limit effort="0.1" lower="-1.57" upper="1.57" velocity="2.0" /> 
-  </joint> -->
+  </joint>
 
-  <!-- <link name="shoulder3_link">
+<link
+    name="shoulder3_link">
     <inertial>
-      <origin xyz="3.9875E-11 -0.044252 0.069689" rpy="0 0 0" />
-      <mass value="0.00045" />
-      <inertia ixx="0.00018198" ixy="0.0" ixz="0.0" iyy="0.00015335" iyz="0.0" izz="7.5641E-05" />
+      <origin
+        xyz="8.21574475118325E-11 -0.0436001060354137 0.0601222198650542"
+        rpy="0 0 0" />
+      <mass
+        value="0.209069832085761" />
+      <inertia
+        ixx="0.000178630266881144"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.00012454433257676"
+        iyz="0.0"
+        izz="5.40859343043839E-05" />
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/shoulder3_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/shoulder3_link.STL" />
       </geometry>
-      <material name="">
-        <color rgba="0.79216 0.81961 0.93333 1" />
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/shoulder3_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/shoulder3_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link>
 
-  <!-- <joint name="shoulder3_joint" type="revolute">
+  <joint name="shoulder3_joint" type="revolute">
     <origin xyz="0 0.045 0.063" rpy="0 0 1.862E-16" />
     <parent link="rotation2_link" />
     <child link="shoulder3_link" />
     <axis xyz="0 1 0" />
     <limit effort="0.1" lower="-1.57" upper="1.57" velocity="2.0" /> 
     <dynamics damping="0.1"/>  
-    </joint> -->
+    </joint>
 
-  <!-- <link name="wrist_link">
+<link
+    name="wrist_link">
     <inertial>
-      <origin xyz="-8.1889E-11 0.02077 -0.0027746" rpy="0 0 0" />
-      <mass value="0.00043" />
-      <inertia ixx="4.4099E-05" ixy="0.0" ixz="0.0" iyy="9.4421E-05" iyz="0.0" izz="0.00010114" />
+      <origin
+        xyz="-3.32119904494776E-11 0.0207701139215117 -0.00277462006417989"
+        rpy="0 0 0" />
+      <mass
+        value="0.113652169303154" />
+      <inertia
+        ixx="1.12922127395169E-05"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="5.70993170210379E-05"
+        iyz="0.0"
+        izz="6.37146922467466E-05" />
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/wrist_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/wrist_link.STL" />
       </geometry>
-      <material name="">
-        <color rgba="0.86667 0.9098 1 1" />
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/wrist_link.STL" />
+        <mesh
+          filename="package://mobilican_description/armadillo_2/mesh/wrist_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link>
 
-  <!-- <joint name="wrist_joint" type="revolute">
+  <joint name="wrist_joint" type="revolute">
     <origin xyz="0 -0.045 0.123" rpy="1.5708 1.353E-11 1.5708" />
     <parent link="shoulder3_link" />
     <child link="wrist_link" />
     <axis xyz="0 1 0" />
  <limit effort="0.1" lower="-3.14" upper="3.14" velocity="2.0" /> 
-  </joint> -->
+  </joint>
 
-  <!-- <link name="gripper_link"/> -->
+  <link name="gripper_link"/>
   
 
-<!-- <joint name="gripper_joint" type="fixed">
+<joint name="gripper_joint" type="fixed">
     <origin xyz="0 0.06 0" rpy="${M_PI} 0 ${M_PI/2}"/>
     <parent link="wrist_link"/>
     <child link="gripper_link"/>
- </joint> -->
+ </joint>
 
 
-  <!-- <link name="left_finger_link">
+   <link name="left_finger_link">
     <inertial>
       <origin xyz="5.5511E-17 0.015598 0.034754" rpy="0 0 0" />
-      <mass value="0.0003" />
+      <mass value="0.0172285040929193" />
       <inertia ixx="1.4683E-05" ixy="0.0" ixz="0.0" iyy="1.7304E-05" iyz="0.0" izz="4.5506E-06" />
     </inertial>
     <visual>
@@ -563,27 +703,27 @@
         <mesh filename="package://mobilican_description/armadillo_2/mesh/left_finger_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link> 
 
-  <!-- <joint name="left_finger_joint" type="revolute">
+  <joint name="left_finger_joint" type="revolute">
     <origin xyz="0.025 0.03725 0" rpy="1.5708 -1.5708 ${M_PI}" />
     <parent link="wrist_link" />
     <child link="left_finger_link" />
     <axis xyz="1 0 0" />
     <limit effort="0.5" lower="-1.57" upper="1.57" velocity="0.1" /> 
     <dynamics damping="0.1" friction="0.5"/>
-  </joint> -->
+  </joint>
 
-  <!-- <link name="right_finger_link">
-    <inertial>
-      <origin xyz="-1.1102E-16 -0.015598 0.034754" rpy="0 0 0" />
-      <mass value="0.0003" />
+  <link name="right_finger_link">
+     <inertial>
+      <origin xyz="5.5511E-17 0.015598 0.034754" rpy="0 0 0" />
+      <mass value="0.0172285040929193" />
       <inertia ixx="1.4683E-05" ixy="0.0" ixz="0.0" iyy="1.7304E-05" iyz="0.0" izz="4.5506E-06" />
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/right_finger_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo_2/mesh/left_finger_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.86667 0.9098 1 1" />
@@ -592,26 +732,26 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/right_finger_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo_2/mesh/left_finger_link.STL" />
       </geometry>
     </collision>
-  </link> -->
+  </link>
   
-  <!-- <joint name="right_finger_joint" type="revolute">
+  <joint name="right_finger_joint" type="revolute">
     <origin xyz="-0.025 0.03725 0" rpy="1.5708 -1.5708 ${M_PI}" />
     <parent link="wrist_link" />
     <child link="right_finger_link" />
     <axis xyz="1 0 0" />
   <limit effort="0.5" lower="-1.57" upper="1.57" velocity="0.1" /> 
       <dynamics damping="0.1" friction="0.5"/>
-  </joint> -->
+  </joint>
 
-    <!-- <joint name="intel_d435_joint" type="fixed">
+    <joint name="intel_d435_joint" type="fixed">
     <origin xyz="0 0.0143 -0.0495" rpy="-3.1416 6.1062E-16 1.5708" />
     <parent link="wrist_link" />
     <child link="camera_link" />
     <axis xyz="0 0 0" />
-  </joint> -->
+  </joint>
   
 
 </robot>
