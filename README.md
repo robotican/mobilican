@@ -19,7 +19,7 @@
 
 ## Installation Instructions
 
-1. If you haven't already, create a catkin workspace using ```catkin build```. Mobilican uses ```catkin_tools``` to compile, so workspace must be created using ```catkin build``` instead of ```catkin_make``` for example. See more details about ```catkin_tools``` [here](https://catkin-tools.readthedocs.io/en/latest/index.html)
+1. If you haven't already, create a catkin workspace using ```catkin build```. Mobilican uses ```catkin_tools``` to compile, so workspace **must be created** using ```catkin build``` instead of ```catkin_make``` for example. See more details about ```catkin_tools``` [here](https://catkin-tools.readthedocs.io/en/latest/index.html)
 
 ```
 $ mkdir -p ~/catkin_ws/src
@@ -27,7 +27,7 @@ $ cd ~/catkin_ws
 $ catkin build
 ```
 
-2. Download mobilican package from latest release [here](https://catkin-tools.readthedocs.io/en/latest/index.html).
+2. Download mobilican package from latest release [here](https://github.com/robotican/mobilican/releases) into your workspace src folder
 ```
 $ cd ~/catkin_ws/src
 ```
@@ -57,7 +57,7 @@ The script assumes you downloaded the package from latest release (as opposed to
 
 ### Running Updater Script
 ********************************************
-!!!WARNING!!!: IF NEWER VERSION EXIST, THE SCRIPT WILL DELETE ALL FILES IN WORKSPACE SRC FOLDER, AND STARTS UPDATE PROCESS IMMEDIATELY. BACK UP YOUR SRC FOLDER BEFORE USING THIS SCRIPT
+**!!!WARNING!!! IF NEWER VERSION EXIST, THE SCRIPT WILL DELETE ALL FILES IN WORKSPACE SRC FOLDER, AND STARTS UPDATE PROCESS IMMEDIATELY. BACK UP YOUR SRC FOLDER BEFORE USING THIS SCRIPT**
 ********************************************
 
 1. cd into mobilican folder insdie mobilican package:
@@ -71,6 +71,17 @@ $ cd mobilican/mobilican
 3. if newer version exist, the script will start its installation process immediately by downloading the new package, and then the Mobilican installation screen will come up, asking you to press OK to start the new version installation process.  
 
 ## Usage Instructions
+To launch one of the robots, run:
 
+```$ roslaunch mobilican [robot_launch].launch```
+
+i.e., for the armadillo_2 robot run:
+
+```$ roslaunch mobilican armadillo_2.launch gazebo:=true```
+
+\**You can ommit the ```gazebo:=true``` argument if you are launching 'real' hardware.*
+
+For detaild instructions, see the wiki page:
+https://github.com/robotican/mobilican/wiki
 
 
