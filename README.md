@@ -19,7 +19,7 @@
 
 ## Installation Instructions
 
-1. If you haven't already, create a catkin workspace using ```catkin build```. Mobilican uses ```catkin_tools``` to compile, so workspace must be created using ```catkin build``` instead of ```catkin_make``` for example. See more details about ```catkin_tools``` [here](https://catkin-tools.readthedocs.io/en/latest/index.html)
+1. If you haven't already, create a catkin workspace using ```catkin build```. Mobilican uses ```catkin_tools``` to compile, so workspace **must be created** using ```catkin build``` instead of ```catkin_make``` for example. See more details about ```catkin_tools``` [here](https://catkin-tools.readthedocs.io/en/latest/index.html)
 
 ```
 $ mkdir -p ~/catkin_ws/src
