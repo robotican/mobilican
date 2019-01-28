@@ -57,7 +57,7 @@ The script assumes you downloaded the package from latest release (as opposed to
 
 ### Running Updater Script
 ********************************************
-!!!WARNING!!!: IF NEWER VERSION EXIST, THE SCRIPT WILL DELETE ALL FILES IN WORKSPACE SRC FOLDER, AND STARTS UPDATE PROCESS IMMEDIATELY. BACK UP YOUR SRC FOLDER BEFORE USING THIS SCRIPT
+**!!!WARNING!!! IF NEWER VERSION EXIST, THE SCRIPT WILL DELETE ALL FILES IN WORKSPACE SRC FOLDER, AND STARTS UPDATE PROCESS IMMEDIATELY. BACK UP YOUR SRC FOLDER BEFORE USING THIS SCRIPT**
 ********************************************
 
 1. cd into mobilican folder insdie mobilican package:
