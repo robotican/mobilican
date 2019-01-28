@@ -71,6 +71,7 @@
     <child link="left_wheel_link" />
     <axis xyz="0 1 0" />
     <limit effort="100" velocity="10.0" />
+    <dynamics damping="0.7" friction="0.5"/> 
   </joint>
 
  <link name="right_wheel_link">
@@ -102,6 +103,7 @@
     <child link="right_wheel_link" />
     <axis xyz="0 1 0" />
     <limit effort="100" velocity="10.0" />
+    <dynamics damping="0.7" friction="0.5"/> 
   </joint>
 
  <link name="caster_left_link">
