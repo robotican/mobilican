@@ -71,6 +71,17 @@ $ cd mobilican/mobilican
 3. if newer version exist, the script will start its installation process immediately by downloading the new package, and then the Mobilican installation screen will come up, asking you to press OK to start the new version installation process.  
 
 ## Usage Instructions
+To launch one of the robots, run:
 
+```$ roslaunch mobilican [robot_launch].launch```
+
+i.e., for the armadillo_2 robot run:
+
+```$ roslaunch mobilican armadillo_2.launch gazebo:=true```
+
+\**You can ommit the ```gazebo:=true``` argument if you are launching 'real' hardware.*
+
+For detaild instructions, see the wiki page:
+https://github.com/robotican/mobilican/wiki
 
 
