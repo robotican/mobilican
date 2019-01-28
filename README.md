@@ -27,7 +27,7 @@ $ cd ~/catkin_ws
 $ catkin build
 ```
 
-2. Download mobilican package from latest release [here](https://github.com/robotican/mobilican/releases).
+2. Download mobilican package from latest release [here](https://github.com/robotican/mobilican/releases) into your workspace src folder
 ```
 $ cd ~/catkin_ws/src
 ```
