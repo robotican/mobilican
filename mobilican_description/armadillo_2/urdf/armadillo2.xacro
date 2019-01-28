@@ -112,13 +112,13 @@
         xyz="0.0 0.0 0.0"
         rpy="0 0 0" />
        <mass
-        value="0.1" />
+        value="10.1" />
       <inertia
         ixx="0.0000224"
-        ixy="0.0000001"
-        ixz="0.0000006"
+        ixy="0.0"
+        ixz="0.0"
         iyy="0.0000356"
-        iyz="0.0000001"
+        iyz="0.0"
         izz="0.0000211" />
     </inertial>
     <visual>
@@ -138,26 +138,7 @@
     </collision>
   </link>
 
-
-  <link name="laser_link" />
-
-  <joint name="laser_joint" type="fixed">
-    <origin xyz="0.20337 0 0.143" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="laser_link" />
-    <axis xyz="0 0 0" />
-  </joint>
-
-  <link name="front_urf_link" />
-
-  <joint name="front_urf_joint" type="fixed">
-    <origin xyz="0.24229 0.00011161 0.068509" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="front_urf_link" />
-    <axis xyz="0 0 0" />
-  </joint>
-
-  <joint name="caster_left_joint" type="fixed">
+    <joint name="caster_left_joint" type="fixed">
     <origin xyz="-0.221558374889189 0.168999999975415 -0.0596832588142329" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="caster_left_link" />
@@ -170,13 +151,13 @@
         xyz="0.0 0.0 0.0"
         rpy="0 0 0" />
        <mass
-        value="0.1" />
+        value="10.1" />
       <inertia
         ixx="0.0000224"
-        ixy="0.0000001"
-        ixz="0.0000006"
+        ixy="0.0"
+        ixz="0.0"
         iyy="0.0000356"
-        iyz="0.0000001"
+        iyz="0.0"
         izz="0.0000211" />
     </inertial>
     <visual>
@@ -200,6 +181,25 @@
     <origin xyz="-0.221558374889189 -0.168999999975416 -0.0596832588142329" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="caster_right_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+
+  <link name="laser_link" />
+
+  <joint name="laser_joint" type="fixed">
+    <origin xyz="0.20337 0 0.143" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="laser_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <link name="front_urf_link" />
+
+  <joint name="front_urf_joint" type="fixed">
+    <origin xyz="0.24229 0.00011161 0.068509" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="front_urf_link" />
     <axis xyz="0 0 0" />
   </joint>
 

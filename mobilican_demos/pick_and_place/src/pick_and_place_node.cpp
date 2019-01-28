@@ -230,9 +230,9 @@ moveit_msgs::PickupGoal BuildPickGoal(const std::string &objectName) {
     g.grasp_posture.joint_names = g.pre_grasp_posture.joint_names;
     g.grasp_posture.points.resize(1);
     g.grasp_posture.points[0].positions.resize(g.grasp_posture.joint_names.size());
-    g.grasp_posture.points[0].positions[0] = 0.01;
+    g.grasp_posture.points[0].positions[0] = 0.04;
     g.grasp_posture.points[0].effort.resize(g.grasp_posture.joint_names.size());
-    g.grasp_posture.points[0].effort[0] = 0.6;
+    g.grasp_posture.points[0].effort[0] = 0.0;
     goal.possible_grasps.push_back(g);
     return goal;
 }
