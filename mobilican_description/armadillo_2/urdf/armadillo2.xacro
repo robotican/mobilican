@@ -297,6 +297,7 @@
     <child link="head_pan_link" />
     <axis xyz="0 0 1" />
     <limit upper="${3.1415926535897/4.0}" lower="${-3.1415926535897/4.0}" effort="10" velocity="2" /> 
+    <dynamics damping="0.7" friction="0.5"/> 
   </joint>
 
 
@@ -329,6 +330,7 @@
     <child link="head_tilt_link" />
     <axis xyz="0 1 0" />
     <limit upper="${50.0*M_PI/180.0}" lower="${-M_PI/6}" effort="10" velocity="2" /> 
+    <dynamics damping="0.7" friction="0.5"/> 
   </joint>
 
 
@@ -423,6 +425,7 @@
     <child link="rotation1_link" />
     <axis xyz="0 0 1" />
        <limit effort="50" lower="-1.57" upper="1.57" velocity="2.0" /> 
+       <dynamics damping="0.7" friction="0.5"/> 
   </joint>
 
   <link
@@ -472,6 +475,7 @@
     <child link="shoulder1_link" />
     <axis xyz="0 1 0" />
     <limit effort="50" lower="-1.57" upper="1.95" velocity="2.0" />
+     <dynamics damping="0.7" friction="0.5"/> 
   </joint>
 
 <link
@@ -521,6 +525,7 @@
     <child link="shoulder2_link" />
     <axis xyz="0 1 0" />
     <limit effort="50" lower="-1.48" upper="2.3522" velocity="2.0" /> 
+    <dynamics damping="0.7" friction="0.5"/> 
   </joint>
 
 <link
@@ -619,7 +624,7 @@
     <child link="shoulder3_link" />
     <axis xyz="0 1 0" />
     <limit effort="40" lower="-1.57" upper="1.57" velocity="2.0" /> 
-    <!-- <dynamics damping="0.1"/>   -->
+    <dynamics damping="0.7" friction="0.5"/> 
     </joint>
 
 <link
@@ -710,7 +715,7 @@
     <child link="left_finger_link" />
     <axis xyz="1 0 0" />
     <limit effort="5" lower="-1.57" upper="1.57" velocity="0.1" /> 
-    <!-- <dynamics damping="0.1" friction="0.5"/> -->
+    <dynamics damping="0.7" friction="0.5"/> 
   </joint>
 
   <link name="right_finger_link">
@@ -742,7 +747,7 @@
     <child link="right_finger_link" />
     <axis xyz="1 0 0" />
   <limit effort="5" lower="-1.57" upper="1.57" velocity="0.1" /> 
-      <!-- <dynamics damping="0.1" friction="0.5"/> -->
+     <dynamics damping="0.7" friction="0.5"/> 
   </joint>
 
     <joint name="intel_d435_joint" type="fixed">

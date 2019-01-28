@@ -115,7 +115,6 @@ gazebo_ros_control: ## This is required for setting PID gains inside gazebo_ros_
     rotation2_joint: {p: 10, i: 0.0, d: 0.0, i_clamp_min: -50.0, i_clamp_max: 50.0} #done   
     shoulder3_joint: {p: 0.35, i: 0.0, d: 0.3, i_clamp_min: -50.0, i_clamp_max: 50.0} #done
     wrist_joint: {p: 0.01, i: 0.1, d: 0.1, i_clamp_min: -10.0, i_clamp_max: 10.0}
-    gripper_joint: {p: 0.0, i: 0.0, d: 0.0}
     left_finger_joint: {p: 0.01, i: 0.0, d: 0.0}
     right_finger_joint: {p: 0.01, i: 0.0, d: 0.0}
     
