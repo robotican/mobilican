@@ -6,7 +6,7 @@
 
     <!--common settings-->
     <arg name="gazebo" default="false" doc="execute komodo2 inside gazebo sim"/>
-    <arg name="world_name" default="worlds/empty.world"/>
+    <arg name="world" default="worlds/empty.world"/>
     <arg name="x" default="0.0"/>
     <arg name="y" default="0.0"/>
     <arg name="z" default="0.0"/>
@@ -21,6 +21,7 @@
     <arg name="map" default="map.yaml" doc="pre-saved map path"/>
     <arg name="move_base" default="false"/>
     <arg name="robot_localization" default="false"/>
+    <arg name="robot_name" default="komodo_2"/>
 
     <!--uncommon settings-->
     <arg name="joy_dev" default="/dev/input/js0"/>
@@ -29,6 +30,10 @@
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
 
     <include file="$(find mobilican_control)/komodo_2/launch/komodo2_controllers.launch" />
+
+    <group unless="$(arg hector_slam)">
+        <param name="mobile_base_controller/enable_odom_tf" value="true" />
+    </group>
 
     <include file="$(find espeak_ros)/launch/espeak_ros.launch" />
 
@@ -40,28 +45,20 @@
     <group unless="$(arg gmapping)">
         <group unless="$(arg hector_slam)">
             <group unless="$(arg amcl)">
-          	  <group unless="$(arg robot_localization)">
-                     <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 20" />
-              </group>
+                <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 20" />
             </group>
         </group>
     </group>
 
     <!--load simulation stuff-->
     <group if="$(arg gazebo)">
-         <env name="GAZEBO_MODEL_PATH" value="$(find mobilican_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/>
-         <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/komodo_2/urdf/komodo2_gazebo.xacro' --inorder
-                depth_cam:=$(arg depth_cam)
-                rgb_cam:=$(arg rgb_cam)
-                urf:=true
-                imu:=true
-                gps:=true
-                lidar:=true" />
+        <env name="GAZEBO_MODEL_PATH" value="$(find mobilican_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/>
+        <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/komodo_2/urdf/komodo2_gazebo.xacro' --inorder depth_cam:=$(arg depth_cam) rgb_cam:=$(arg rgb_cam) urf:=true imu:=true gps:=true lidar:=true" />
 
-	<include file="$(find gazebo_ros)/launch/empty_world.launch">
-              <arg name="world_name" value="$(arg world_name)"/>
-	      <arg name="gui" value="true"/>
-	</include>
+        <include file="$(find gazebo_ros)/launch/empty_world.launch">
+            <arg name="world_name" value="$(arg world)"/>
+            <arg name="gui" value="true"/>
+        </include>
 
         <node name="komodo2_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model komodo2 -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg Y)" />
     </group>
@@ -92,18 +89,19 @@
 
     <group if="$(arg hector_slam)">
         <include file="$(find mobilican_navigation)/launch/hector_slam.launch" />
+        <param name="mobile_base_controller/enable_odom_tf" value="false" />
     </group>
 
-        <group if="$(arg robot_localization)">
+    <group if="$(arg robot_localization)">
         <include file="$(find mobilican_navigation)/launch/robot_localization.launch" />
     </group>
 
     <group if="$(arg amcl)">
-        <include file="$(find mobilican_navigation)/launch/amcl.launch" >
+        <include file="$(find mobilican_navigation)/launch/amcl.launch">
             <arg name="initial_pose_x" value="$(arg x)"/>
             <arg name="initial_pose_y" value="$(arg y)"/>
             <arg name="initial_pose_a" value="$(arg Y)"/>
-	</include>
+        </include>
     </group>
 
     <group if="$(arg move_base)">
