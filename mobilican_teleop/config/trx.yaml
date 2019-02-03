@@ -1,7 +1,15 @@
-# settings for steelseries joystick
-axis_angular: 2 # right side stick - right-left 
-axis_linear: 3 # right side stick - up-down 
+# settings for trx steelseries joystick
+
+angular_axis: 2 # right side stick - right-left
+angular_reverse: false
+angular_clamp: 0
+angular_multiplier: 1
+
+linear_axis: 3 # right side stick - up-down
+linear_reverse: false
+linear_clamp: 0
+linear_multiplier: 1
+
 deadman_button: 6 # button L1 
-reverse_angular: false
-reverse_linear: false
 twist_topic: mobile_base_controller/cmd_vel
+
