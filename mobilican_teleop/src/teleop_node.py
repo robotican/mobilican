@@ -28,26 +28,28 @@ def joyCallback(msg):
             twist_msg.linear.x *= -1
 
         # linear saturation
-        if twist_msg.linear.x > 0:
-            if twist_msg.linear.x > linear_clamp:
-                twist_msg.linear.x = linear_clamp
-        else:
-            if twist_msg.linear.x < 0:
-                if twist_msg.linear.x < -linear_clamp:
-                    twist_msg.linear.x = -linear_clamp
+        if linear_clamp is not 0:
+            if twist_msg.linear.x > 0:
+                if twist_msg.linear.x > linear_clamp:
+                    twist_msg.linear.x = linear_clamp
+            else:
+                if twist_msg.linear.x < 0:
+                    if twist_msg.linear.x < -linear_clamp:
+                        twist_msg.linear.x = -linear_clamp
 
         twist_msg.angular.z = msg.axes[angular_axis] * angular_multiplier
         if angular_reverse:
             twist_msg.angular.z *= -1
 
         # angular saturation
-        if twist_msg.linear.z > 0:
-            if twist_msg.linear.z > angular_clamp:
-                twist_msg.angular.z = angular_clamp
-        else:
-            if twist_msg.linear.z < 0:
-                if twist_msg.linear.z < -angular_clamp:
-                    twist_msg.linear.z = -angular_clamp
+        if angular_clamp is not 0:
+            if twist_msg.linear.z > 0:
+                if twist_msg.linear.z > angular_clamp:
+                    twist_msg.angular.z = angular_clamp
+            else:
+                if twist_msg.linear.z < 0:
+                    if twist_msg.linear.z < -angular_clamp:
+                        twist_msg.linear.z = -angular_clamp
 
     else:
         twist_msg.linear.x = 0
