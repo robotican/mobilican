@@ -2,10 +2,7 @@
 
 <launch>
 
-    
-
     <node name="mobilican_hw_node" pkg="mobilican_hw" type="mobilican_hw_node" respawn="false" output="screen" />
-    
     <include file="$(find ric_interface_ros)/launch/ric_interface_ros.launch" />
 
 </launch>

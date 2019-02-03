@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+    <include file="$(find intel_d435)/launch/d435.launch" />
+
+    <include file="$(find usb_cams)/launch/front_cam.launch" />
+
+    <include file="$(find lidar_urg_node)/launch/lidar.launch" />
+
+</launch>

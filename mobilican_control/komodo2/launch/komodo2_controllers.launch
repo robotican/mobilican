@@ -3,7 +3,7 @@
 <launch>
 
   <!-- Load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find mobilican_control)/komodo_2/config/komodo2_control.yaml" command="load"/>
+  <rosparam file="$(find mobilican_control)/komodo2/config/komodo2_control.yaml" command="load"/>
 
   <!-- load the controllers -->
   <node name="controller_spawner"
