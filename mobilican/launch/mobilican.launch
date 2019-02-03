@@ -8,14 +8,10 @@
 
     <arg name="gazebo" default="false" doc="execute robot inside gazebo sim"/>
     <arg name="world" default="worlds/empty.world"/>
-    <arg name="x" default="0.0"/>
-    <arg name="y" default="0.0"/>
-    <arg name="z" default="0.0"/>
-    <arg name="Y" default="0.0" />
-
-    <arg name="rgb_cam" default="false"/>
-    <arg name="depth_cam" default="false"/>
-    <arg name="lidar" default="false"/>
+    <arg name="pose_x" default="0.0"/>
+    <arg name="pose_y" default="0.0"/>
+    <arg name="pose_z" default="0.0"/>
+    <arg name="pose_a" default="0.0" />
 
     <arg name="gmapping" default="false"/>
     <arg name="hector_mapping" default="false"/>
@@ -68,9 +64,9 @@
 
     <group if="$(arg amcl)">
         <include file="$(find mobilican_navigation)/launch/amcl.launch">
-            <arg name="initial_pose_x" value="$(arg x)"/>
-            <arg name="initial_pose_y" value="$(arg y)"/>
-            <arg name="initial_pose_a" value="$(arg Y)"/>
+            <arg name="initial_pose_x" value="$(arg pose_x)"/>
+            <arg name="initial_pose_y" value="$(arg pose_y)"/>
+            <arg name="initial_pose_a" value="$(arg pose_a)"/>
         </include>
     </group>
 
@@ -90,7 +86,7 @@
             <arg name="world_name" value="$(arg world)"/>
             <arg name="gui" value="true"/>
         </include>
-        <node name="$(arg robot)_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model $(arg robot) -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg Y)" />
+        <node name="$(arg robot)_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model $(arg robot) -x $(arg pose_x) -y $(arg pose_y) -z $(arg pose_z) -Y $(arg pose_a)" />
         <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/$(arg robot)/urdf/$(arg robot)_gazebo.xacro' --inorder" />
     </group>
 
