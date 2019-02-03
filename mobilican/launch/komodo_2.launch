@@ -15,6 +15,7 @@
     <arg name="depth_cam" default="false"/>
     <arg name="lidar" default="false"/>
     <arg name="gmapping" default="false"/>
+    <arg name="hector_mapping" default="false"/>
     <arg name="hector_slam" default="false"/>
     <arg name="amcl" default="false"/>
     <arg name="have_map" default="false" doc="set to true to use pre-saved map"/>
@@ -32,7 +33,14 @@
     <include file="$(find mobilican_control)/komodo_2/launch/komodo2_controllers.launch" />
 
     <group unless="$(arg hector_slam)">
-        <param name="mobile_base_controller/enable_odom_tf" value="true" />
+        <group unless="$(arg hector_slam)">
+            <param name="mobile_base_controller/enable_odom_tf" value="true" />
+        </group>
+    </group>
+
+    <group if="$(arg hector_mapping)">
+        <include file="$(find mobilican_navigation)/launch/hector_mapping.launch" />
+        <param name="mobile_base_controller/enable_odom_tf" value="false" />
     </group>
 
     <include file="$(find espeak_ros)/launch/espeak_ros.launch" />

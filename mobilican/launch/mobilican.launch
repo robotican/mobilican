@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Author: Elhay Rauper -->
+
+<!-- mobilican top-level launch -->
+<!-- 
+******************
+Available robots:
+1. lizi2
+2. armadillo2
+3. komodo2
+4. trx
+****************** 
+-->
+
+<launch>
+
+    <!-- robot settings -->
+    <arg name="robot" default="komodo2"/>
+
+    <!-- gazebo settings -->
+    <arg name="gazebo" default="false" doc="execute robot inside gazebo sim"/>
+    <arg name="world" default="worlds/empty.world" doc="choose world path"/>
+    <arg name="use_sim_time" default="false" doc="Notifies ROS to use published /clock topic for ROS time."/>
+    <arg name="debug_gazebo" default="false" doc="Run gazebo in debug mode"/>
+    <arg name="start_x" default="0.0" doc="place robot at x coordinate in the world"/>
+    <arg name="start_y" default="0.0" doc="place robot at y coordinate in the world"/>
+    <arg name="start_z" default="0.0" doc="place robot at z coordinate in the world"/>
+
+    <!-- navigation and localization settigns -->
+    <arg name="gmapping" default="false"/>
+    <arg name="hector_slam" default="false"/>
+    <arg name="amcl" default="false"/>
+    <arg name="hector_mapping" default="false"/>
+    <arg name="have_map" default="false" doc="set to true to use pre-saved map"/>
+    <arg name="map" default="map.yaml" doc="pre-saved map path"/>
+    <arg name="start_theta" default="0.0" doc="place robot at theta angle in the world"/>
+    <arg name="move_base" default="false"/>
+    <arg name="joy_dev" default="/dev/input/js0"/>
+    <arg name="joy_profile" default="xbox"/>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+
+    <include file="$(find espeak_ros)/launch/espeak_ros.launch" />
+
+    <include file="$(find mobilican_control)/$(arg robot)/launch/$(arg robot)_controllers.launch" />
+
+    <group if="$(arg have_map)">
+        <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)" />
+    </group>
+
+    <group if="$(arg hector_mapping)">
+        <include file="$(find mobilican_navigation)/launch/hector_mapping.launch" />
+        <param name="mobile_base_controller/enable_odom_tf" value="false" />
+    </group>
+
+    <group unless="$(arg hector_slam)">
+        <group unless="$(arg hector_slam)">
+            <param name="mobile_base_controller/enable_odom_tf" value="true" />
+        </group>
+    </group>
+
+    <group if="$(arg hector_slam)">
+        <include file="$(find mobilican_navigation)/launch/hector_slam.launch" />
+        <param name="mobile_base_controller/enable_odom_tf" value="false" />
+    </group>
+
+    <group unless="$(arg gmapping)">
+        <group unless="$(arg hector_slam)">
+            <group unless="$(arg amcl)">
+                <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 20" />
+            </group>
+        </group>
+    </group>
+
+    <group if="$(arg gmapping)">
+        <include file="$(find mobilican_navigation)/launch/gmapping.launch" />
+    </group>
+
+    <group if="$(arg amcl)">
+        <include file="$(find mobilican_navigation)/launch/amcl.launch">
+            <arg name="initial_pose_x" value="$(arg x)"/>
+            <arg name="initial_pose_y" value="$(arg y)"/>
+            <arg name="initial_pose_a" value="$(arg Y)"/>
+        </include>
+    </group>
+
+
+<!-- TODO: MAKE ALL CONFIG FILES TO BE ONE -->
+    <group if="$(arg move_base)"> 
+        <include file="$(find mobilican_navigation)/launch/move_base.launch" />
+        <rosparam file="$(find mobilican_navigation)/config/$(arg robot)/move_base_params.yaml" command="load"/>
+    </group>
+
+    <!-- load simulation stuff -->
+    <group if="$(arg gazebo)">
+
+        <env name="GAZEBO_MODEL_PATH" value="$(find mobilican_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/>
+
+        <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/$(arg robot)/urdf/$(arg robot)_gazebo.xacro' --inorder depth_cam:=true rgb_cam:=true urf:=true imu:=true gps:=true lidar:=true" />
+        
+        <include file="$(find gazebo_ros)/launch/empty_world.launch">
+            <arg name="world_name" value="$(arg world)"/>
+            <arg name="gui" value="true"/>
+            <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+            <arg name="debug" value="$(arg debug_gazebo)"/>
+        </include>
+        
+        <node name="$(arg robot)_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model $(arg robot) -x $(arg start_x) -y $(arg start_y) -z $(arg start_z) -Y $(arg start_theta)" />
+    
+    </group>
+
+    <!-- load hardware stuff -->
+    <group unless="$(arg gazebo)">
+        <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/$(arg robot)/urdf/$(arg robot).xacro' --inorder" />
+
+        <node name="mobilican_hw_node" pkg="mobilican_hw" type="mobilican_hw_node" respawn="false" output="screen" />
+        
+        <include file="$(find ric_interface_ros)/launch/ric_interface_ros.launch" />
+
+        <group if="$(eval robot == 'komodo2')">
+            <include file="$(find intel_d435)/launch/d435.launch" />
+            <include file="$(find usb_cams)/launch/front_cam.launch" />
+            <include file="$(find lidar_urg_node)/launch/lidar.launch" />
+        </group>
+
+    </group>
+
+</launch>
