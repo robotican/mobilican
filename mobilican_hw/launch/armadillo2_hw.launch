@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+    <include file="$(find softkinetic_camera)/launch/softkinetic_camera_ds325.launch" />
+
+    <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch" />
+
+    <include file="$(find lidar_urg_node)/launch/lidar.launch" />
+    
+</launch>

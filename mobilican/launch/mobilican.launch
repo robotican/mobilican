@@ -86,7 +86,13 @@
             <arg name="world_name" value="$(arg world)"/>
             <arg name="gui" value="true"/>
         </include>
-        <node name="$(arg robot)_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model $(arg robot) -x $(arg pose_x) -y $(arg pose_y) -z $(arg pose_z) -Y $(arg pose_a)" />
+        <node name="$(arg robot)_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf 
+        -param robot_description 
+        -model $(arg robot) 
+        -x $(arg pose_x) 
+        -y $(arg pose_y) 
+        -z $(arg pose_z) 
+        -Y $(arg pose_a)" />
         <param name="robot_description" command="$(find xacro)/xacro '$(find mobilican_description)/$(arg robot)/urdf/$(arg robot)_gazebo.xacro' --inorder" />
     </group>
 

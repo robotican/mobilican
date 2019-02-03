@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+    <include file="$(find mobilican_hw)/launch/d435_cam.launch" />
+
+    <include file="$(find mobilican_hw)/launch/microsoft_cam.launch" />
+        
+    <include file="$(find mobilican_hw)/launch/hokuyu_lidar.launch" />
+
+</launch>

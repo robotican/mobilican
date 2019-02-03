@@ -5,7 +5,7 @@
   <xacro:property name="M_PI" value="3.1415926535897931" />
   <xacro:property name="WHEEL_RADIUS" value="0.1016" />
 
-  <xacro:include filename="$(find mobilican_description)/armadillo_2/urdf/intel_d435.urdf"/> 
+  <xacro:include filename="$(find mobilican_description)/armadillo2/urdf/intel_d435.urdf"/> 
 
  <link name="base_footprint"/>
   
@@ -24,7 +24,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/base_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/base_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.79216 0.81961 0.93333 1" />
@@ -33,7 +33,7 @@
     <collision name='base_collision'>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/base_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/base_link.STL" />
       </geometry>
     </collision>
   </link> 
@@ -48,7 +48,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/left_wheel_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/left_wheel_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
@@ -83,7 +83,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/right_wheel_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/right_wheel_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
@@ -124,7 +124,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/caster_left_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/caster_left_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
@@ -163,7 +163,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/caster_right_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/caster_right_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
@@ -225,7 +225,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/torso_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/torso_link.STL" />
       </geometry>
       <material
         name="">
@@ -239,7 +239,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/torso_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/torso_link.STL" />
       </geometry>
     </collision>
      <collision name="safty box">
@@ -279,7 +279,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/head_pan_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/head_pan_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.79216 0.81961 0.93333 1" />
@@ -288,7 +288,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/head_pan_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/head_pan_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -312,7 +312,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/head_tilt_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/head_tilt_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.79216 0.81961 0.93333 1" />
@@ -321,7 +321,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/head_tilt_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/head_tilt_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -402,7 +402,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/rotation1_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/rotation1_link.STL" />
       </geometry>
       <material
         name="">
@@ -416,7 +416,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/rotation1_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/rotation1_link.STL" />
       </geometry>
     </collision>
   </link> 
@@ -452,7 +452,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/shoulder1_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/shoulder1_link.STL" />
       </geometry>
       <material
         name="">
@@ -466,7 +466,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/shoulder1_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/shoulder1_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -502,7 +502,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/shoulder2_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/shoulder2_link.STL" />
       </geometry>
       <material
         name="">
@@ -516,7 +516,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/shoulder2_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/shoulder2_link.STL" />
       </geometry>
     </collision>
   </link> 
@@ -552,7 +552,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/rotation2_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/rotation2_link.STL" />
       </geometry>
       <material
         name="">
@@ -566,7 +566,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/rotation2_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/rotation2_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -601,7 +601,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/shoulder3_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/shoulder3_link.STL" />
       </geometry>
       <material
         name="">
@@ -615,7 +615,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/shoulder3_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/shoulder3_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -651,7 +651,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/wrist_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/wrist_link.STL" />
       </geometry>
       <material
         name="">
@@ -665,7 +665,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://mobilican_description/armadillo_2/mesh/wrist_link.STL" />
+          filename="package://mobilican_description/armadillo2/mesh/wrist_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -697,7 +697,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/left_finger_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/left_finger_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.86667 0.9098 1 1" />
@@ -706,7 +706,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/left_finger_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/left_finger_link.STL" />
       </geometry>
     </collision>
   </link> 
@@ -729,7 +729,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/right_finger_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/right_finger_link.STL" />
       </geometry>
       <material name="">
         <color rgba="0.86667 0.9098 1 1" />
@@ -738,7 +738,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://mobilican_description/armadillo_2/mesh/right_finger_link.STL" />
+        <mesh filename="package://mobilican_description/armadillo2/mesh/right_finger_link.STL" />
       </geometry>
     </collision>
   </link>

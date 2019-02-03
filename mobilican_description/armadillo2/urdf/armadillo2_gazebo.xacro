@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="armadillo_robot" description="armadillo robot">
     
-    <xacro:include filename="$(find mobilican_description)/armadillo_2/urdf/armadillo2.xacro" />    
+    <xacro:include filename="$(find mobilican_description)/armadillo2/urdf/armadillo2.xacro" />    
     
     <xacro:arg name="kinect2" default="true"/>
     <xacro:arg name="kinect2_hz" default="30.0"/>
