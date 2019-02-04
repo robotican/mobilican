@@ -16,6 +16,7 @@
     <arg name="gmapping" default="false"/>
     <arg name="hector_mapping" default="false"/>
     <arg name="hector_slam" default="false"/>
+    <arg name="laser_scan_matcher" default="false"/>
     <arg name="amcl" default="false"/>
     <arg name="have_map" default="false" doc="set to true to use pre-saved map"/>
     <arg name="map" default="map.yaml" doc="pre-saved map path"/>
@@ -30,13 +31,18 @@
     <include file="$(find espeak_ros)/launch/espeak_ros.launch" />
 
     <group unless="$(arg hector_slam)">
-        <group unless="$(arg hector_slam)">
+        <group unless="$(arg laser_scan_matcher)">
             <param name="mobile_base_controller/enable_odom_tf" value="true" />
         </group>
     </group>
 
     <group if="$(arg hector_mapping)">
         <include file="$(find mobilican_navigation)/launch/hector_mapping.launch" />
+        <param name="mobile_base_controller/enable_odom_tf" value="false" />
+    </group>
+
+    <group if="$(arg laser_scan_matcher)">
+        <include file="$(find mobilican_utils)/launch/laser_scan_matcher.launch" />
         <param name="mobile_base_controller/enable_odom_tf" value="false" />
     </group>
 
