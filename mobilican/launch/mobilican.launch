@@ -16,7 +16,7 @@
     <arg name="gmapping" default="false"/>
     <arg name="hector_mapping" default="false"/>
     <arg name="hector_slam" default="false"/>
-    <arg name="hector_localization" default="false"/>
+    <arg name="hector_amcl" default="false"/>
     <arg name="laser_scan_matcher" default="false"/>
     <arg name="amcl" default="false"/>
     <arg name="have_map" default="false" doc="set to true to use pre-saved map"/>
@@ -33,19 +33,21 @@
 
     <group unless="$(arg hector_slam)">
         <group unless="$(arg laser_scan_matcher)">
-            <group unless="$(arg hector_localization)">
-                <param name="mobile_base_controller/enable_odom_tf" value="true" />
-            </group>
+            <param name="mobile_base_controller/enable_odom_tf" value="true" />
         </group>
     </group>
 
-    <group if="$(arg hector_localization)">
-        <node pkg="hector_pose_estimation" type="pose_estimation" name="hector_pose_estimation" />
+    <group if="$(arg hector_mapping)">
+        <include file="$(find mobilican_navigation)/launch/hector_mapping.launch" >
+            <arg name="initial_pose_x" value="$(arg pose_x)"/>
+            <arg name="initial_pose_y" value="$(arg pose_y)"/>
+            <arg name="initial_pose_a" value="$(arg pose_a)"/>
+        </include>
         <param name="mobile_base_controller/enable_odom_tf" value="false" />
     </group>
 
-    <group if="$(arg hector_mapping)">
-        <include file="$(find mobilican_navigation)/launch/hector_mapping.launch" />
+    <group if="$(arg hector_amcl)">
+        <include file="$(find mobilican_utils)/launch/hector_amcl.launch" />
         <param name="mobile_base_controller/enable_odom_tf" value="false" />
     </group>
 
