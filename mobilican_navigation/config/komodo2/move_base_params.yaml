@@ -1,5 +1,5 @@
 controller_frequency: 3.0
-recovery_behaviour_enabled: true # true
+recovery_behaviour_enabled: false 
 
 NavfnROS:
   allow_unknown: true 
@@ -21,11 +21,10 @@ DWAPlannerROS:
   max_rot_vel: 0.4
   min_rot_vel: 0.1
   
-  sim_time: 1.7
   #~ sim_granularity: 1.7
 
   # Goal Tolerance Parameters
-  yaw_goal_tolerance: 0.2 
+  yaw_goal_tolerance: 0.11 
   xy_goal_tolerance: 0.15
   latch_xy_goal_tolerance: false
 

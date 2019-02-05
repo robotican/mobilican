@@ -11,7 +11,7 @@ resolution: 0.15 # 0.05
 obstacle_range: 4.5
 raytrace_range: 5.0
 inflation_radius: 0.05
-cost_scaling_factor: 0.33
+cost_scaling_factor: 0.55
 
 static:
     map_topic: /map
@@ -21,9 +21,9 @@ obstacles_laser:
     observation_sources: laser
     laser: {sensor_frame: laser_link, data_type: LaserScan, clearing: true, marking: true, topic: scan, inf_is_valid: true}
 
-#inflation:
-#    cost_scaling_factor: 0.33
-#    inflation_radius: 1.0 
+inflation:
+    cost_scaling_factor: 0.55
+    inflation_radius: 0.1
 
 
 
