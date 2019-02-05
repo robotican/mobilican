@@ -153,6 +153,13 @@ add_command "sudo -S <<< $psw apt-get -y install ros-kinetic-velodyne-*" \
 "Installing packages... velodyne"
 add_command "sudo -S <<< $psw  apt-get -y install ros-kinetic-gazebo-ros" \
 "Installing packages... gazebo-ros"
+add_command "sudo -S <<< $psw  apt-get -y install ros-kinetic-hector-mapping" \
+"Installing packages... hector-mapping"
+add_command "sudo -S <<< $psw  apt-get -y install ros-kinetic-hector-localization" \
+"Installing packages... hector-localization"
+add_command "sudo -S <<< $psw  apt-get -y install ros-kinetic-laser-scan-matcher" \
+"Installing packages... laser-scan-matcher"
+
 
 
 RIC_INTERFACE_ROS_V="1.1.0"

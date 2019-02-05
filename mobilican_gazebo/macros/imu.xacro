@@ -10,7 +10,7 @@
         <visualize>false</visualize>
         <topic>${topic}/data</topic>
         <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-            <topicName>${topic}</topicName>
+            <topicName>${topic}/data</topicName>
             <bodyName>${link}</bodyName>
             <updateRateHZ>${hz}</updateRateHZ>
             <gaussianNoise>0.01</gaussianNoise>

@@ -13,18 +13,23 @@ slam_gmapping
 
     <param name="base_frame" value = "base_footprint"/>
     <param name="use_imu" value="true"/>
-    <param name="use_odom" value = "false"/>
+    <param name="use_odom" value = "true"/>
     <param name="publish_tf" value="true"/>
     <param name="publish_pose" value = "true"/>
     <param name="max_iterations" value="10"/>
 
     <param name="max_correspondence_dist" value = "0.1"/>
-    <param name="max_angular_correction_deg" value="10"/>
+    <param name="max_angular_correction_deg" value="45"/>
     <param name="max_linear_correction" value = "0.25"/>
     <param name="publish_tf" value="true"/>
     <param name="publish_pose" value = "true"/>
     <param name="max_iterations" value="10"/>
 
+    <remap from="odom" to="mobile_base_controller/odom"/>
+
   </node>
+
+
+
 
 </launch>
