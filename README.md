@@ -73,13 +73,19 @@ $ cd mobilican/mobilican
 ## Usage Instructions
 To launch one of the robots, run:
 
-```$ roslaunch mobilican [robot_launch].launch```
+```$ roslaunch mobilican mobilican.launch robot:=[robot name]```
 
-i.e., for the armadillo_2 robot run:
+i.e., to run armadillo2 robot in gazebo simulation run:
 
-```$ roslaunch mobilican armadillo_2.launch gazebo:=true```
+```$ roslaunch mobilican mobilican.launch robot:=armadillo2 gazebo:=true```
 
 \**You can ommit the ```gazebo:=true``` argument if you are launching 'real' hardware.*
+
+Currently available robots are:
+* armadillo2
+* komodo2
+* lizi2
+* trx
 
 For detaild instructions, see the wiki page:
 https://github.com/robotican/mobilican/wiki
